@@ -497,6 +497,8 @@ body.has-announce .nav { top: 42px; }
 /* ============ Sections (allgemein) ============ */
 .section { padding: 7em 1.5em; position: relative; }
 .section--alt { background: var(--bg-deep); }
+/* Wörter mit Bindestrich in Überschriften nicht trennen (z. B. SCB-SYSTEM) */
+.nowrap { white-space: nowrap; }
 .section__inner { max-width: 1100px; margin: 0 auto; }
 .section__title {
   font-size: clamp(2.2rem, 5vw, 3.6rem);

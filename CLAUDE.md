@@ -45,6 +45,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   die Spam-Testberichte), „Hamsterrad“, „mehr Zeit für die Familie“, „ohne
   Vorerfahrung“ und ähnliche Wörter, die die Konkurrenzseiten wortgleich benutzen.
   Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
+- **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Hero und Laufband nennen die
+  drei Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
+  Julian als Papa mit Job. Abschnitt `#gelernt` („Woher ich das weiß“) sagt klar, dass er
+  dieses Wissen im SCB-System gelernt hat; KI ist sein eigener Teil (er betreut im
+  Programm den Bereich KI). Der **Look bleibt** schwarz und gold, weil er so zum
+  SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
 - Einladen statt verkaufen: Einstieg über Julians Geschichte (goldener Button).
@@ -73,7 +79,7 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
   Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
 - Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
-  `utm_content` an (`story`, `zahlen`, `abschluss`, `abschluss-event`), über
+  `utm_content` an (`gelernt`, `zahlen`, `abschluss`, `abschluss-event`), über
   `funnelUrl()` in `public/js/main.js`. Leise Links bekommen es per `data-funnel`.
 
 ## Geplant (noch nicht auf die Seite)

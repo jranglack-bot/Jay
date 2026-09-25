@@ -26,7 +26,7 @@
   const FUNNEL_URL =
     "https://julians-way.de/videotraining/?utm_source=instagram&utm_medium=bio&utm_campaign=julians-way";
   // Eigener utm_content je Knopf: zeigt in der Auswertung des Funnels, welcher Knopf
-  // die Anmeldungen bringt (story, zahlen, abschluss, abschluss-event).
+  // die Anmeldungen bringt (gelernt, zahlen, abschluss, abschluss-event).
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
@@ -108,7 +108,7 @@
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = funnelUrl("abschluss");
       $("#ctaFunnel").innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Das Video gibt's, aber erst nach ein paar Fragen. Die sind schnell beantwortet, wenn du weißt, was du willst.";
+      $("#ctaLead").textContent = "Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite. Das Video gibt's, aber erst nach ein paar Fragen. Die sind schnell beantwortet, wenn du weißt, was du willst.";
       $("#ctaSteps").hidden = false;
       $("#ctaAlt").hidden = true;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)

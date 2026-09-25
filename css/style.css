@@ -1073,19 +1073,18 @@ body.has-announce .nav { top: 42px; }
 @media (max-width: 900px) {
   .hero { padding-top: 6em; min-height: 0; }
   .hero__inner { grid-template-columns: 1fr; gap: 2.6em; }
-  /* Handy: das Gesicht gehört in den ersten Bildschirm (Vertrauen, bevor gelesen
-     wird). Deshalb das Foto als flacher, breiter Ausschnitt ÜBER dem Text, nicht
-     hochkant, damit die Überschrift trotzdem sofort sichtbar bleibt. */
-  .hero__visual { order: -1; }
+  /* Handy: erst die Message, dann das Foto als breiter, sauber
+     beschnittener Ausschnitt statt hochkant über dem Text.
+     Julian, 25.09.2026: Foto NICHT verkleinern und nicht über den Text ziehen,
+     so gefällt es ihm besser (getestet: 210 px über der Überschrift). */
+  .hero__visual { order: 2; }
   .portrait { width: 100%; max-width: 460px; }
   .portrait__img {
     width: 100%;
-    height: 210px;
+    height: 300px;
     object-fit: cover;
-    object-position: center 22%;
+    object-position: center 18%;
   }
-  .hero__inner { gap: 1.8em; }
-  .hero__sub { margin-bottom: 1.6em; }
   .softlink { margin-top: 3em; padding: 1.2em 1.2em; }
   /* Abschluss-Knopf auf dem Handy in einer Zeile halten */
   .cta .btn--big { font-size: 0.98rem; padding: 1.05em 1.3em; letter-spacing: 0.04em; }

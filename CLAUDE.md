@@ -37,6 +37,14 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
   Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
+- **Texte (neu geschrieben 25.09.2026 nach Recherche):** Verbindlich sind Julians
+  Regeln im Vault `Claude Gehirn\00 Kontext\Schreibstil.md`, `Schmerzpunkte.md`,
+  `ICP.md` und `Über Mich.md` (Fakten). Kurz: konkrete Szenen und Zahlen statt
+  Schlagworten, fröhlich und selbstironisch statt schwer, ganze Sätze, keine
+  Dreierreihen, kein „Kein X, kein Y“. Nicht verwenden: „ehrlich“ (so nennen sich
+  die Spam-Testberichte), „Hamsterrad“, „mehr Zeit für die Familie“, „ohne
+  Vorerfahrung“ und ähnliche Wörter, die die Konkurrenzseiten wortgleich benutzen.
+  Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
 - Einladen statt verkaufen: Einstieg über Julians Geschichte (goldener Button).

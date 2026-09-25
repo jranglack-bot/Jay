@@ -397,20 +397,6 @@ body.has-announce .nav { top: 42px; }
 }
 .hero__skip a:hover { color: var(--gold-bright); border-color: var(--gold); }
 
-/* Kennzeichnung von Affiliate-Links: steht immer direkt am Link (UWG) */
-.ad-tag {
-  display: inline-block;
-  margin-left: 0.4em;
-  padding: 0.05em 0.5em;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  font-family: var(--font-head);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--cream-dim);
-  vertical-align: middle;
-}
 
 .hero__stats {
   display: flex;
@@ -919,7 +905,6 @@ body.has-announce .nav { top: 42px; }
   font-size: 0.85rem;
   color: var(--cream-dim);
 }
-.cta__disclosure .ad-tag, .webinar__disclosure .ad-tag { margin: 0 0.4em 0 0; }
 .cta__follow { margin-top: 1.6em; font-size: 0.95rem; color: var(--cream-dim); }
 .cta__follow a {
   color: var(--gold-soft);

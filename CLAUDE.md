@@ -37,13 +37,18 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
   Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
-- Einladen statt verkaufen: Einstieg über Julians Geschichte. Das Videotraining
-  erscheint nur als Textlink im Hero und als Angebot am Ende, nicht in der
-  Navigation. Kein fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie
-  führen. Als leichtere Option gibt es Instagram (@julians.way).
+- **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
+  Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
+- Einladen statt verkaufen: Einstieg über Julians Geschichte. Der Hero-Textlink
+  „Direkt zum Videotraining“ springt nur zum Abschluss (`#angebot`), nicht auf
+  die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
+  fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
+  leichtere Option gibt es Instagram (@julians.way).
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und
-  Live-Event eine Provision. Jeder dieser Links trägt direkt daneben den Hinweis
-  „Werbung“ (`.ad-tag`), am Ende steht offen, dass er eine Provision bekommt.
+  Live-Event eine Provision. Werbelinks gibt es nur im Abschluss und im
+  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung
+  („*Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine
+  Provision.“) steht direkt darunter, damit sie vor dem Klick sichtbar ist.
 
 ## Geplant (noch nicht auf die Seite)
 

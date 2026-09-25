@@ -9,6 +9,9 @@
   const DEFAULTS = {
     webinarUrl:
       "https://live.secretcreators.de/recsJErrJAYNx46PE?utm_source=recsJErrJAYNx46PE&utm_medium=affiliate&utm_campaign=webinar",
+    // Live-Event-Abschnitt anzeigen (aktuell findet keins statt).
+    // eventActive: true zeigt ihn automatisch mit an.
+    webinarActive: false,
     note: "",
     noteActive: false,
     eventActive: false,
@@ -53,8 +56,13 @@
       setTimeout(() => (bar.hidden = true), 600);
     }
 
-    /* Live-Event-Modus: Event steht überall an erster Stelle */
+    /* Live-Event-Abschnitt nur zeigen, wenn eingeschaltet oder ein Event ansteht */
     const webinarSec = $("#webinar");
+    webinarSec.hidden = !(c.webinarActive || c.eventActive);
+    // Link im Hinweis-Banner zeigt sonst ins Leere
+    $("#announceLink").hidden = webinarSec.hidden;
+
+    /* Live-Event-Modus: Event steht überall an erster Stelle */
     const heroBtn = $("#heroFunnel");
     const heroAlt = $("#heroSecondary");
     const navBtn = $("#navFunnel");

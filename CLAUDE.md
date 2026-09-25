@@ -38,6 +38,17 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
 
+## Geplant (noch nicht auf die Seite)
+
+- **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
+  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event wieder
+  einschalten (oder `eventActive` mit `eventDate` für den Countdown).
+- **Claude-Code-Kurs:** Julian erstellt gerade einen Kurs zu Claude Code, der
+  später auf der Seite eingebunden werden soll. Erst einbauen, wenn Julian es sagt.
+- **Persönliche Webseiten:** Links zu Julians weiteren Seiten fehlen noch
+  (URLs von Julian erfragen). Dafür gibt es den Abschnitt „Mehr von mir“ über
+  `links` in `DEFAULTS`.
+
 ## Inhalte ändern
 
 - Webinar-Link, Hinweis-Banner, Live-Event (Datum/Countdown) und Extra-Links:

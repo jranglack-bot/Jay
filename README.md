@@ -20,6 +20,7 @@ plus Impressum und Datenschutz. Gehostet bei **Hostinger** per Git-Import.
 
 Ganz oben in `public/js/main.js` im Block `DEFAULTS`:
 
+- `webinarActive: true` — Abschnitt „Live-Event“ wieder einblenden (aktuell aus)
 - `webinarUrl` — Ziel des Buttons „Zur Anmeldung"
 - `note` + `noteActive: true` — goldener Hinweis-Banner oben auf der Seite
 - `eventDate` + `eventActive: true` — Live-Event-Modus mit Countdown

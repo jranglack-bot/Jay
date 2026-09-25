@@ -17,6 +17,10 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   sonst fehlt sie im Build. Neue Seite = dort eintragen.
 - `js/main.js` liegt unter `public/js/` (klassisches Skript ohne `type="module"`,
   Vite kopiert `public/` 1:1). Nicht nach `js/` zurückverschieben.
+- Hostinger liefert Dateien aus `public/` mit 7 Tagen Browser-Cache aus. Deshalb hängt
+  das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an `js/main.js`,
+  sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
+  entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 3 HTML-Seiten,
   `js/main.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen immer
   bauen und prüfen.

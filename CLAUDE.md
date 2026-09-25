@@ -53,18 +53,21 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- Einladen statt verkaufen: Einstieg über Julians Geschichte (goldener Button).
+- Einladen statt verkaufen: Einstieg über „Woher ich das weiß“ (goldener Button).
   Der zweite Hero-Button „Direkt zum Videotraining“ (Rahmen, nicht gefüllt)
   springt nur zum Abschluss (`#angebot`), nicht auf die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
   fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
   leichtere Option gibt es Instagram (@julians.way).
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und
-  Live-Event eine Provision. Werbelinks gibt es im Abschluss, im
-  Live-Event-Abschnitt und (Julian, 25.09.2026) als zwei **leise** Links
-  (`.softlink`, kein Button) nach der Geschichte und nach den Zahlen. Jeder trägt
-  ein Sternchen, und die Erklärung („*Werbung: Wenn du über meinen Link später
-  etwas kaufst, bekomme ich eine Provision.“) steht direkt darunter, damit sie
-  vor dem Klick sichtbar ist. Mehr als diese zwei leisen Links nicht ohne Julian.
+  Live-Event eine Provision. Werbelinks gibt es nur im Abschluss und im
+  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
+  Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
+  direkt darunter, damit sie vor dem Klick sichtbar ist.
+- **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
+  den Zahlen springen zum Abschluss (`#angebot`, `data-jump`), nicht nach draußen.
+  So sieht jeder vor dem Klick die drei Schritte, und „Werbung“ steht nur einmal da;
+  dreimal derselbe Werbelink wirkte wie eine Verkaufsseite (Julian, 25.09.2026).
+  Mehr leise Links nicht ohne Julian.
 - **Der Funnel ist ein Test, kein Video.** `FUNNEL_URL` führt auf einen Eignungstest
   (ein paar Klickfragen, anderes Design, danach das Video, bei Eignung ein Anruf).
   Das wird vor dem Klick angesagt (`#ctaSteps`, Linktext „Zu den Fragen und zum
@@ -79,8 +82,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
   Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
 - Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
-  `utm_content` an (`gelernt`, `zahlen`, `abschluss`, `abschluss-event`), über
-  `funnelUrl()` in `public/js/main.js`. Leise Links bekommen es per `data-funnel`.
+  `utm_content` an (`abschluss`, `abschluss-event`), über `funnelUrl()` in
+  `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
+  dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
+- **Reihenfolge (Julian, 25.09.2026):** Hero, „Woher ich das weiß“ (`#gelernt`),
+  Geschichte (`#weg`), Zahlen, „So läuft's bei mir konkret“, Fragen, Abschluss. Die
+  Besucher kommen über ein Thema von @julians.way, deshalb zuerst die Antwort auf
+  „woher weißt du das“, dann die Person. Der goldene Hero-Knopf führt zu `#gelernt`.
 
 ## Geplant (noch nicht auf die Seite)
 

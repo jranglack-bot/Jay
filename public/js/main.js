@@ -26,14 +26,20 @@
   const FUNNEL_URL =
     "https://julians-way.de/videotraining/?utm_source=instagram&utm_medium=bio&utm_campaign=julians-way";
   // Eigener utm_content je Knopf: zeigt in der Auswertung des Funnels, welcher Knopf
-  // die Anmeldungen bringt (gelernt, zahlen, abschluss, abschluss-event).
+  // die Anmeldungen bringt (abschluss, abschluss-via-gelernt, abschluss-via-zahlen, abschluss-event).
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
 
-  /* ---------- Leise Werbelinks in der Mitte ---------- */
-  document.querySelectorAll("[data-funnel]").forEach((a) => {
-    a.href = funnelUrl(a.dataset.funnel);
+  /* ---------- Leise Links in der Mitte ----------
+     Sie springen zum Abschluss (#angebot), damit jeder vor dem Klick nach draußen die
+     drei Schritte sieht. Welcher leise Link benutzt wurde, landet trotzdem in der
+     Auswertung: als utm_content des Abschluss-Knopfs, z. B. "abschluss-via-zahlen". */
+  document.querySelectorAll("[data-jump]").forEach((a) => {
+    a.addEventListener("click", () => {
+      const cta = $("#ctaFunnel");
+      if (cta.href.startsWith(FUNNEL_URL)) cta.href = funnelUrl("abschluss-via-" + a.dataset.jump);
+    });
   });
 
   /* ---------- Live-Event-Konfiguration anwenden ---------- */
@@ -82,9 +88,9 @@
     $("#announceLink").hidden = webinarSec.hidden;
 
     /* Live-Event-Modus: Der Einstieg bleibt die Geschichte. Der zweite
-       Hero-Button springt nur innerhalb der Seite. Werbelinks gibt es beim Event, als zwei
-       leise Links nach Geschichte und Zahlen und im Abschluss, jeweils mit Sternchen und
-       Erklärung direkt darunter. */
+       Hero-Button springt nur innerhalb der Seite. Werbelinks gibt es nur beim Event und im
+       Abschluss, jeweils mit Sternchen und Erklärung direkt darunter. Die leisen Links in
+       der Mitte springen zum Abschluss. */
     const heroLink = $("#heroSkipLink");
     const pillText = $("#webinarPillText");
 

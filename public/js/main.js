@@ -114,7 +114,7 @@
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = funnelUrl("abschluss");
       $("#ctaFunnel").innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite. Das Video gibt's, aber erst nach ein paar Fragen. Die sind schnell beantwortet, wenn du weißt, was du willst.";
+      $("#ctaLead").textContent = "Letztes Jahr hab ich mich noch oft gefragt, wie ich meine Familie über die Runden bringen soll. Heute ist dieser Druck weg. Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite.";
       $("#ctaSteps").hidden = false;
       $("#ctaAlt").hidden = true;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)

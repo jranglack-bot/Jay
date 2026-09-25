@@ -49,6 +49,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   die Spam-Testberichte), „Hamsterrad“, „mehr Zeit für die Familie“, „ohne
   Vorerfahrung“ und ähnliche Wörter, die die Konkurrenzseiten wortgleich benutzen.
   Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
+- **Story-Fakten** (Geldsorgen 2025, Satz seiner Frau, erster Verkauf nach einem Monat,
+  Augenzucken weg, Schuhe ohne Blick aufs Konto) stehen im Vault `Über Mich.md`,
+  „Nachtrag 25.09.2026“. Das neue Auto bewusst nicht auf die Seite (Coach-Optik), nie
+  „Geld verdienen, ohne was zu tun“. Hinweise „kein Versprechen“ nur an zwei Stellen
+  (Kapitel „Heute“ und Zahlen), jeder weitere kühlt die Emotion ab. Direkt vor dem
+  Abschluss-Knopf steht das Echo „Letztes Jahr … Heute ist dieser Druck weg.“
 - **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Hero und Laufband nennen die
   drei Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
   Julian als Papa mit Job. Abschnitt `#gelernt` („Woher ich das weiß“) sagt klar, dass er

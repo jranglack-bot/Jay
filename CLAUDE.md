@@ -58,8 +58,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - **Fragen-Abschnitt (`#fragen`):** nur Hürden, die der Besucher bei sich selbst
   sieht (Zeit, Gesicht, Vorwissen, Kosten, Anruf). Keine Antworten auf Vorwürfe
   gegen Julian oder das Modell (Schneeball, Network Marketing, „ist das seriös“),
-  das hat Julian für allen öffentlichen Content ausgeschlossen. Preis: „wird im
-  Gespräch erklärt“ (Julian, 25.09.2026), nie einen Betrag nennen.
+  das hat Julian für allen öffentlichen Content ausgeschlossen. Preis: nie einen
+  Betrag nennen und nicht betonen („Das Programm kostet Geld“ fand Julian
+  schlecht). Das Gespräch ist eine Entscheidung des Besuchers: „Wenn es für dich
+  passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich
+  jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
+  Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
 - Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
   `utm_content` an (`story`, `zahlen`, `abschluss`, `abschluss-event`), über
   `funnelUrl()` in `public/js/main.js`. Leise Links bekommen es per `data-funnel`.

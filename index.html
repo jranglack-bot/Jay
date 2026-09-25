@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julian | Julians Way: Mein Weg zur Freiheit</title>
+  <meta name="description" content="Ich bin Julian. Ich zeige dir, wie du dir ein zweites Standbein im Internet aufbaust. Automatisiert, anonym und ohne dein Gesicht zu zeigen.">
+  <meta property="og:title" content="Julian | Julians Way">
+  <meta property="og:description" content="Mein Weg raus aus dem 9-to-5 und wie du ihn auch gehen kannst.">
+  <meta property="og:image" content="assets/julian-hero-cinematic.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80' font-family='Georgia' fill='%23bc965f'>J</text></svg>">
+</head>
+<body>
+
+  <!-- Ankündigungs-Banner (in js/main.js einstellbar) -->
+  <div class="announce" id="announceBar" hidden>
+    <div class="announce__inner">
+      <span class="announce__pulse"></span>
+      <span id="announceText">Das Live-Event findet heute früher statt!</span>
+      <a id="announceLink" href="#webinar" class="announce__cta">Zum Live-Event →</a>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo" id="logo" aria-label="Julians Way">
+        <span class="nav__logo-mark">J<i>·</i>W</span>
+        <span class="nav__logo-text">JULIANS&nbsp;WAY</span>
+      </a>
+      <nav class="nav__links">
+        <a href="#weg">Mein Weg</a>
+        <a href="#ergebnisse">Ergebnisse</a>
+        <a href="#werte">So arbeite ich</a>
+      </nav>
+      <a class="btn btn--gold btn--small nav__cta" id="navFunnel" href="#" target="_blank" rel="noopener">Zum Videotraining</a>
+      <button class="nav__burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#weg">Mein Weg</a>
+    <a href="#ergebnisse">Ergebnisse</a>
+    <a href="#werte">So arbeite ich</a>
+    <a href="#" class="btn btn--gold" id="mobileFunnel" target="_blank" rel="noopener">Zum Videotraining</a>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <canvas id="particles" class="hero__particles" aria-hidden="true"></canvas>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__content">
+          <p class="hero__eyebrow reveal"><span class="eyebrow-line"></span>ZWEITES STANDBEIN · ANONYM · AUTOMATISIERT</p>
+          <h1 class="hero__title">
+            <span class="line"><span class="line__inner">HI, ICH BIN</span></span>
+            <span class="line"><span class="line__inner grad">JULIAN.</span></span>
+          </h1>
+          <p class="hero__sub reveal" data-delay="400">
+            Ich bin Papa von zwei Kids, ganz normal angestellt, und bau mir nebenbei ein
+            Online-Business auf, das zu <strong>90&nbsp;% automatisiert</strong> läuft. Genau das
+            zeig ich dir auch: dein zweites Standbein im Internet. <em>Ohne dein Gesicht zu zeigen.</em>
+          </p>
+          <div class="hero__actions reveal" data-delay="550">
+            <a href="#" id="heroFunnel" class="btn btn--gold btn--magnetic" target="_blank" rel="noopener">
+              Teste, ob du geeignet bist <span class="btn__arrow">→</span>
+            </a>
+            <a href="#weg" id="heroSecondary" class="btn btn--ghost btn--magnetic">Meine Story</a>
+          </div>
+          <div class="hero__stats reveal" data-delay="700">
+            <div class="stat"><span class="stat__num" data-count="750" data-suffix="+">0</span><span class="stat__label">Teilnehmer</span></div>
+            <div class="stat"><span class="stat__num" data-count="90" data-suffix="%">0</span><span class="stat__label">Automatisiert</span></div>
+            <div class="stat"><span class="stat__num" data-count="1" data-suffix="&nbsp;Std.">0</span><span class="stat__label">Aufwand am Tag</span></div>
+          </div>
+        </div>
+        <div class="hero__visual reveal-img" data-delay="300">
+          <div class="portrait" id="portrait">
+            <div class="portrait__frame"></div>
+            <img src="assets/julian-hero-cinematic.jpg" alt="Julian von Julians Way" class="portrait__img">
+          </div>
+        </div>
+      </div>
+      <a href="#marquee" class="hero__scroll" aria-label="Weiterscrollen"><span></span></a>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" id="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>90&nbsp;% AUTOMATISIERT</span><span>·</span>
+        <span>OHNE DEIN GESICHT</span><span>·</span>
+        <span>NEBEN JOB &amp; FAMILIE</span><span>·</span>
+        <span>1 STUNDE AM TAG</span><span>·</span>
+        <span>90&nbsp;% AUTOMATISIERT</span><span>·</span>
+        <span>OHNE DEIN GESICHT</span><span>·</span>
+        <span>NEBEN JOB &amp; FAMILIE</span><span>·</span>
+        <span>1 STUNDE AM TAG</span><span>·</span>
+      </div>
+    </div>
+
+    <!-- ============ MEIN WEG ============ -->
+    <section class="story section" id="weg">
+      <div class="section__inner">
+        <div class="story__intro">
+          <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>MEIN WEG</p>
+          <h2 class="section__title reveal" data-delay="100">VOM HAMSTERRAD<br><span class="grad">ZUR FREIHEIT.</span></h2>
+          <p class="section__lead reveal" data-delay="200">
+            Ich war genau da, wo du grad vielleicht bist: ganz normaler Job, festes
+            Gehalt, und frei hab ich nur, wenn ich Urlaub einreiche. Funktioniert alles.
+            Aber weißt du was? Meine Zeit hat mir nie selbst gehört.
+          </p>
+        </div>
+        <div class="timeline">
+          <div class="timeline__line" id="timelineLine"></div>
+          <article class="tl-item reveal">
+            <div class="tl-item__dot"></div>
+            <span class="tl-item__tag">Kapitel 01</span>
+            <h3>Das klassische Angestelltenverhältnis</h3>
+            <p>Meine Zeit teilt mir jemand anders ein, mein Gehalt legt jemand anders fest, und wenn ich frei haben will, muss ich Urlaub einreichen. Hat mich lange nicht gestört. Bis dieser eine Gedanke kam und nicht mehr wegging: <strong>„Das kann doch nicht alles sein.“</strong></p>
+          </article>
+          <article class="tl-item reveal">
+            <div class="tl-item__dot"></div>
+            <span class="tl-item__tag">Kapitel 02 · 2021</span>
+            <h3>Der erste Versuch</h3>
+            <p>2021 hab ich nebenberuflich angefangen: Produktvertrieb, Network Marketing. Ständig auf Terminen, ständig am Promostand, und nie sicher, ob am Ende überhaupt Geld dabei rumkommt. Der Tiefpunkt: eineinhalb Stunden zu einem Termin gefahren, vor verschlossener Tür gestanden und für nichts wieder heim.</p>
+          </article>
+          <article class="tl-item reveal">
+            <div class="tl-item__dot"></div>
+            <span class="tl-item__tag">Kapitel 03</span>
+            <h3>Die Frage meiner Tochter</h3>
+            <p>Genau in dieser Zeit hat meine Tochter mich gefragt: <strong>„Papa, musst du wirklich auf diesen Termin?“</strong> Dieser eine Satz hat mehr verändert als alles davor. Mir war klar: So nicht weiter. Wenn schon ein zweites Standbein, dann eins, das mir keine Zeit mit meinen Kindern frisst.</p>
+          </article>
+          <article class="tl-item reveal">
+            <div class="tl-item__dot"></div>
+            <span class="tl-item__tag">Kapitel 04</span>
+            <h3>Das SCB-System</h3>
+            <p>Dann bin ich zufällig über Instagram auf das <strong>SCB-System</strong> gestoßen: automatisiert und anonym, ohne das eigene Gesicht zu zeigen, ohne Termine, ohne Klinkenputzen. Vom Start bis zum ersten Umsatz hat es bei mir genau einen Monat gedauert.</p>
+          </article>
+          <article class="tl-item reveal">
+            <div class="tl-item__dot"></div>
+            <span class="tl-item__tag">Heute</span>
+            <h3>Eine Stunde am Tag</h3>
+            <p>Der ständige Druck, bei allem aufs Geld zu schauen, ist weg. Ich hab dieses Jahr einfach Urlaub für meine Familie gebucht, ohne zweimal zu rechnen. Das Business läuft zu 90 % im Hintergrund, meine eigentliche Aufgabe ist der Content, circa <strong>eine Stunde am Tag</strong>, wenn mein Sohn (5) und meine Tochter (8) versorgt sind. Mit diesem System sind schon über <strong>750 Menschen</strong> erfolgreich auf den Weg gekommen. Wenn das bei mir neben Job und zwei Kindern klappt, dann klappt das auch bei dir.</p>
+          </article>
+        </div>
+        <figure class="story__photo">
+          <div class="assemble">
+            <video id="assembleVid" muted playsinline preload="none" aria-label="Julian über den Dächern der Stadt bei Sonnenuntergang – das Bild setzt sich beim Scrollen zusammen">
+              <source src="assets/rooftop-assemble.mp4" type="video/mp4">
+            </video>
+          </div>
+          <figcaption>Der Blick, für den sich der Weg gelohnt hat.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ ERGEBNISSE ============ -->
+    <section class="proof section" id="ergebnisse">
+      <div class="section__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>SCHWARZ AUF WEISS</p>
+        <h2 class="section__title reveal" data-delay="100">MEINE <span class="grad">ERGEBNISSE.</span></h2>
+        <p class="section__lead reveal" data-delay="200">
+          Keine fremden Screenshots, kein Stockmaterial. Das hier sind meine eigenen Zahlen,
+          entstanden neben Vollzeitjob und Familie.
+        </p>
+        <div class="carousel reveal" id="proofCarousel">
+          <div class="carousel__stage">
+            <div class="proof__grid carousel__ring" id="carouselRing">
+              <figure class="proof__card">
+                <img src="assets/ergebnis-3.jpg" alt="Instagram Insights: 6 Millionen Aufrufe in 30 Tagen">
+                <figcaption>6 Mio. Aufrufe in 30 Tagen</figcaption>
+              </figure>
+              <figure class="proof__card">
+                <img src="assets/ergebnis-4.jpg" alt="Reel-Insights: 423.904 Aufrufe mit einem einzigen Reel">
+                <figcaption>423.904 Aufrufe, 1 Reel</figcaption>
+              </figure>
+              <figure class="proof__card">
+                <img src="assets/ergebnis-1.jpg" alt="Tagesumsatz: 1.740,05 Euro an einem Tag">
+                <figcaption>1.740,05 € an einem Tag</figcaption>
+              </figure>
+              <figure class="proof__card">
+                <img src="assets/ergebnis-2.jpg" alt="Benachrichtigung: 3.444,76 Euro Umsatz in einer Woche">
+                <figcaption>3.444,76 € in einer Woche</figcaption>
+              </figure>
+              <figure class="proof__card">
+                <img src="assets/ergebnis-5.jpg" alt="Tagesumsatz: 142,43 Euro an einem Tag">
+                <figcaption>142,43 € an einem Tag</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="carousel__dots" id="carouselDots"></div>
+        </div>
+        <div class="proof__disclaimer reveal">
+          <strong>Das hier sind meine Ergebnisse.</strong> Sie sind kein Versprechen und keine
+          Garantie. Was bei dir rauskommt, hängt von deinem Einsatz, deiner Umsetzung und
+          deinem Durchhaltevermögen ab. Solche Zahlen sind nicht typisch und niemand kann
+          sie dir seriös garantieren.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WERTE ============ -->
+    <section class="values section section--alt" id="werte">
+      <div class="section__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>SO ARBEITE ICH</p>
+        <h2 class="section__title reveal" data-delay="100">KEIN GURU, KEIN THEATER.<br><span class="grad">EINFACH ICH.</span></h2>
+        <div class="values__grid">
+          <article class="card reveal" data-delay="0">
+            <span class="card__num">01</span>
+            <h3>Direkt & ehrlich</h3>
+            <p>Ich sag dir, was funktioniert und was nicht. Auch wenn es mal unbequem ist. Mit Job und zwei Kindern weiß ich selbst, was jede freie Stunde wert ist.</p>
+          </article>
+          <article class="card reveal" data-delay="100">
+            <span class="card__num">02</span>
+            <h3>Ergebnisorientiert</h3>
+            <p>Ich weiß noch genau, wie sich der erste eigene Umsatz anfühlt. Genau dahin will ich dich bringen. Schritt für Schritt, ohne Umwege.</p>
+          </article>
+          <article class="card reveal" data-delay="200">
+            <span class="card__num">03</span>
+            <h3>Leicht & motivierend</h3>
+            <p>Das hier soll sich nicht wie ein zweiter Job anfühlen. Wenn es Spaß macht, bleibst du dran. Und dranbleiben ist am Ende alles.</p>
+          </article>
+          <article class="card reveal" data-delay="300">
+            <span class="card__num">04</span>
+            <h3>Dein Mindset-Boost</h3>
+            <p>An manchen Tagen zweifelst du an allem, das kenne ich selbst gut genug. Dann bin ich der, der dir sagt: weitermachen, du bist näher dran, als du denkst.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXTRA-LINKS (in js/main.js einstellbar) ============ -->
+    <section class="extras section" id="extras" hidden>
+      <div class="section__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>MEHR VON MIR</p>
+        <h2 class="section__title reveal" data-delay="100">TIPPS, TRICKS <span class="grad">&amp; MEHR.</span></h2>
+        <div class="extras__grid" id="extrasGrid"></div>
+      </div>
+    </section>
+
+    <!--
+      VORLAGE Community-Stimmen (noch nicht aktiv):
+      Sobald Julian 1-2 freigegebene Stimmen aus der Community hat, diesen Block
+      vor der Webinar-Sektion einkommentieren und Texte/Namen ersetzen.
+
+    <section class="values section" id="stimmen">
+      <div class="section__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>NICHT NUR BEI MIR</p>
+        <h2 class="section__title reveal" data-delay="100">DAS SAGEN <span class="grad">ANDERE.</span></h2>
+        <div class="values__grid">
+          <article class="card reveal"><span class="card__num">★★★★★</span>
+            <h3>[Vorname]</h3><p>„[Zitat mit Erlaubnis]“</p></article>
+          <article class="card reveal" data-delay="100"><span class="card__num">★★★★★</span>
+            <h3>[Vorname]</h3><p>„[Zitat mit Erlaubnis]“</p></article>
+        </div>
+      </div>
+    </section>
+    -->
+
+    <!-- ============ WEBINAR ============ -->
+    <section class="webinar section" id="webinar">
+      <div class="webinar__bg" aria-hidden="true">
+        <img src="assets/julian-lobby-cinematic.jpg" alt="" loading="lazy">
+      </div>
+      <div class="section__inner">
+        <div class="webinar__card reveal">
+          <div class="webinar__live">
+            <span class="webinar__live-dot"></span> <span id="webinarPillText">LIVE-EVENT</span>
+          </div>
+          <h2 class="webinar__title">SEI BEIM NÄCHSTEN <span class="grad">LIVE-EVENT</span> DABEI.</h2>
+          <p class="webinar__note" id="webinarNote">
+            Beim kostenlosen Live-Event siehst du das SCB-System in Action und deine
+            Fragen werden direkt beantwortet. Echt, live und ungefiltert.
+          </p>
+          <div class="countdown" id="countdown" hidden>
+            <div class="countdown__unit"><span class="countdown__num" id="cdDays">0</span><span class="countdown__label">Tage</span></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cdHours">00</span><span class="countdown__label">Std</span></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cdMins">00</span><span class="countdown__label">Min</span></div>
+            <div class="countdown__sep">:</div>
+            <div class="countdown__unit"><span class="countdown__num" id="cdSecs">00</span><span class="countdown__label">Sek</span></div>
+          </div>
+          <div class="webinar__update" id="webinarUpdate" hidden>
+            <strong>📢 Aktueller Hinweis:</strong> <span id="webinarUpdateText"></span>
+          </div>
+          <a href="#" id="webinarBtn" class="btn btn--gold btn--big btn--magnetic" target="_blank" rel="noopener">
+            Jetzt Platz sichern <span class="btn__arrow">→</span>
+          </a>
+          <p class="webinar__hint">Kostenlos · Live · Ungefiltert</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="cta section">
+      <div class="section__inner cta__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>DEIN ERSTER SCHRITT</p>
+        <h2 class="cta__title reveal" data-delay="100">
+          DEINE FREIHEIT BEGINNT<br><span class="grad">GENAU HIER.</span>
+        </h2>
+        <p class="section__lead reveal" data-delay="200" id="ctaLead">
+          Teste in 10 Sekunden, ob das SCB-System zu dir passt. 6 Fragen, fertig. Keine Vorkenntnisse nötig.
+        </p>
+        <a href="#" id="ctaFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="300" target="_blank" rel="noopener">
+          Teste jetzt, ob du geeignet bist <span class="btn__arrow">→</span>
+        </a>
+        <a href="#" id="ctaAlt" class="cta__alt" target="_blank" rel="noopener" hidden>
+          Oder teste in 10 Sekunden, ob das SCB-System zu dir passt →
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo" id="footerLogo">J<i>·</i>W</span>
+      <p class="footer__copy">© 2026 JULIANS WAY. Alle Rechte vorbehalten.</p>
+      <nav class="footer__links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutzerklärung</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Sticky-CTA fürs Handy -->
+  <div class="sticky-cta" id="stickyCta">
+    <a href="#" id="stickyBtn" class="btn btn--gold" target="_blank" rel="noopener">
+      Teste, ob du geeignet bist <span class="btn__arrow">→</span>
+    </a>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

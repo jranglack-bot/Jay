@@ -713,6 +713,98 @@ body.has-announce .nav { top: 42px; }
 .card h3 { font-size: 1.25rem; margin: 0.7em 0 0.5em; }
 .card p { font-size: 0.98rem; color: var(--cream-dim); }
 
+/* ============ Leise Werbelinks (nach Geschichte und Zahlen) ============
+   Bewusst kein Button: ein Satz, ein unterstrichener Link, der Werbehinweis darunter. */
+.softlink {
+  margin-top: 4em;
+  max-width: 38em;
+  padding: 1.4em 1.6em;
+  border-left: 2px solid var(--gold);
+  background: rgba(188, 150, 95, 0.06);
+  border-radius: 0 10px 10px 0;
+}
+.softlink__text { color: var(--cream-dim); margin-bottom: 0.7em; }
+.softlink__link {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.softlink__link:hover { color: var(--cream); border-color: var(--gold-soft); }
+.softlink__note { margin-top: 0.8em; font-size: 0.75rem; color: var(--cream-dim); }
+
+/* ============ Fragen (FAQ) ============ */
+.faq__inner { max-width: 820px; }
+.faq__list { margin-top: 2.4em; border-top: 1px solid var(--line); }
+.faq__item { border-bottom: 1px solid var(--line); }
+.faq__item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+  padding: 1.15em 0.2em;
+  font-weight: 600;
+  font-size: 1.08rem;
+  color: var(--cream);
+  transition: color 0.3s;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after {
+  content: "+";
+  font-family: var(--font-head);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.3s var(--ease-out);
+}
+.faq__item[open] summary::after { transform: rotate(45deg); }
+.faq__item summary:hover { color: var(--gold-soft); }
+.faq__item summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
+.faq__item p { color: var(--cream-dim); padding: 0 0.2em 1.3em; max-width: 40em; }
+
+/* ============ Nächste Schritte im Abschluss ============ */
+.nextsteps {
+  width: 100%;
+  max-width: 30em;
+  margin: 0 auto 2em;
+  padding: 1.4em 1.5em;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+.nextsteps__title {
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9em;
+}
+.nextsteps__list { list-style: none; display: grid; gap: 0.75em; }
+.nextsteps__list li { display: flex; gap: 0.85em; align-items: flex-start; color: var(--cream); line-height: 1.5; }
+.nextsteps__num {
+  flex-shrink: 0;
+  width: 1.7em; height: 1.7em;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  color: var(--gold-soft);
+  font-family: var(--font-head);
+  font-size: 0.9rem;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 0.05em;
+}
+.nextsteps__hint { margin-top: 1em; font-size: 0.85rem; color: var(--cream-dim); }
+
 /* ============ Extra-Links („Mehr von mir") ============ */
 .extras__grid {
   display: flex;
@@ -850,6 +942,14 @@ body.has-announce .nav { top: 42px; }
   .countdown__unit { min-width: 50px; }
 }
 
+.webinar__when {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-soft);
+  margin: -0.2em 0 1em;
+}
+
 .webinar__disclosure {
   margin: 0.9em auto 0;
   max-width: 32em;
@@ -957,6 +1057,9 @@ body.has-announce .nav { top: 42px; }
   transition-delay: var(--rdelay, 0ms);
 }
 .reveal.is-inview { opacity: 1; transform: none; }
+/* Im ersten Bildschirm nicht lange warten lassen: Text ist nach gut einer halben
+   Sekunde da (der Instagram-Browser zeigt sonst kurz eine fast leere Seite) */
+.hero .reveal { transition-duration: 0.5s; }
 
 .reveal-img {
   clip-path: inset(8% 8% 8% 8% round 14px);
@@ -970,16 +1073,22 @@ body.has-announce .nav { top: 42px; }
 @media (max-width: 900px) {
   .hero { padding-top: 6em; min-height: 0; }
   .hero__inner { grid-template-columns: 1fr; gap: 2.6em; }
-  /* Handy: erst die Message, dann das Foto als breiter, sauber
-     beschnittener Ausschnitt statt hochkant über dem Text */
-  .hero__visual { order: 2; }
+  /* Handy: das Gesicht gehört in den ersten Bildschirm (Vertrauen, bevor gelesen
+     wird). Deshalb das Foto als flacher, breiter Ausschnitt ÜBER dem Text, nicht
+     hochkant, damit die Überschrift trotzdem sofort sichtbar bleibt. */
+  .hero__visual { order: -1; }
   .portrait { width: 100%; max-width: 460px; }
   .portrait__img {
     width: 100%;
-    height: 300px;
+    height: 210px;
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center 22%;
   }
+  .hero__inner { gap: 1.8em; }
+  .hero__sub { margin-bottom: 1.6em; }
+  .softlink { margin-top: 3em; padding: 1.2em 1.2em; }
+  /* Abschluss-Knopf auf dem Handy in einer Zeile halten */
+  .cta .btn--big { font-size: 0.98rem; padding: 1.05em 1.3em; letter-spacing: 0.04em; }
   .portrait__frame { inset: -8px; }
   .hero__title { font-size: clamp(2.6rem, 12vw, 4rem); }
   .hero__stats { gap: 1.6em 2.2em; }

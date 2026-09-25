@@ -45,10 +45,24 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
   leichtere Option gibt es Instagram (@julians.way).
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und
-  Live-Event eine Provision. Werbelinks gibt es nur im Abschluss und im
-  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung
-  („*Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine
-  Provision.“) steht direkt darunter, damit sie vor dem Klick sichtbar ist.
+  Live-Event eine Provision. Werbelinks gibt es im Abschluss, im
+  Live-Event-Abschnitt und (Julian, 25.09.2026) als zwei **leise** Links
+  (`.softlink`, kein Button) nach der Geschichte und nach den Zahlen. Jeder trägt
+  ein Sternchen, und die Erklärung („*Werbung: Wenn du über meinen Link später
+  etwas kaufst, bekomme ich eine Provision.“) steht direkt darunter, damit sie
+  vor dem Klick sichtbar ist. Mehr als diese zwei leisen Links nicht ohne Julian.
+- **Der Funnel ist ein Test, kein Video.** `FUNNEL_URL` führt auf einen Eignungstest
+  (ein paar Klickfragen, anderes Design, danach das Video, bei Eignung ein Anruf).
+  Das wird vor dem Klick angesagt (`#ctaSteps`, Linktext „Zu den Fragen und zum
+  Video*“). Nie einen Knopftext versprechen, der nur „Video“ sagt.
+- **Fragen-Abschnitt (`#fragen`):** nur Hürden, die der Besucher bei sich selbst
+  sieht (Zeit, Gesicht, Vorwissen, Kosten, Anruf). Keine Antworten auf Vorwürfe
+  gegen Julian oder das Modell (Schneeball, Network Marketing, „ist das seriös“),
+  das hat Julian für allen öffentlichen Content ausgeschlossen. Preis: „wird im
+  Gespräch erklärt“ (Julian, 25.09.2026), nie einen Betrag nennen.
+- Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
+  `utm_content` an (`story`, `zahlen`, `abschluss`, `abschluss-event`), über
+  `funnelUrl()` in `public/js/main.js`. Leise Links bekommen es per `data-funnel`.
 
 ## Geplant (noch nicht auf die Seite)
 
@@ -65,8 +79,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Alles von Julian bestätigen lassen. Offen: Ist Julian auch auf TikTok aktiv?
 
 - **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
-  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event wieder
-  einschalten (oder `eventActive` mit `eventDate` für den Countdown).
+  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event
+  `eventActive: true`, `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00`
+  Winterzeit) und `eventDurationMin` setzen. Dann zeigt die Seite Datum in Worten und
+  Countdown, während des Events „WIR SIND LIVE“, und nach Start + Dauer schaltet sie
+  von selbst zurück. Nur echte Termine, nie einen Timer, der neu startet oder immer
+  „morgen“ ist (irreführende Verknappung, UWG).
 - **Claude-Code-Kurs:** Julian erstellt gerade einen Kurs zu Claude Code, der
   später auf der Seite eingebunden werden soll. Erst einbauen, wenn Julian es sagt.
 - **Persönliche Webseiten:** Links zu Julians weiteren Seiten fehlen noch
@@ -78,6 +96,11 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - Webinar-Link, Hinweis-Banner, Live-Event (Datum/Countdown) und Extra-Links:
   Block `DEFAULTS` oben in `public/js/main.js`.
 - Funnel-Link: Konstante `FUNNEL_URL` in `public/js/main.js`.
+- Vorschaubild für geteilte Links: `public/og-bild.jpg` (1200 × 630), im `<head>`
+  absolut verlinkt. Bilder unter `assets/` taugen dafür nicht, sie bekommen beim
+  Build einen Hash im Namen.
+- Lokale Vorschau: Eintrag `julians-way-net` in `D:\Instagram Content\.claude\launch.json`
+  (Vite auf Port 5183).
 - Es gibt kein Admin-Cockpit und kein Backend (früher Netlify-Funktion, bei
   Hostinger nicht verfügbar) – Änderungen laufen über den Code.
 - Datenschutz nennt Hostinger als Hoster; bei neuen Diensten (Tracking, Formulare,

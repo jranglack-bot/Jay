@@ -7,7 +7,15 @@
   <meta name="description" content="Ich bin Julian, angestellt und Papa von zwei Kindern. Hier zeige ich ehrlich, wie ich mir nebenbei mit Content auf Instagram ein zweites Standbein aufbaue und wie das auch ohne eigenes Gesicht geht.">
   <meta property="og:title" content="Julian | Julians Way">
   <meta property="og:description" content="Wie ich mir neben Job und Familie ein zweites Standbein aufbaue, ehrlich erzählt.">
-  <meta property="og:image" content="assets/julian-hero-cinematic.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://julians-way.net/">
+  <meta property="og:locale" content="de_DE">
+  <!-- Absolut und aus public/, damit WhatsApp und Instagram-DMs das Vorschaubild finden
+       (Bilder unter assets/ bekommen beim Build einen Hash im Namen) -->
+  <meta property="og:image" content="https://julians-way.net/og-bild.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80' font-family='Georgia' fill='%23bc965f'>J</text></svg>">
 </head>
@@ -33,6 +41,7 @@
         <a href="#weg">Mein Weg</a>
         <a href="#ergebnisse">Meine Zahlen</a>
         <a href="#werte">So arbeite ich</a>
+        <a href="#fragen">Fragen</a>
       </nav>
       <button class="nav__burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
     </div>
@@ -42,6 +51,7 @@
     <a href="#weg">Mein Weg</a>
     <a href="#ergebnisse">Meine Zahlen</a>
     <a href="#werte">So arbeite ich</a>
+    <a href="#fragen">Fragen</a>
   </div>
 
   <main id="top">
@@ -57,13 +67,12 @@
             <span class="line"><span class="line__inner">HI, ICH BIN</span></span>
             <span class="line"><span class="line__inner grad">JULIAN.</span></span>
           </h1>
-          <p class="hero__sub reveal" data-delay="400">
-            Ich bin Papa von zwei Kids, ganz normal angestellt, und bau mir nebenbei mit Content
-            auf Instagram ein zweites Standbein auf. Dabei zeig ich auch, wie das geht,
-            <strong>ohne dass du dein Gesicht zeigen musst</strong>. Hier erzähl ich dir, wie ich dahin gekommen bin und wie das bei mir heute aussieht,
-            ehrlich und ohne Hochglanz.
+          <p class="hero__sub reveal" data-delay="150">
+            Ich bin Papa von zwei Kids, ganz normal angestellt, und bau mir nebenbei mit
+            Instagram ein zweites Standbein auf. Hier erzähl ich dir ehrlich, wie das bei mir
+            läuft und wie es auch geht, <strong>ohne dass du dein Gesicht zeigen musst</strong>.
           </p>
-          <div class="hero__actions reveal" data-delay="550">
+          <div class="hero__actions reveal" data-delay="250">
             <a href="#weg" class="btn btn--gold btn--magnetic">
               Erst mal meine Geschichte <span class="btn__arrow btn__arrow--down">↓</span>
             </a>
@@ -73,7 +82,7 @@
             </a>
           </div>
         </div>
-        <div class="hero__visual reveal-img" data-delay="300">
+        <div class="hero__visual reveal-img" data-delay="0">
           <div class="portrait" id="portrait">
             <div class="portrait__frame"></div>
             <img src="assets/julian-hero-cinematic.jpg" alt="Julian von Julians Way" class="portrait__img">
@@ -148,6 +157,13 @@
           </div>
           <figcaption>Der Blick, für den sich der Weg gelohnt hat.</figcaption>
         </figure>
+
+        <!-- Leiser Werbelink 1 (Julian, 25.09.2026): für alle, denen die Geschichte schon reicht -->
+        <aside class="softlink reveal">
+          <p class="softlink__text">Schon genug gelesen? Das Videotraining zeigt dir, wie das System funktioniert, mit dem ich arbeite. Vorher kommen ein paar kurze Fragen.</p>
+          <a class="softlink__link" data-funnel="story" href="#angebot" target="_blank" rel="noopener">Zu den Fragen und zum Video* <span aria-hidden="true">→</span></a>
+          <p class="softlink__note">*Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.</p>
+        </aside>
       </div>
     </section>
 
@@ -180,6 +196,13 @@
           Garantie. Wie es bei dir läuft, hängt von deinem Einsatz, deiner Umsetzung und
           deinem Durchhaltevermögen ab, und solche Zahlen sind nicht typisch.
         </div>
+
+        <!-- Leiser Werbelink 2 (Julian, 25.09.2026) -->
+        <aside class="softlink reveal">
+          <p class="softlink__text">Du willst wissen, wie das System funktioniert, mit dem ich arbeite? Das zeigt dir das Videotraining, nach ein paar kurzen Fragen.</p>
+          <a class="softlink__link" data-funnel="zahlen" href="#angebot" target="_blank" rel="noopener">Zu den Fragen und zum Video* <span aria-hidden="true">→</span></a>
+          <p class="softlink__note">*Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.</p>
+        </aside>
       </div>
     </section>
 
@@ -209,6 +232,43 @@
             <h3>Auf Augenhöhe</h3>
             <p>Ich bin kein Coach auf der Yacht, sondern ein Papa mit Job, der nebenbei Content macht. Ich erzähl dir, wie es bei mir wirklich läuft, und nicht, wie es im Bilderbuch aussieht.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FRAGEN ============
+         Nur Hürden, die der Besucher bei sich selbst sieht, keine Abwehr von Vorwürfen
+         gegen Julian oder das Modell. Fakten: Kosten und Anruf von Julian bestätigt
+         (25.09.2026), Anruf und Vorkenntnisse laut Funnel-Seite (FUNNEL_URL). -->
+    <section class="faq section" id="fragen">
+      <div class="section__inner faq__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>BEVOR DU KLICKST</p>
+        <h2 class="section__title reveal" data-delay="100">DEINE FRAGEN.<br><span class="grad">EHRLICH BEANTWORTET.</span></h2>
+        <div class="faq__list">
+          <details class="faq__item reveal">
+            <summary>Kostet das was?</summary>
+            <p>Die Fragen und das Videotraining kosten nichts. Das Programm selbst kostet Geld. Was genau, wird dir im Gespräch erklärt, bevor du irgendetwas entscheidest.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Werde ich angerufen?</summary>
+            <p>Wenn deine Antworten zeigen, dass es passen könnte, ja: Dann meldet sich jemand vom Programm telefonisch bei dir. In dem Gespräch geht es auch um den Preis. Ob du mitmachst, entscheidest du danach in Ruhe selbst.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Muss ich mein Gesicht zeigen?</summary>
+            <p>Nein. Ich zeig meins, aber das System funktioniert auch ohne, zum Beispiel mit einer Themenseite, auf der es um ein Thema geht statt um dich.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Wie viel Zeit brauche ich?</summary>
+            <p>Bei mir ist es circa eine Stunde am Tag, wenn die Kids versorgt sind. Schnell geht es trotzdem nicht: Ein zweites Standbein braucht Geduld und Dranbleiben.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Brauche ich Vorwissen?</summary>
+            <p>Nein. Im Programm wird alles Schritt für Schritt erklärt, auch die Grundlagen zu Instagram.</p>
+          </details>
+          <details class="faq__item reveal">
+            <summary>Was hast du davon?</summary>
+            <p>Wenn du über meinen Link etwas kaufst, bekomme ich eine Provision. Deshalb steht bei jedem dieser Links ein Sternchen. Empfehlen tu ich es, weil es das erste Modell war, das zu meinem Alltag mit Job und Kindern gepasst hat.</p>
+          </details>
         </div>
       </div>
     </section>
@@ -252,6 +312,8 @@
             <span class="webinar__live-dot"></span> <span id="webinarPillText">LIVE-EVENT</span>
           </div>
           <h2 class="webinar__title">SEI BEIM NÄCHSTEN <span class="grad">LIVE-EVENT</span> DABEI.</h2>
+          <!-- Datum in Worten, füllt js/main.js aus eventDate -->
+          <p class="webinar__when" id="eventWhen" hidden></p>
           <p class="webinar__note" id="webinarNote">
             Beim kostenlosen Live-Event siehst du das SCB-System in Action und deine
             Fragen werden direkt beantwortet. Echt, live und ungefiltert.
@@ -288,10 +350,21 @@
           SCHAU DIR DAS<br><span class="grad">IN RUHE AN.</span>
         </h2>
         <p class="section__lead reveal" data-delay="200" id="ctaLead">
-          Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Schau's dir an, wenn es für dich passt, und entscheide danach in Ruhe selbst.
+          Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Das Video gibt's, aber erst nach ein paar Fragen. Die sind schnell beantwortet, wenn du weißt, was du willst.
         </p>
+        <!-- Nächster Schritt vorher ansagen: die Funnel-Seite ist ein Test mit anderem Design,
+             kein Video. So kommt nichts davon überraschend. -->
+        <div class="nextsteps reveal" data-delay="250" id="ctaSteps">
+          <p class="nextsteps__title">So geht's nach dem Klick weiter</p>
+          <ol class="nextsteps__list">
+            <li><span class="nextsteps__num">1</span><span>Ein paar kurze Fragen zum Anklicken</span></li>
+            <li><span class="nextsteps__num">2</span><span>Das Videotraining</span></li>
+            <li><span class="nextsteps__num">3</span><span>Wenn es passt, ruft dich jemand vom Programm an. Dort erfährst du auch, was es kostet.</span></li>
+          </ol>
+          <p class="nextsteps__hint">Die nächste Seite gehört zum Programm, deshalb sieht sie anders aus als meine.</p>
+        </div>
         <a href="#" id="ctaFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="300" target="_blank" rel="noopener">
-          Videotraining ansehen* <span class="btn__arrow">→</span>
+          Zu den Fragen und zum Video* <span class="btn__arrow">→</span>
         </a>
         <a href="#" id="ctaAlt" class="cta__alt" target="_blank" rel="noopener" hidden>
           Oder schau dir zuerst das Videotraining an* →

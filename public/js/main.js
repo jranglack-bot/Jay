@@ -63,7 +63,7 @@
 
     if (c.eventActive) {
       heroBtn.href = c.webinarUrl;
-      heroBtn.innerHTML = 'Sichere dir deinen Platz im Live-Event <span class="btn__arrow">→</span>';
+      heroBtn.innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow">→</span>';
       heroAlt.href = FUNNEL_URL;
       heroAlt.textContent = "Oder zum Videotraining";
       navBtn.href = c.webinarUrl;
@@ -72,8 +72,8 @@
       mobBtn.textContent = "Zum Live-Event";
       // Finale CTA unten ebenfalls aufs Live-Event drehen
       $("#ctaFunnel").href = c.webinarUrl;
-      $("#ctaFunnel").innerHTML = 'Sichere dir deinen Platz im Live-Event <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Das nächste Live-Event steht an. Schnapp dir deinen Platz, bevor es voll ist.";
+      $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow">→</span>';
+      $("#ctaLead").textContent = "Das nächste Live-Event steht an. Dort siehst du live, wie das System funktioniert, und kannst deine Fragen direkt stellen.";
       const ctaAlt = $("#ctaAlt");
       ctaAlt.href = FUNNEL_URL;
       ctaAlt.hidden = false;
@@ -81,7 +81,7 @@
       $("#marquee").after(webinarSec);
     } else {
       heroBtn.href = FUNNEL_URL;
-      heroBtn.innerHTML = 'Teste, ob du geeignet bist <span class="btn__arrow">→</span>';
+      heroBtn.innerHTML = 'So funktioniert\'s <span class="btn__arrow">→</span>';
       heroAlt.href = "#weg";
       heroAlt.textContent = "Meine Story";
       navBtn.href = FUNNEL_URL;
@@ -90,8 +90,8 @@
       mobBtn.textContent = "Zum Videotraining";
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = FUNNEL_URL;
-      $("#ctaFunnel").innerHTML = 'Teste jetzt, ob du geeignet bist <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Teste in 10 Sekunden, ob das SCB-System zu dir passt. 6 Fragen, fertig. Keine Vorkenntnisse nötig.";
+      $("#ctaFunnel").innerHTML = 'Zum Videotraining <span class="btn__arrow">→</span>';
+      $("#ctaLead").textContent = "Im Videotraining siehst du, wie das Ganze funktioniert. Danach entscheidest du in Ruhe selbst, ob das was für dich ist.";
       $("#ctaAlt").hidden = true;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)
       document.querySelector(".cta").before(webinarSec);
@@ -101,10 +101,10 @@
     const stickyBtn = $("#stickyBtn");
     if (c.eventActive) {
       stickyBtn.href = c.webinarUrl;
-      stickyBtn.innerHTML = 'Platz sichern: Live-Event <span class="btn__arrow">→</span>';
+      stickyBtn.innerHTML = 'Zum Live-Event <span class="btn__arrow">→</span>';
     } else {
       stickyBtn.href = FUNNEL_URL;
-      stickyBtn.innerHTML = 'Teste, ob du geeignet bist <span class="btn__arrow">→</span>';
+      stickyBtn.innerHTML = 'So funktioniert\'s <span class="btn__arrow">→</span>';
     }
 
     /* Extra-Buttons („Mehr von mir") */
@@ -158,7 +158,7 @@
     } else {
       cd.hidden = true;
       pillText.textContent = "LIVE-EVENT";
-      webinarBtn.innerHTML = 'Jetzt Platz sichern <span class="btn__arrow">→</span>';
+      webinarBtn.innerHTML = 'Zur Anmeldung <span class="btn__arrow">→</span>';
     }
     return c;
   }
@@ -247,59 +247,142 @@
     }, { passive: true });
   }
 
-  /* ---------- Zusammensetz-Animation (Seedance-Video, scrollgesteuert) ----------
-     Das Video zeigt Scherben, die sich zum Rooftop-Foto zusammensetzen.
-     Scrollposition steuert die Videozeit: weit weg = Anfang (Scherben),
-     Bildschirmmitte = Ende (fertiges Foto). Rückwärtsscrollen = zerfällt wieder. */
-  const vid = $("#assembleVid");
-  if (vid) {
-    let vidDur = 0;
+  /* ---------- Zusammensetz-Animation (Bildsequenz, scrollgesteuert) ----------
+     61 Einzelbilder aus dem Seedance-Video (public/frames/rooftop/) werden auf ein
+     Canvas gemalt: weit weg = Scherben, Bildschirmmitte = fertiges Foto,
+     Rückwärtsscrollen = zerfällt wieder. Einzelbilder statt Video, weil Browser
+     (vor allem Safari auf dem iPhone) beim ständigen Springen im Video ruckeln. */
+  const asmCanvas = $("#assembleCanvas");
+  if (asmCanvas) {
+    const FRAMES = 61;
     const HOLD = 0.12; // Zone um die Mitte, in der das Bild komplett bleibt
+    const frameSrc = (i) => "frames/rooftop/" + String(i + 1).padStart(3, "0") + ".webp";
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const actx = asmCanvas.getContext("2d");
+    const imgs = new Array(FRAMES);
+    const ready = new Array(FRAMES).fill(false);
+    let target = reduced ? FRAMES - 1 : 0; // Ziel-Bild laut Scrollposition
+    let shown = target; // aktuell gezeigtes Bild (läuft weich hinterher)
+    let raf = 0;
 
-    const updateAssemble = () => {
-      if (!vidDur) return;
-      const r = vid.getBoundingClientRect();
+    // Nächstgelegenes schon geladenes Bild, solange noch nicht alle da sind
+    const nearest = (i) => {
+      for (let d = 0; d < FRAMES; d++) {
+        if (i - d >= 0 && ready[i - d]) return i - d;
+        if (i + d < FRAMES && ready[i + d]) return i + d;
+      }
+      return -1;
+    };
+
+    const draw = (pos) => {
+      const a = Math.floor(pos);
+      const ia = nearest(a);
+      if (ia < 0) return;
+      const W = asmCanvas.width;
+      const H = asmCanvas.height;
+      actx.globalAlpha = 1;
+      actx.drawImage(imgs[ia], 0, 0, W, H);
+      // Zwischen zwei benachbarten Bildern weich überblenden
+      const b = Math.min(a + 1, FRAMES - 1);
+      const f = pos - a;
+      if (ia === a && b !== a && ready[b] && f > 0.02) {
+        actx.globalAlpha = f;
+        actx.drawImage(imgs[b], 0, 0, W, H);
+        actx.globalAlpha = 1;
+      }
+    };
+
+    // Canvas-Auflösung an Anzeigegröße und Pixeldichte anpassen (Bilder sind 1280 breit)
+    const sizeCanvas = () => {
+      const w = Math.max(Math.min(Math.round(asmCanvas.clientWidth * devicePixelRatio), 1280), 1);
+      const h = Math.round((w * 9) / 16);
+      if (asmCanvas.width !== w || asmCanvas.height !== h) {
+        asmCanvas.width = w;
+        asmCanvas.height = h;
+        draw(shown);
+      }
+    };
+
+    // Weich hinterherlaufen statt springen (glättet Mausrad- und Touch-Sprünge)
+    const tick = () => {
+      const diff = target - shown;
+      shown = Math.abs(diff) < 0.01 ? target : shown + diff * 0.2;
+      draw(shown);
+      raf = shown === target ? 0 : requestAnimationFrame(tick);
+    };
+
+    const updateTarget = () => {
+      const r = asmCanvas.getBoundingClientRect();
       if (r.bottom < -50 || r.top > innerHeight + 50) return;
       const midDist =
         Math.abs(r.top + r.height / 2 - innerHeight / 2) / ((innerHeight + r.height) / 2);
       const p = Math.min(Math.max((midDist * 1.7 - HOLD) / (1 - HOLD), 0), 1);
-      const t = (1 - p) * (vidDur - 0.05);
-      if (Math.abs(vid.currentTime - t) > 0.02) vid.currentTime = t;
+      target = (1 - p) * (FRAMES - 1);
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    const initVid = () => {
-      vidDur = vid.duration || 0;
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        // Ohne Animation: direkt das fertige Foto zeigen
-        vid.currentTime = Math.max(vidDur - 0.05, 0);
-        return;
+    // Ladereihenfolge: erstes und letztes Bild zuerst, dann grob nach fein.
+    // So läuft die Animation schon mit wenigen Bildern und wird immer feiner.
+    const loadOrder = () => {
+      if (reduced) return [FRAMES - 1];
+      const seq = [0, FRAMES - 1];
+      for (let step = 32; step >= 1; step >>= 1) {
+        for (let i = 0; i < FRAMES; i += step) if (!seq.includes(i)) seq.push(i);
       }
-      addEventListener("scroll", updateAssemble, { passive: true });
-      addEventListener("resize", updateAssemble);
-      updateAssemble();
+      return seq;
     };
-    if (vid.readyState >= 1) initVid();
-    else vid.addEventListener("loadedmetadata", initVid, { once: true });
 
-    // Video erst laden, wenn die Sektion in die Nähe scrollt (spart mobiles Datenvolumen)
-    const vidIo = new IntersectionObserver(
+    const loadFrames = () => {
+      const seq = loadOrder();
+      let next = 0;
+      const loadNext = () => {
+        if (next >= seq.length) return;
+        const i = seq[next++];
+        const img = new Image();
+        img.src = frameSrc(i);
+        img
+          .decode()
+          .then(() => {
+            imgs[i] = img;
+            ready[i] = true;
+            draw(shown);
+          })
+          .catch(() => {})
+          .finally(loadNext);
+      };
+      for (let k = 0; k < 4; k++) loadNext(); // 4 Bilder parallel laden
+    };
+
+    sizeCanvas();
+    addEventListener("resize", sizeCanvas);
+    if (!reduced) {
+      addEventListener("scroll", updateTarget, { passive: true });
+      updateTarget();
+    }
+
+    // Bilder erst laden, wenn die Sektion in die Nähe scrollt (spart mobiles Datenvolumen)
+    const asmIo = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          vid.preload = "auto";
-          vid.load();
-          vidIo.disconnect();
+          asmIo.disconnect();
+          loadFrames();
         }
       },
-      { rootMargin: "150% 0px" }
+      { rootMargin: "200% 0px" }
     );
-    vidIo.observe(vid);
+    asmIo.observe(asmCanvas);
   }
 
   /* ---------- 3D-Karussell: Ergebnisse ----------
      Dreht sich automatisch im Kreis, vorderstes Bild scharf und hell,
      die übrigen abgedunkelt dahinter. Hover pausiert, Punkte springen. */
   const proofCarousel = $("#proofCarousel");
-  if (proofCarousel && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  // Ab 3 Bildern als Karussell, darunter bleibt das normale Raster
+  if (
+    proofCarousel &&
+    $("#carouselRing").children.length >= 3 &&
+    !matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
     const ring = $("#carouselRing");
     const cards = [...ring.children];
     const N = cards.length;

@@ -18,7 +18,25 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - `js/main.js` liegt unter `public/js/` (klassisches Skript ohne `type="module"`,
   Vite kopiert `public/` 1:1). Nicht nach `js/` zurückverschieben.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 3 HTML-Seiten,
-  `js/main.js`, CSS, Bilder, Video). Vor dem Pushen immer bauen und prüfen.
+  `js/main.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen immer
+  bauen und prüfen.
+
+## Schriften und Rooftop-Animation
+
+- Oswald und Open Sans liegen lokal in `fonts/` und werden per `@font-face` in
+  `css/style.css` eingebunden. **Keine Google Fonts mehr per Link einbinden**
+  (Datenschutz, siehe LG München I, Az. 3 O 17493/20).
+- Die Scroll-Animation im Abschnitt „Mein Weg“ ist eine Bildsequenz auf einem
+  Canvas, kein Video (Video-Scrubbing ruckelt, vor allem auf dem iPhone). Die
+  Einzelbilder in `public/frames/rooftop/` stammen aus `assets/rooftop-assemble.mp4`:
+  `ffmpeg -i assets/rooftop-assemble.mp4 -vf "select='not(mod(n\,2))'" -vsync vfr -c:v libwebp -quality 72 public/frames/rooftop/%03d.webp`
+  Bei geänderter Bildanzahl `FRAMES` in `public/js/main.js` anpassen.
+
+## Tonalität
+
+- Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
+  Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
+  bei ihm läuft, und zeigt, wie das Ganze funktioniert.
 
 ## Inhalte ändern
 

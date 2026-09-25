@@ -5,6 +5,58 @@
    Oswald (Headlines) · Open Sans (Body)
    ============================================================ */
 
+/* Schriften liegen lokal in fonts/ (kein Abruf bei Google, siehe Datenschutz).
+   Variable Fonts: eine Datei deckt alle Stärken ab. latin-ext lädt der Browser
+   nur, wenn ein Zeichen daraus auf der Seite vorkommt. Lizenz: fonts/OFL-*.txt */
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/oswald-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/oswald-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/open-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/open-sans-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/open-sans-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/open-sans-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
 :root {
   --bg: #1e1e1e;
   --bg-deep: #161616;
@@ -43,7 +95,13 @@ body {
 
 img { max-width: 100%; display: block; }
 
-h1, h2, h3 { font-family: var(--font-head); text-transform: uppercase; letter-spacing: 0.02em; }
+h1, h2, h3 {
+  font-family: var(--font-head);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  /* Lange deutsche Wörter dürfen auf schmalen Handys umbrechen statt die Seite zu verbreitern */
+  overflow-wrap: break-word;
+}
 
 /* Goldener Verlaufstext mit Shimmer */
 .grad {
@@ -493,25 +551,31 @@ body.has-announce .nav { top: 42px; }
   color: var(--gold);
   text-transform: uppercase;
 }
-.tl-item h3 { font-size: 1.5rem; margin: 0.3em 0 0.4em; }
+.tl-item h3 {
+  font-size: 1.5rem;
+  margin: 0.3em 0 0.4em;
+  /* z. B. „Angestelltenverhältnis“: sauber mit Trennstrich umbrechen (lang="de") */
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
 .tl-item p { color: var(--cream-dim); max-width: 34em; }
 .tl-item p strong { color: var(--cream); }
 
 .story__photo { margin-top: 5em; }
 
-/* Zusammensetz-Animation (Seedance-Video, per Scroll gesteuert):
-   weit weg = Scherben, in Bildschirmmitte = fertiges Foto */
+/* Zusammensetz-Animation (Bildsequenz auf Canvas, per Scroll gesteuert):
+   weit weg = Scherben, in Bildschirmmitte = fertiges Foto.
+   Hintergrund entspricht dem ersten Einzelbild, damit beim Laden nichts springt. */
 .assemble {
   width: 100%;
   aspect-ratio: 16 / 9;
   border-radius: 14px;
   overflow: hidden;
-  background: #131a1f;
+  background: radial-gradient(ellipse at 50% 50%, #171e2a 0%, #0d151e 60%, #03060e 100%);
 }
-.assemble video {
+.assemble canvas {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
 }
 .story__photo figcaption {
@@ -528,6 +592,8 @@ body.has-announce .nav { top: 42px; }
   gap: 1.2em;
   margin-top: 3em;
 }
+/* Ohne Karussell (weniger als 3 Bilder): Raster nicht über die volle Breite ziehen */
+.carousel:not(.carousel--3d) .proof__grid { max-width: 720px; }
 .proof__card {
   margin: 0;
   background: #202020;

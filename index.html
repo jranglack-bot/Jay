@@ -31,19 +31,19 @@
       </a>
       <nav class="nav__links">
         <a href="#weg">Mein Weg</a>
-        <a href="#ergebnisse">Ergebnisse</a>
+        <a href="#ergebnisse">Meine Zahlen</a>
         <a href="#werte">So arbeite ich</a>
+        <a href="#" id="navFunnel" target="_blank" rel="noopener">Videotraining</a>
       </nav>
-      <a class="btn btn--gold btn--small nav__cta" id="navFunnel" href="#" target="_blank" rel="noopener">Zum Videotraining</a>
       <button class="nav__burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
     </div>
   </header>
 
   <div class="mobile-menu" id="mobileMenu">
     <a href="#weg">Mein Weg</a>
-    <a href="#ergebnisse">Ergebnisse</a>
+    <a href="#ergebnisse">Meine Zahlen</a>
     <a href="#werte">So arbeite ich</a>
-    <a href="#" class="btn btn--gold" id="mobileFunnel" target="_blank" rel="noopener">Zum Videotraining</a>
+    <a href="#" id="mobileFunnel" target="_blank" rel="noopener">Videotraining</a>
   </div>
 
   <main id="top">
@@ -54,7 +54,7 @@
       <div class="hero__glow" aria-hidden="true"></div>
       <div class="hero__inner">
         <div class="hero__content">
-          <p class="hero__eyebrow reveal"><span class="eyebrow-line"></span>ZWEITES STANDBEIN · NEBEN JOB &amp; FAMILIE</p>
+          <p class="hero__eyebrow reveal"><span class="eyebrow-line"></span>SCHÖN, DASS DU DA BIST</p>
           <h1 class="hero__title">
             <span class="line"><span class="line__inner">HI, ICH BIN</span></span>
             <span class="line"><span class="line__inner grad">JULIAN.</span></span>
@@ -62,15 +62,18 @@
           <p class="hero__sub reveal" data-delay="400">
             Ich bin Papa von zwei Kids, ganz normal angestellt, und bau mir nebenbei mit Content
             auf Instagram ein zweites Standbein auf, <strong>ohne mein Gesicht zu zeigen</strong>.
-            Hier zeig ich dir ehrlich, wie das bei mir funktioniert, wie viel Zeit es kostet und
-            was dabei rauskommt.
+            Hier erzähl ich dir, wie ich dahin gekommen bin und wie das bei mir heute aussieht,
+            ehrlich und ohne Hochglanz.
           </p>
           <div class="hero__actions reveal" data-delay="550">
-            <a href="#" id="heroFunnel" class="btn btn--gold btn--magnetic" target="_blank" rel="noopener">
-              So funktioniert's <span class="btn__arrow">→</span>
+            <a href="#weg" class="btn btn--gold btn--magnetic">
+              Erst mal meine Geschichte <span class="btn__arrow btn__arrow--down">↓</span>
             </a>
-            <a href="#weg" id="heroSecondary" class="btn btn--ghost btn--magnetic">Meine Story</a>
           </div>
+          <p class="hero__skip reveal" data-delay="650">
+            <span id="heroSkipText">Du kennst mich schon?</span>
+            <a href="#" id="heroFunnel" target="_blank" rel="noopener">Direkt zum Videotraining&nbsp;→</a>
+          </p>
         </div>
         <div class="hero__visual reveal-img" data-delay="300">
           <div class="portrait" id="portrait">
@@ -185,7 +188,7 @@
     <!-- ============ WERTE ============ -->
     <section class="values section section--alt" id="werte">
       <div class="section__inner">
-        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>SO ARBEITE ICH</p>
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>WAS DU VON MIR ERWARTEN KANNST</p>
         <h2 class="section__title reveal" data-delay="100">KEIN GURU, KEIN THEATER.<br><span class="grad">EINFACH ICH.</span></h2>
         <div class="values__grid">
           <article class="card reveal" data-delay="0">
@@ -278,15 +281,15 @@
     <!-- ============ FINAL CTA ============ -->
     <section class="cta section">
       <div class="section__inner cta__inner">
-        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>WENN DU MEHR WISSEN WILLST</p>
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>WENN DU MAGST</p>
         <h2 class="cta__title reveal" data-delay="100">
           SCHAU DIR DAS<br><span class="grad">IN RUHE AN.</span>
         </h2>
         <p class="section__lead reveal" data-delay="200" id="ctaLead">
-          Im Videotraining siehst du, wie das Ganze funktioniert. Danach entscheidest du in Ruhe selbst, ob das was für dich ist.
+          Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Schau's dir an, wenn es für dich passt, und entscheide danach in Ruhe selbst.
         </p>
         <a href="#" id="ctaFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="300" target="_blank" rel="noopener">
-          Zum Videotraining <span class="btn__arrow">→</span>
+          Videotraining ansehen <span class="btn__arrow">→</span>
         </a>
         <a href="#" id="ctaAlt" class="cta__alt" target="_blank" rel="noopener" hidden>
           Oder schau dir zuerst das Videotraining an →
@@ -307,13 +310,6 @@
       </nav>
     </div>
   </footer>
-
-  <!-- Sticky-CTA fürs Handy -->
-  <div class="sticky-cta" id="stickyCta">
-    <a href="#" id="stickyBtn" class="btn btn--gold" target="_blank" rel="noopener">
-      So funktioniert's <span class="btn__arrow">→</span>
-    </a>
-  </div>
 
   <script src="js/main.js"></script>
 </body>

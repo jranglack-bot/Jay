@@ -62,22 +62,19 @@
     // Link im Hinweis-Banner zeigt sonst ins Leere
     $("#announceLink").hidden = webinarSec.hidden;
 
-    /* Live-Event-Modus: Event steht überall an erster Stelle */
-    const heroBtn = $("#heroFunnel");
-    const heroAlt = $("#heroSecondary");
-    const navBtn = $("#navFunnel");
-    const mobBtn = $("#mobileFunnel");
+    /* Live-Event-Modus: Der Einstieg bleibt die Geschichte, das Event ersetzt
+       nur die Links aufs Videotraining (Hero-Textlink, Navigation, Abschluss) */
+    const heroLink = $("#heroFunnel");
+    const navLink = $("#navFunnel");
+    const mobLink = $("#mobileFunnel");
     const pillText = $("#webinarPillText");
 
     if (c.eventActive) {
-      heroBtn.href = c.webinarUrl;
-      heroBtn.innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow">→</span>';
-      heroAlt.href = FUNNEL_URL;
-      heroAlt.textContent = "Oder zum Videotraining";
-      navBtn.href = c.webinarUrl;
-      navBtn.textContent = "Zum Live-Event";
-      mobBtn.href = c.webinarUrl;
-      mobBtn.textContent = "Zum Live-Event";
+      $("#heroSkipText").textContent = "Gerade steht ein kostenloses Live-Event an.";
+      heroLink.href = c.webinarUrl;
+      heroLink.textContent = "Zur Anmeldung\u00a0→";
+      navLink.href = mobLink.href = c.webinarUrl;
+      navLink.textContent = mobLink.textContent = "Live-Event";
       // Finale CTA unten ebenfalls aufs Live-Event drehen
       $("#ctaFunnel").href = c.webinarUrl;
       $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow">→</span>';
@@ -88,31 +85,18 @@
       // Event-Sektion direkt unter den Hero ziehen
       $("#marquee").after(webinarSec);
     } else {
-      heroBtn.href = FUNNEL_URL;
-      heroBtn.innerHTML = 'So funktioniert\'s <span class="btn__arrow">→</span>';
-      heroAlt.href = "#weg";
-      heroAlt.textContent = "Meine Story";
-      navBtn.href = FUNNEL_URL;
-      navBtn.textContent = "Zum Videotraining";
-      mobBtn.href = FUNNEL_URL;
-      mobBtn.textContent = "Zum Videotraining";
+      $("#heroSkipText").textContent = "Du kennst mich schon?";
+      heroLink.href = FUNNEL_URL;
+      heroLink.textContent = "Direkt zum Videotraining\u00a0→";
+      navLink.href = mobLink.href = FUNNEL_URL;
+      navLink.textContent = mobLink.textContent = "Videotraining";
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = FUNNEL_URL;
-      $("#ctaFunnel").innerHTML = 'Zum Videotraining <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Im Videotraining siehst du, wie das Ganze funktioniert. Danach entscheidest du in Ruhe selbst, ob das was für dich ist.";
+      $("#ctaFunnel").innerHTML = 'Videotraining ansehen <span class="btn__arrow">→</span>';
+      $("#ctaLead").textContent = "Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Schau's dir an, wenn es für dich passt, und entscheide danach in Ruhe selbst.";
       $("#ctaAlt").hidden = true;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)
       document.querySelector(".cta").before(webinarSec);
-    }
-
-    /* Sticky-CTA (Handy) folgt dem aktiven Modus */
-    const stickyBtn = $("#stickyBtn");
-    if (c.eventActive) {
-      stickyBtn.href = c.webinarUrl;
-      stickyBtn.innerHTML = 'Zum Live-Event <span class="btn__arrow">→</span>';
-    } else {
-      stickyBtn.href = FUNNEL_URL;
-      stickyBtn.innerHTML = 'So funktioniert\'s <span class="btn__arrow">→</span>';
     }
 
     /* Extra-Buttons („Mehr von mir") */
@@ -173,19 +157,10 @@
 
   applyConfig(DEFAULTS);
 
-  /* ---------- Nav + Sticky-CTA ---------- */
+  /* ---------- Navigation ---------- */
   const nav = $("#nav");
-  const stickyCta = $("#stickyCta");
-  const footer = document.querySelector(".footer");
   addEventListener("scroll", () => {
     nav.classList.toggle("is-scrolled", scrollY > 40);
-    // Sticky-CTA ausblenden, sobald der Footer sichtbar wird,
-    // damit Impressum & Datenschutz nicht verdeckt werden
-    const footerInView = footer.getBoundingClientRect().top < innerHeight;
-    stickyCta.classList.toggle(
-      "is-visible",
-      scrollY > innerHeight * 0.9 && !footerInView
-    );
   }, { passive: true });
 
   const burger = $("#burger");

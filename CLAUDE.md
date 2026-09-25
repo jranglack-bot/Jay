@@ -37,6 +37,10 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
   Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
+- Einladen statt verkaufen: Einstieg über Julians Geschichte. Das Videotraining
+  erscheint nur als Textlink im Hero, als normaler Link in der Navigation und als
+  Angebot am Ende. Kein goldener Button in der Navigation, kein fixierter
+  Handy-Button, Button-Texte sagen ehrlich, wohin sie führen.
 
 ## Geplant (noch nicht auf die Seite)
 

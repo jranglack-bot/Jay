@@ -149,6 +149,7 @@ h1, h2, h3 {
 .btn--small { font-size: 0.85rem; padding: 0.7em 1.3em; }
 .btn__arrow { transition: transform 0.3s var(--ease-out); }
 .btn:hover .btn__arrow { transform: translateX(5px); }
+.btn:hover .btn__arrow--down { transform: translateY(3px); }
 
 /* ============ Ankündigungs-Banner ============ */
 .announce {
@@ -385,7 +386,16 @@ body.has-announce .nav { top: 42px; }
   margin-bottom: 2em;
 }
 .hero__sub strong, .hero__sub em { color: var(--cream); }
-.hero__actions { display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 3em; }
+.hero__actions { display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 1.4em; }
+/* Dezenter Direktlink für alle, die Julian schon kennen */
+.hero__skip { font-size: 0.95rem; color: var(--cream-dim); }
+.hero__skip a {
+  color: var(--gold-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.3s, border-color 0.3s;
+}
+.hero__skip a:hover { color: var(--gold-bright); border-color: var(--gold); }
 
 .hero__stats {
   display: flex;
@@ -744,26 +754,6 @@ body.has-announce .nav { top: 42px; }
 }
 .extra-link__arrow { color: var(--gold); flex-shrink: 0; }
 
-/* ============ Sticky-CTA (Handy) ============ */
-.sticky-cta {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 40;
-  display: none;
-  padding: 0.7em 1em calc(0.7em + env(safe-area-inset-bottom));
-  background: rgba(22, 22, 22, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--line);
-  transform: translateY(110%);
-  transition: transform 0.45s var(--ease-out);
-}
-.sticky-cta.is-visible { transform: none; }
-.sticky-cta .btn { width: 100%; justify-content: center; }
-@media (max-width: 900px) {
-  .sticky-cta { display: block; }
-}
-
 /* ============ Webinar ============ */
 .webinar { overflow: hidden; }
 .webinar__bg {
@@ -971,7 +961,7 @@ body.has-announce .nav { top: 42px; }
   .hero__title { font-size: clamp(2.6rem, 12vw, 4rem); }
   .hero__stats { gap: 1.6em 2.2em; }
   .hero__scroll { display: none; }
-  .nav__links, .nav__cta { display: none; }
+  .nav__links { display: none; }
   .nav__burger { display: flex; }
   .section { padding: 5em 1.2em; }
   .webinar__card { padding: 2.5em 1.5em; }

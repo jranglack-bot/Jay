@@ -75,6 +75,11 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 
 ## Inhalte ändern
 
+- Domain: **julians-way.net** (Hostinger, Node.js-Web-App, baut automatisch bei
+  jedem Push auf `main`). `og:url` und `og:image` in `index.html` nutzen die volle
+  Adresse; bei einem Domainwechsel dort anpassen. Das Vorschaubild für geteilte
+  Links ist `public/og-image.jpg` (1200 × 630, aus `assets/julian-rooftop-gold.jpg`).
+
 - Webinar-Link, Hinweis-Banner, Live-Event (Datum/Countdown) und Extra-Links:
   Block `DEFAULTS` oben in `public/js/main.js`.
 - Funnel-Link: Konstante `FUNNEL_URL` in `public/js/main.js`.

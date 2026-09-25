@@ -39,9 +39,9 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- Einladen statt verkaufen: Einstieg über Julians Geschichte. Der Hero-Textlink
-  „Direkt zum Videotraining“ springt nur zum Abschluss (`#angebot`), nicht auf
-  die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
+- Einladen statt verkaufen: Einstieg über Julians Geschichte (goldener Button).
+  Der zweite Hero-Button „Direkt zum Videotraining“ (Rahmen, nicht gefüllt)
+  springt nur zum Abschluss (`#angebot`), nicht auf die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
   fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
   leichtere Option gibt es Instagram (@julians.way).
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und

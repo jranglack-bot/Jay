@@ -386,17 +386,7 @@ body.has-announce .nav { top: 42px; }
   margin-bottom: 2em;
 }
 .hero__sub strong, .hero__sub em { color: var(--cream); }
-.hero__actions { display: flex; gap: 1em; flex-wrap: wrap; margin-bottom: 1.4em; }
-/* Dezenter Direktlink für alle, die Julian schon kennen */
-.hero__skip { font-size: 0.95rem; color: var(--cream-dim); }
-.hero__skip a {
-  color: var(--gold-soft);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  transition: color 0.3s, border-color 0.3s;
-}
-.hero__skip a:hover { color: var(--gold-bright); border-color: var(--gold); }
-
+.hero__actions { display: flex; gap: 1em; flex-wrap: wrap; }
 
 .hero__stats {
   display: flex;

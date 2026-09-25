@@ -84,11 +84,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Gespräch, Programm). Fakten von der Funnel-Seite (`FUNNEL_URL`) bzw. aus
   Julians Vault holen, nichts erfinden. Danach die Hero-Buttons prüfen:
   „Erst mal meine Geschichte“ sagt Besuchern noch nicht, was sie davon haben.
-- **Abschnitt „So läuft's bei mir konkret“:** Julians Arbeitsalltag (welche
-  Reels, Zeitaufwand, Keywords und Gratis-Prompts), Kosten des SCB-Programms
-  und, falls Julian das will, eine ehrliche Gesamtrechnung (Zeitraum,
-  Provisionen, Kosten, Zeitaufwand, erster Euro) statt Umsatz-Screenshots.
-  Alles von Julian bestätigen lassen. Offen: Ist Julian auch auf TikTok aktiv?
+- **„So läuft's bei mir konkret“ ist seit 25.09.2026 der Abschnitt `#werte`:** vier
+  Kacheln mit Antworten statt Versprechen, nur Julians eigene Fakten (Reels am Anfang
+  gefloppt, Live-Calls vom Team, erster Umsatz nach einem Monat, circa eine Stunde am
+  Tag, vieles per KI vom Handy, Kids sitzen manchmal daneben). Kacheln, die nur
+  ankündigen („ich sag dir, was klappt“), ohne es zu zeigen, hat Julian abgelehnt.
+  **Nicht zu viel erklären:** Julian: „Wenn man zu viel erklärt, macht man sich
+  angreifbar.“ Darum ist die Frage „Was hast du davon?“ wieder raus.
 
 - **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
   `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event

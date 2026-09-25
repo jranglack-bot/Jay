@@ -49,7 +49,10 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   drei Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
   Julian als Papa mit Job. Abschnitt `#gelernt` („Woher ich das weiß“) sagt klar, dass er
   dieses Wissen im SCB-System gelernt hat; KI ist sein eigener Teil (er betreut im
-  Programm den Bereich KI). Der **Look bleibt** schwarz und gold, weil er so zum
+  Programm den Bereich KI). Oben im Abschnitt steht „Woher ich das weiß.“ groß und fließt
+  beim Scrollen von links herein, „Was mir das SCB-System beigebracht hat“ von rechts
+  (`data-flow`, `.flowhead`); darunter der Kasten „Was ist das SCB-System?“ in drei
+  Sätzen und vier Kacheln in Ich-Form (Julian, 25.09.2026). Der **Look bleibt** schwarz und gold, weil er so zum
   SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.

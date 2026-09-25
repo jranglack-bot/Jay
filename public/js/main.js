@@ -261,6 +261,36 @@
     }, { passive: true });
   }
 
+  /* ---------- Überschriften, die beim Scrollen von der Seite hereinfließen ----------
+     data-flow="left" kommt von links, "right" von rechts. Die Bewegung hängt direkt an
+     der Scrollposition: Oberkante unten im Bild = ganz draußen, bei gut der Hälfte des
+     Bildschirms = an ihrem Platz. Rückwärts scrollen schiebt sie wieder hinaus. */
+  const flows = document.querySelectorAll("[data-flow]");
+  if (flows.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let flowTicking = false;
+    const updateFlows = () => {
+      flowTicking = false;
+      const vh = innerHeight;
+      flows.forEach((el) => {
+        const top = el.getBoundingClientRect().top;
+        const p = Math.min(Math.max((vh - top) / (vh * 0.5), 0), 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const dir = el.dataset.flow === "right" ? 1 : -1;
+        el.style.setProperty("--fx", (dir * (1 - eased) * 70).toFixed(2) + "vw");
+        el.style.setProperty("--fo", (0.1 + 0.9 * eased).toFixed(3));
+      });
+    };
+    const onFlowScroll = () => {
+      if (!flowTicking) {
+        flowTicking = true;
+        requestAnimationFrame(updateFlows);
+      }
+    };
+    addEventListener("scroll", onFlowScroll, { passive: true });
+    addEventListener("resize", onFlowScroll);
+    updateFlows();
+  }
+
   /* ---------- Zusammensetz-Animation (Bildsequenz, scrollgesteuert) ----------
      61 Einzelbilder aus dem Seedance-Video (public/frames/rooftop/) werden auf ein
      Canvas gemalt: weit weg = Scherben, Bildschirmmitte = fertiges Foto,

@@ -715,6 +715,66 @@ body.has-announce .nav { top: 42px; }
 .card h3 { font-size: 1.25rem; margin: 0.7em 0 0.5em; }
 .card p { font-size: 0.98rem; color: var(--cream-dim); }
 
+/* ============ Fließende Überschrift („Woher ich das weiß“) ============
+   Die Zeilen verschiebt js/main.js beim Scrollen über --fx/--fo. Ohne JS oder mit
+   „Bewegung reduzieren“ stehen sie einfach da. overflow: hidden verhindert, dass die
+   von der Seite kommende Zeile die Seite verbreitert. */
+.flowhead {
+  overflow: hidden;
+  margin-bottom: 1.4em;
+  padding: 0.1em 0;
+  text-transform: uppercase;
+}
+.flowhead__big,
+.flowhead__sub {
+  display: block;
+  transform: translateX(var(--fx, 0));
+  opacity: var(--fo, 1);
+  will-change: transform, opacity;
+}
+.flowhead__big {
+  font-size: clamp(3rem, 11vw, 7.5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+}
+.flowhead__sub {
+  margin-top: 0.45em;
+  font-size: clamp(1.5rem, 4.4vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--cream);
+}
+
+/* Kasten „Was ist das SCB-System?“ */
+.whatis {
+  margin-top: 2.2em;
+  max-width: 44em;
+  padding: 1.5em 1.7em;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 12px 12px 0;
+  background: rgba(188, 150, 95, 0.07);
+}
+.whatis__label {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin-bottom: 0.5em;
+}
+.whatis__text { color: var(--cream); font-size: 1.05rem; }
+.learned__label {
+  margin-top: 3.2em;
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#gelernt .values__grid { margin-top: 1.4em; }
+
 /* ============ Leise Werbelinks (nach Geschichte und Zahlen) ============
    Bewusst kein Button: ein Satz, ein unterstrichener Link, der Werbehinweis darunter. */
 .softlink {

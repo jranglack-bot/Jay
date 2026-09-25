@@ -52,6 +52,18 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 
 ## Geplant (noch nicht auf die Seite)
 
+- **Abschnitt „Das Videotraining“ (wichtigste Lücke):** Besucher erfahren auf
+  der Seite nicht, was das Videotraining ist. Vor dem Abschluss (`#angebot`)
+  kurz erklären: Inhalt, Länge, ob kostenlos, was danach passiert (z. B. Quiz,
+  Gespräch, Programm). Fakten von der Funnel-Seite (`FUNNEL_URL`) bzw. aus
+  Julians Vault holen, nichts erfinden. Danach die Hero-Buttons prüfen:
+  „Erst mal meine Geschichte“ sagt Besuchern noch nicht, was sie davon haben.
+- **Abschnitt „So läuft's bei mir konkret“:** Julians Arbeitsalltag (welche
+  Reels, Zeitaufwand, Keywords und Gratis-Prompts), Kosten des SCB-Programms
+  und, falls Julian das will, eine ehrliche Gesamtrechnung (Zeitraum,
+  Provisionen, Kosten, Zeitaufwand, erster Euro) statt Umsatz-Screenshots.
+  Alles von Julian bestätigen lassen. Offen: Ist Julian auch auf TikTok aktiv?
+
 - **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
   `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event wieder
   einschalten (oder `eventActive` mit `eventDate` für den Countdown).

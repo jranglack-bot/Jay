@@ -863,7 +863,7 @@ body.has-announce .nav { top: 42px; }
 .webinar__disclosure {
   margin: 0.9em auto 0;
   max-width: 32em;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--cream-dim);
 }
 .webinar__hint {
@@ -899,20 +899,32 @@ body.has-announce .nav { top: 42px; }
   transition: color 0.3s, border-color 0.3s;
 }
 .cta__alt:hover { color: var(--gold-soft); border-color: var(--gold); }
+/* Werbehinweis: klein und ruhig, aber gut lesbar (muss erkennbar bleiben) */
 .cta__disclosure {
-  margin-top: 1.1em;
+  margin-top: 0.9em;
   max-width: 34em;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: var(--cream-dim);
 }
-.cta__follow { margin-top: 1.6em; font-size: 0.95rem; color: var(--cream-dim); }
-.cta__follow a {
-  color: var(--gold-soft);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  transition: color 0.3s, border-color 0.3s;
+.cta__follow { margin-top: 2em; font-size: 0.95rem; color: var(--cream-dim); }
+/* Instagram-Button mit Glyph (einfarbig, wie es Metas Markenrichtlinien erlauben) */
+.btn--insta {
+  margin-top: 0.3em;
+  font-family: var(--font-body);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.01em;
 }
-.cta__follow a:hover { color: var(--gold-bright); border-color: var(--gold); }
+.btn--insta:hover { border-color: var(--gold); color: var(--cream); }
+.insta-glyph {
+  width: 1.35em;
+  height: 1.35em;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.insta-glyph__dot { fill: currentColor; stroke: none; }
 
 /* ============ Footer ============ */
 .footer {

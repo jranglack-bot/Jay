@@ -24,7 +24,7 @@
   const $ = (sel) => document.querySelector(sel);
 
   /* ---------- Funnel-Links setzen ---------- */
-  ["navFunnel", "mobileFunnel", "heroFunnel", "ctaFunnel"].forEach((id) => {
+  ["heroFunnel", "ctaFunnel"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.href = FUNNEL_URL;
   });
@@ -63,18 +63,14 @@
     $("#announceLink").hidden = webinarSec.hidden;
 
     /* Live-Event-Modus: Der Einstieg bleibt die Geschichte, das Event ersetzt
-       nur die Links aufs Videotraining (Hero-Textlink, Navigation, Abschluss) */
+       nur die Links aufs Videotraining (Hero-Textlink und Abschluss) */
     const heroLink = $("#heroFunnel");
-    const navLink = $("#navFunnel");
-    const mobLink = $("#mobileFunnel");
     const pillText = $("#webinarPillText");
 
     if (c.eventActive) {
       $("#heroSkipText").textContent = "Gerade steht ein kostenloses Live-Event an.";
       heroLink.href = c.webinarUrl;
       heroLink.textContent = "Zur Anmeldung\u00a0→";
-      navLink.href = mobLink.href = c.webinarUrl;
-      navLink.textContent = mobLink.textContent = "Live-Event";
       // Finale CTA unten ebenfalls aufs Live-Event drehen
       $("#ctaFunnel").href = c.webinarUrl;
       $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow">→</span>';
@@ -88,8 +84,6 @@
       $("#heroSkipText").textContent = "Du kennst mich schon?";
       heroLink.href = FUNNEL_URL;
       heroLink.textContent = "Direkt zum Videotraining\u00a0→";
-      navLink.href = mobLink.href = FUNNEL_URL;
-      navLink.textContent = mobLink.textContent = "Videotraining";
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = FUNNEL_URL;
       $("#ctaFunnel").innerHTML = 'Videotraining ansehen <span class="btn__arrow">→</span>';

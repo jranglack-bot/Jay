@@ -40,9 +40,9 @@
       <nav class="nav__links">
         <a href="#gelernt">Woher ich's weiß</a>
         <a href="#weg">Mein Weg</a>
-        <a href="#ergebnisse">Meine Zahlen</a>
-        <a href="#werte">So läuft's</a>
         <a href="#fragen">Fragen</a>
+        <a href="prompts.html">Gratis-Prompts</a>
+        <a href="tools.html">Meine Tools</a>
       </nav>
       <button class="nav__burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
     </div>
@@ -51,9 +51,9 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#gelernt">Woher ich's weiß</a>
     <a href="#weg">Mein Weg</a>
-    <a href="#ergebnisse">Meine Zahlen</a>
-    <a href="#werte">So läuft's</a>
     <a href="#fragen">Fragen</a>
+    <a href="prompts.html">Gratis-Prompts</a>
+    <a href="tools.html">Meine Tools</a>
   </div>
 
   <main id="top">
@@ -71,17 +71,18 @@
           </h1>
           <p class="hero__sub reveal" data-delay="150">
             Auf Instagram zeig ich dir, wie du dort wächst, wie Verkaufen ohne eigenes Produkt
-            geht und welche KI dir dabei Arbeit abnimmt. Hier erfährst du, woher ich das weiß
-            und wer dahintersteckt. Ich bin Papa von zwei Kids, hab einen ganz normalen Job und mach
-            das nebenbei, meistens vom Handy aus.
+            geht und welche KI dir dabei Arbeit abnimmt. Gelernt hab ich das im SCB-System, und
+            im <strong>kostenlosen Videotraining</strong> siehst du, wie es aufgebaut ist. Ich bin
+            Papa von zwei Kids, hab einen ganz normalen Job und mach das nebenbei, meistens vom
+            Handy aus.
           </p>
           <div class="hero__actions reveal" data-delay="250">
-            <a href="#gelernt" class="btn btn--gold btn--magnetic">
-              Woher ich das weiß <span class="btn__arrow btn__arrow--down">↓</span>
+            <!-- Springt zum Angebotskasten direkt unter dem Hero, kein Werbelink -->
+            <a href="#videotraining" id="heroOffer" class="btn btn--gold btn--magnetic">
+              Zum kostenlosen Videotraining <span class="btn__arrow btn__arrow--down">↓</span>
             </a>
-            <!-- Springt nur zum Abschluss auf dieser Seite, kein Werbelink -->
-            <a href="#angebot" id="heroSkipLink" class="btn btn--ghost btn--magnetic">
-              Direkt zum Videotraining <span class="btn__arrow btn__arrow--down">↓</span>
+            <a href="#gelernt" class="btn btn--ghost btn--magnetic">
+              Erst mal wissen, wer ich bin <span class="btn__arrow btn__arrow--down">↓</span>
             </a>
           </div>
         </div>
@@ -93,6 +94,40 @@
         </div>
       </div>
       <a href="#marquee" class="hero__scroll" aria-label="Weiterscrollen"><span></span></a>
+    </section>
+
+    <!-- ============ DAS VIDEOTRAINING (Angebot oben) ============
+         Wer aus der Bio kommt, sieht gleich nach dem ersten Bildschirm, was es gibt und wie
+         es nach dem Klick weitergeht (Julian, 05.10.2026: „wo ist was für mich?“). Erster von
+         zwei Werbelinks, der zweite steht im Abschluss. Fakten: Fragen und Video kostenlos
+         (Julian, 25.09.2026), Ablauf laut Funnel-Seite (FUNNEL_URL). -->
+    <section class="offer section" id="videotraining">
+      <div class="section__inner cta__inner">
+        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>DAS KOSTENLOSE VIDEOTRAINING</p>
+        <h2 class="section__title reveal" data-delay="100">DAS STECKT<br><span class="grad">DAHINTER.</span></h2>
+        <p class="section__lead reveal" data-delay="150">
+          Im Videotraining siehst du das SCB-System, mit dem ich arbeite: wie du auf Instagram
+          Reichweite aufbaust und darüber Produkte empfiehlst, die es schon gibt.
+        </p>
+        <!-- Nächster Schritt vorher ansagen: die Funnel-Seite ist ein Test mit anderem Design,
+             kein Video. So kommt nichts davon überraschend. -->
+        <div class="nextsteps reveal" data-delay="200">
+          <p class="nextsteps__title">So geht's nach dem Klick weiter</p>
+          <ol class="nextsteps__list">
+            <li><span class="nextsteps__num">1</span><span>Ein paar kurze Fragen zum Anklicken</span></li>
+            <li><span class="nextsteps__num">2</span><span>Das Videotraining</span></li>
+            <li><span class="nextsteps__num">3</span><span>Wenn es für dich passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich jemand vom Team an und geht alles in Ruhe mit dir durch.</span></li>
+          </ol>
+          <p class="nextsteps__hint">Die Fragen und das Video sind kostenlos. Die nächste Seite gehört zum Programm, deshalb sieht sie anders aus als meine.</p>
+        </div>
+        <a href="#" id="offerFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="250" target="_blank" rel="noopener">
+          Zu den Fragen und zum Video* <span class="btn__arrow">→</span>
+        </a>
+        <p class="cta__disclosure">
+          *Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.
+        </p>
+        <p class="offer__more">Erst mal wissen, wer ich bin? <a href="#gelernt">Dann lies hier weiter&nbsp;↓</a></p>
+      </div>
     </section>
 
     <!-- ============ MARQUEE ============ -->
@@ -410,17 +445,11 @@
         <p class="section__lead reveal" data-delay="200" id="ctaLead">
           Letztes Jahr hab ich mich noch oft gefragt, wie ich meine Familie über die Runden bringen soll. Heute ist dieser Druck weg. Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite.
         </p>
-        <!-- Nächster Schritt vorher ansagen: die Funnel-Seite ist ein Test mit anderem Design,
-             kein Video. So kommt nichts davon überraschend. -->
-        <div class="nextsteps reveal" data-delay="250" id="ctaSteps">
-          <p class="nextsteps__title">So geht's nach dem Klick weiter</p>
-          <ol class="nextsteps__list">
-            <li><span class="nextsteps__num">1</span><span>Ein paar kurze Fragen zum Anklicken</span></li>
-            <li><span class="nextsteps__num">2</span><span>Das Videotraining</span></li>
-            <li><span class="nextsteps__num">3</span><span>Wenn es für dich passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich jemand vom Team an und geht alles in Ruhe mit dir durch.</span></li>
-          </ol>
-          <p class="nextsteps__hint">Die nächste Seite gehört zum Programm, deshalb sieht sie anders aus als meine.</p>
-        </div>
+        <!-- Die drei Schritte stehen ausführlich im Angebotskasten oben (#videotraining) -->
+        <p class="nextsteps__short reveal" data-delay="250" id="ctaSteps">
+          Nach dem Klick kommen ein paar kurze Fragen und dann das Video. Wenn es für dich passt,
+          kannst du dich danach für ein persönliches Gespräch entscheiden.
+        </p>
         <a href="#" id="ctaFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="300" target="_blank" rel="noopener">
           Zu den Fragen und zum Video* <span class="btn__arrow">→</span>
         </a>
@@ -439,6 +468,7 @@
           </svg>
           @julians.way
         </a>
+        <p class="cta__freebies">Oder hol dir erst mal meine <a href="prompts.html">Gratis-Prompts und Anleitungen</a>.</p>
       </div>
     </section>
 
@@ -450,6 +480,8 @@
       <span class="footer__logo" id="footerLogo">J<i>·</i>W</span>
       <p class="footer__copy">© 2026 JULIANS WAY. Alle Rechte vorbehalten.</p>
       <nav class="footer__links">
+        <a href="prompts.html">Gratis-Prompts</a>
+        <a href="tools.html">Meine Tools</a>
         <a href="https://www.instagram.com/julians.way/" target="_blank" rel="noopener">Instagram</a>
         <a href="impressum.html">Impressum</a>
         <a href="datenschutz.html">Datenschutzerklärung</a>

@@ -66,14 +66,17 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- Einladen statt verkaufen: Einstieg über „Woher ich das weiß“ (goldener Button).
-  Der zweite Hero-Button „Direkt zum Videotraining“ (Rahmen, nicht gefüllt)
-  springt nur zum Abschluss (`#angebot`), nicht auf die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
-  fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
-  leichtere Option gibt es Instagram (@julians.way).
-- **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und
-  Live-Event eine Provision. Werbelinks gibt es nur im Abschluss und im
-  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
+- **Angebot oben (Umbau 05.10.2026, Julian: „wo ist was für mich?“):** Der Hero sagt,
+  dass es ein kostenloses Videotraining gibt. Der goldene Hero-Knopf „Zum kostenlosen
+  Videotraining“ springt zum Angebotskasten `#videotraining` direkt unter dem Hero
+  (was es ist, die drei Schritte, Knopf, Werbehinweis). Der zweite Knopf „Erst mal wissen,
+  wer ich bin“ führt zu `#gelernt`. Gemessen vorher: Knopf zum Funnel auf dem iPhone erst
+  bei Bildschirm 14,8; nachher bei 2,4. Das Videotraining steht nicht in der Navigation,
+  kein fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere
+  Optionen gibt es Instagram (@julians.way) und die Gratis-Prompts.
+- **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining, Live-Event und
+  die Tools eine Provision. Werbelinks gibt es nur im Angebotskasten oben, im Abschluss,
+  im Live-Event-Abschnitt und auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
   Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
   direkt darunter, damit sie vor dem Klick sichtbar ist.
 - **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
@@ -95,13 +98,26 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
   Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
 - Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
-  `utm_content` an (`abschluss`, `abschluss-event`), über `funnelUrl()` in
+  `utm_content` an (`oben`, `abschluss`, `abschluss-event`), über `funnelUrl()` in
   `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
   dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
-- **Reihenfolge (Julian, 25.09.2026):** Hero, „Woher ich das weiß“ (`#gelernt`),
-  Geschichte (`#weg`), Zahlen, „So läuft's bei mir konkret“, Fragen, Abschluss. Die
-  Besucher kommen über ein Thema von @julians.way, deshalb zuerst die Antwort auf
-  „woher weißt du das“, dann die Person. Der goldene Hero-Knopf führt zu `#gelernt`.
+- **Reihenfolge (seit 05.10.2026):** Hero, Angebotskasten (`#videotraining`),
+  „Woher ich das weiß“ (`#gelernt`), Geschichte (`#weg`), Zahlen, „So läuft's bei mir
+  konkret“, Fragen, Abschluss (`#angebot`, drei Schritte dort nur als ein Satz). Im
+  Live-Event-Modus ersetzt der Event-Abschnitt den Angebotskasten an derselben Stelle.
+
+## Unterseiten (seit 05.10.2026)
+
+- `prompts.html` „Gratis-Prompts & Anleitungen“: die Freebies aus dem Drive-Ordner
+  „Freebies julians.way“ zum direkten Öffnen (Google-Drive-Links, Freigabe „jeder mit
+  Link“), gruppiert nach „Prompts“ und „Content & Reels“. Jedes PDF vor dem Aufnehmen
+  lesen: keine Einkommensversprechen, keine riskanten Tipps. Welche zurückgehalten sind
+  und warum, steht als Kommentar in der Datei.
+- `tools.html` „Meine Tools“: nur Tools, deren Einsatz in Julians eigenen Unterlagen
+  belegt ist, mit seinem Werbelink aus dem Drive-Dokument „Affiliate Links“. Hinweiskasten
+  vor dem ersten Link, Sternchen und „*Werbelink“ an jedem Knopf, `rel="sponsored"`.
+- Beide stehen in `vite.config.js`, in der Navigation der Startseite und im Footer.
+  Unterseiten laden kein `js/main.js`, deshalb dort keine `.reveal`-Klassen verwenden.
 
 ## Geplant (noch nicht auf die Seite)
 

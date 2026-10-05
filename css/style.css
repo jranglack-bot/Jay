@@ -866,6 +866,25 @@ body.has-announce .nav { top: 42px; }
   margin-top: 0.05em;
 }
 .nextsteps__hint { margin-top: 1em; font-size: 0.85rem; color: var(--cream-dim); }
+/* Kurzfassung im Abschluss, die ausführlichen Schritte stehen oben im Angebotskasten */
+.nextsteps__short { max-width: 32em; margin: 0 auto 1.6em; font-size: 0.95rem; color: var(--cream-dim); }
+
+/* ============ Angebot oben (#videotraining) ============ */
+.offer {
+  background:
+    radial-gradient(800px 400px at 50% 0%, rgba(188, 150, 95, 0.12), transparent 70%),
+    var(--bg-deep);
+  text-align: center;
+}
+.offer .section__lead { margin-bottom: 1.8em; }
+.offer__more, .cta__freebies { margin-top: 1.6em; font-size: 0.95rem; color: var(--cream-dim); }
+.offer__more a, .cta__freebies a {
+  color: var(--gold-soft);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.3s, border-color 0.3s;
+}
+.offer__more a:hover, .cta__freebies a:hover { color: var(--gold-bright); border-color: var(--gold); }
 
 /* ============ Extra-Links („Mehr von mir") ============ */
 .extras__grid {
@@ -1169,4 +1188,90 @@ body.has-announce .nav { top: 42px; }
   }
   html { scroll-behavior: auto; }
   .reveal, .reveal-img { opacity: 1; transform: none; clip-path: none; }
+}
+
+/* ============ Unterseiten: Gratis-Prompts und Meine Tools ============ */
+.subnav { display: flex; gap: 1.8em; }
+.subnav a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+.subnav a:hover, .subnav a[aria-current="page"] { color: var(--gold-soft); }
+.sub-intro { padding: 9em 1.5em 1.5em; }
+.sub-follow {
+  margin-top: 1.8em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8em 1.4em;
+  color: var(--cream-dim);
+}
+.sub-group { padding: 2.5em 1.5em; }
+.sub-group__title {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.3em;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+}
+.pdf-grid, .tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.2em;
+}
+.pdf-card, .tool-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  padding: 1.6em 1.5em;
+  background: var(--bg-card);
+  border: 1px solid rgba(239, 239, 229, 0.06);
+  border-radius: 14px;
+  transition: border-color 0.3s, transform 0.3s var(--ease-out);
+}
+.pdf-card:hover, .tool-card:hover { border-color: var(--line); transform: translateY(-3px); }
+.pdf-card h3, .tool-card h3 { font-size: 1.15rem; line-height: 1.25; }
+.pdf-card p, .tool-card p { font-size: 0.95rem; color: var(--cream-dim); }
+.pdf-card p { flex: 1; }
+.pdf-card__link {
+  align-self: flex-start;
+  margin-top: 0.3em;
+  color: var(--gold-soft);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: color 0.3s, border-color 0.3s;
+}
+.pdf-card__link:hover { color: var(--gold-bright); border-color: var(--gold); }
+.tool-card__kind {
+  font-family: var(--font-head);
+  font-size: 0.78rem !important;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold) !important;
+}
+.tool-card > p:nth-of-type(2) { flex: 1; }
+.tool-card .btn { align-self: flex-start; margin-top: 0.4em; }
+.tool-card__note { font-size: 0.75rem !important; }
+.disclosure-box {
+  max-width: 46em;
+  margin-top: 1.6em;
+  padding: 1em 1.3em;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: var(--cream-dim);
+}
+.sub-note { max-width: 46em; margin-top: 2em; font-size: 0.85rem; color: var(--cream-dim); }
+.sub-end { padding: 2em 1.5em 6em; }
+@media (max-width: 900px) {
+  /* Handy: nur der Weg zurück, die Unterseiten stehen im Footer und auf der Startseite */
+  .subnav a:not(.subnav__home) { display: none; }
+  .sub-intro { padding-top: 7em; }
 }

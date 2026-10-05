@@ -15,19 +15,50 @@
     note: "",
     noteActive: false,
     eventActive: false,
+    // Startzeit IMMER mit Zeitzone eintragen, sonst rechnet jeder Besucher in seiner
+    // eigenen: Sommerzeit "+02:00", Winterzeit "+01:00" (Umstellung am 25.10.2026).
+    // Beispiel: "2026-11-05T19:00:00+01:00"
     eventDate: "",
+    // Nach Start + Dauer gilt das Event als vorbei, die Seite schaltet von selbst zurück.
+    eventDurationMin: 120,
     links: [],
   };
   const FUNNEL_URL =
     "https://julians-way.de/videotraining/?utm_source=instagram&utm_medium=bio&utm_campaign=julians-way";
+  // Eigener utm_content je Knopf: zeigt in der Auswertung des Funnels, welcher Knopf
+  // die Anmeldungen bringt (abschluss, abschluss-via-gelernt, abschluss-via-zahlen, abschluss-event).
+  const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
+
+  /* ---------- Leise Links in der Mitte ----------
+     Sie springen zum Abschluss (#angebot), damit jeder vor dem Klick nach draußen die
+     drei Schritte sieht. Welcher leise Link benutzt wurde, landet trotzdem in der
+     Auswertung: als utm_content des Abschluss-Knopfs, z. B. "abschluss-via-zahlen". */
+  document.querySelectorAll("[data-jump]").forEach((a) => {
+    a.addEventListener("click", () => {
+      const cta = $("#ctaFunnel");
+      if (cta.href.startsWith(FUNNEL_URL)) cta.href = funnelUrl("abschluss-via-" + a.dataset.jump);
+    });
+  });
 
   /* ---------- Live-Event-Konfiguration anwenden ---------- */
   let cdTimer = null;
 
+  // "Donnerstag, 5. November, 19:00 Uhr", immer in deutscher Zeit
+  function formatEventDate(ms) {
+    const tz = { timeZone: "Europe/Berlin" };
+    const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "long", day: "numeric", month: "long" }).format(ms);
+    const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "2-digit", minute: "2-digit" }).format(ms);
+    return tag + ", " + zeit + " Uhr";
+  }
+
   function applyConfig(cfg) {
     const c = { ...DEFAULTS, ...cfg };
+    const eventStart = c.eventActive && c.eventDate ? new Date(c.eventDate).getTime() : NaN;
+    const eventEnd = eventStart + (Number(c.eventDurationMin) || 120) * 6e4;
+    // Vorbei ist vorbei: kein Countdown und kein „WIR SIND LIVE“ nach dem Event
+    if (!isNaN(eventStart) && Date.now() >= eventEnd) c.eventActive = false;
     const webinarBtn = $("#webinarBtn");
     webinarBtn.href = c.webinarUrl;
 
@@ -57,8 +88,9 @@
     $("#announceLink").hidden = webinarSec.hidden;
 
     /* Live-Event-Modus: Der Einstieg bleibt die Geschichte. Der zweite
-       Hero-Button springt nur innerhalb der Seite; Werbelinks gibt es nur beim Event und
-       im Abschluss, jeweils mit Sternchen und Erklärung direkt darunter. */
+       Hero-Button springt nur innerhalb der Seite. Werbelinks gibt es nur beim Event und im
+       Abschluss, jeweils mit Sternchen und Erklärung direkt darunter. Die leisen Links in
+       der Mitte springen zum Abschluss. */
     const heroLink = $("#heroSkipLink");
     const pillText = $("#webinarPillText");
 
@@ -69,8 +101,10 @@
       $("#ctaFunnel").href = c.webinarUrl;
       $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event* <span class="btn__arrow">→</span>';
       $("#ctaLead").textContent = "Das nächste Live-Event steht an. Dort siehst du live, wie das System funktioniert, und kannst deine Fragen direkt stellen.";
+      // Die drei Schritte beschreiben den Funnel, nicht das Event
+      $("#ctaSteps").hidden = true;
       const ctaAlt = $("#ctaAlt");
-      ctaAlt.href = FUNNEL_URL;
+      ctaAlt.href = funnelUrl("abschluss-event");
       ctaAlt.hidden = false;
       // Event-Sektion direkt unter den Hero ziehen
       $("#marquee").after(webinarSec);
@@ -78,9 +112,10 @@
       heroLink.href = "#angebot";
       heroLink.innerHTML = 'Direkt zum Videotraining <span class="btn__arrow btn__arrow--down">↓</span>';
       // Finale CTA unten zurück aufs Videotraining
-      $("#ctaFunnel").href = FUNNEL_URL;
-      $("#ctaFunnel").innerHTML = 'Videotraining ansehen* <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Wenn du nach meiner Geschichte neugierig geworden bist, zeigt dir das Videotraining, wie das System funktioniert, mit dem ich arbeite. Schau's dir an, wenn es für dich passt, und entscheide danach in Ruhe selbst.";
+      $("#ctaFunnel").href = funnelUrl("abschluss");
+      $("#ctaFunnel").innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
+      $("#ctaLead").textContent = "Letztes Jahr hab ich mich noch oft gefragt, wie ich meine Familie über die Runden bringen soll. Heute ist dieser Druck weg. Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite.";
+      $("#ctaSteps").hidden = false;
       $("#ctaAlt").hidden = true;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)
       document.querySelector(".cta").before(webinarSec);
@@ -112,17 +147,26 @@
     /* Countdown */
     clearInterval(cdTimer);
     const cd = $("#countdown");
-    const target = c.eventActive && c.eventDate ? new Date(c.eventDate).getTime() : NaN;
+    const when = $("#eventWhen");
+    const target = c.eventActive ? eventStart : NaN;
+    when.hidden = isNaN(target);
     if (!isNaN(target)) {
+      when.textContent = formatEventDate(target);
       const pad = (n) => String(n).padStart(2, "0");
       const tick = () => {
-        const diff = target - Date.now();
+        const now = Date.now();
+        if (now >= eventEnd) {
+          // Event vorbei: Seite zurück in den Normalzustand
+          clearInterval(cdTimer);
+          applyConfig({ ...cfg, eventActive: false });
+          return;
+        }
+        const diff = target - now;
         if (diff <= 0) {
-          // Das Event läuft gerade
+          // Das Event läuft gerade (weiter ticken, damit das Ende erkannt wird)
           cd.hidden = true;
           pillText.textContent = "WIR SIND LIVE";
           webinarBtn.innerHTML = 'Jetzt live dazukommen* <span class="btn__arrow">→</span>';
-          clearInterval(cdTimer);
           return;
         }
         cd.hidden = false;
@@ -215,6 +259,36 @@
       const progress = Math.min(Math.max((vh * 0.75 - r.top) / r.height, 0), 1);
       tlLine.style.setProperty("--progress", progress.toFixed(3));
     }, { passive: true });
+  }
+
+  /* ---------- Überschriften, die beim Scrollen von der Seite hereinfließen ----------
+     data-flow="left" kommt von links, "right" von rechts. Die Bewegung hängt direkt an
+     der Scrollposition: Oberkante unten im Bild = ganz draußen, bei gut der Hälfte des
+     Bildschirms = an ihrem Platz. Rückwärts scrollen schiebt sie wieder hinaus. */
+  const flows = document.querySelectorAll("[data-flow]");
+  if (flows.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let flowTicking = false;
+    const updateFlows = () => {
+      flowTicking = false;
+      const vh = innerHeight;
+      flows.forEach((el) => {
+        const top = el.getBoundingClientRect().top;
+        const p = Math.min(Math.max((vh - top) / (vh * 0.5), 0), 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const dir = el.dataset.flow === "right" ? 1 : -1;
+        el.style.setProperty("--fx", (dir * (1 - eased) * 70).toFixed(2) + "vw");
+        el.style.setProperty("--fo", (0.1 + 0.9 * eased).toFixed(3));
+      });
+    };
+    const onFlowScroll = () => {
+      if (!flowTicking) {
+        flowTicking = true;
+        requestAnimationFrame(updateFlows);
+      }
+    };
+    addEventListener("scroll", onFlowScroll, { passive: true });
+    addEventListener("resize", onFlowScroll);
+    updateFlows();
   }
 
   /* ---------- Zusammensetz-Animation (Bildsequenz, scrollgesteuert) ----------

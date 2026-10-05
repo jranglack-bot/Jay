@@ -17,6 +17,10 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   sonst fehlt sie im Build. Neue Seite = dort eintragen.
 - `js/main.js` liegt unter `public/js/` (klassisches Skript ohne `type="module"`,
   Vite kopiert `public/` 1:1). Nicht nach `js/` zurückverschieben.
+- Hostinger liefert Dateien aus `public/` mit 7 Tagen Browser-Cache aus. Deshalb hängt
+  das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an `js/main.js`,
+  sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
+  entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 3 HTML-Seiten,
   `js/main.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen immer
   bauen und prüfen.
@@ -37,18 +41,67 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
   Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
+- **Texte (neu geschrieben 25.09.2026 nach Recherche):** Verbindlich sind Julians
+  Regeln im Vault `Claude Gehirn\00 Kontext\Schreibstil.md`, `Schmerzpunkte.md`,
+  `ICP.md` und `Über Mich.md` (Fakten). Kurz: konkrete Szenen und Zahlen statt
+  Schlagworten, fröhlich und selbstironisch statt schwer, ganze Sätze, keine
+  Dreierreihen, kein „Kein X, kein Y“. Nicht verwenden: „ehrlich“ (so nennen sich
+  die Spam-Testberichte), „Hamsterrad“, „mehr Zeit für die Familie“, „ohne
+  Vorerfahrung“ und ähnliche Wörter, die die Konkurrenzseiten wortgleich benutzen.
+  Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
+- **Story-Fakten** (Geldsorgen 2025, Satz seiner Frau, erster Verkauf nach einem Monat,
+  Augenzucken weg, Schuhe ohne Blick aufs Konto) stehen im Vault `Über Mich.md`,
+  „Nachtrag 25.09.2026“. Das neue Auto bewusst nicht auf die Seite (Coach-Optik), nie
+  „Geld verdienen, ohne was zu tun“. Hinweise „kein Versprechen“ nur an zwei Stellen
+  (Kapitel „Heute“ und Zahlen), jeder weitere kühlt die Emotion ab. Direkt vor dem
+  Abschluss-Knopf steht das Echo „Letztes Jahr … Heute ist dieser Druck weg.“
+- **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Hero und Laufband nennen die
+  drei Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
+  Julian als Papa mit Job. Abschnitt `#gelernt` („Woher ich das weiß“) sagt klar, dass er
+  dieses Wissen im SCB-System gelernt hat; KI ist sein eigener Teil (er betreut im
+  Programm den Bereich KI). Oben im Abschnitt steht „Woher ich das weiß.“ groß und fließt
+  beim Scrollen von links herein, „Was mir das SCB-System beigebracht hat“ von rechts
+  (`data-flow`, `.flowhead`); darunter der Kasten „Was ist das SCB-System?“ in drei
+  Sätzen und vier Kacheln in Ich-Form (Julian, 25.09.2026). Der **Look bleibt** schwarz und gold, weil er so zum
+  SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- Einladen statt verkaufen: Einstieg über Julians Geschichte (goldener Button).
+- Einladen statt verkaufen: Einstieg über „Woher ich das weiß“ (goldener Button).
   Der zweite Hero-Button „Direkt zum Videotraining“ (Rahmen, nicht gefüllt)
   springt nur zum Abschluss (`#angebot`), nicht auf die externe Seite. Das Videotraining steht nicht in der Navigation. Kein
   fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als
   leichtere Option gibt es Instagram (@julians.way).
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining und
   Live-Event eine Provision. Werbelinks gibt es nur im Abschluss und im
-  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung
-  („*Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine
-  Provision.“) steht direkt darunter, damit sie vor dem Klick sichtbar ist.
+  Live-Event-Abschnitt. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
+  Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
+  direkt darunter, damit sie vor dem Klick sichtbar ist.
+- **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
+  den Zahlen springen zum Abschluss (`#angebot`, `data-jump`), nicht nach draußen.
+  So sieht jeder vor dem Klick die drei Schritte, und „Werbung“ steht nur einmal da;
+  dreimal derselbe Werbelink wirkte wie eine Verkaufsseite (Julian, 25.09.2026).
+  Mehr leise Links nicht ohne Julian.
+- **Der Funnel ist ein Test, kein Video.** `FUNNEL_URL` führt auf einen Eignungstest
+  (ein paar Klickfragen, anderes Design, danach das Video, bei Eignung ein Anruf).
+  Das wird vor dem Klick angesagt (`#ctaSteps`, Linktext „Zu den Fragen und zum
+  Video*“). Nie einen Knopftext versprechen, der nur „Video“ sagt.
+- **Fragen-Abschnitt (`#fragen`):** nur Hürden, die der Besucher bei sich selbst
+  sieht (Zeit, Gesicht, Vorwissen, Kosten, Anruf). Keine Antworten auf Vorwürfe
+  gegen Julian oder das Modell (Schneeball, Network Marketing, „ist das seriös“),
+  das hat Julian für allen öffentlichen Content ausgeschlossen. Preis: nie einen
+  Betrag nennen und nicht betonen („Das Programm kostet Geld“ fand Julian
+  schlecht). Das Gespräch ist eine Entscheidung des Besuchers: „Wenn es für dich
+  passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich
+  jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
+  Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
+- Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
+  `utm_content` an (`abschluss`, `abschluss-event`), über `funnelUrl()` in
+  `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
+  dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
+- **Reihenfolge (Julian, 25.09.2026):** Hero, „Woher ich das weiß“ (`#gelernt`),
+  Geschichte (`#weg`), Zahlen, „So läuft's bei mir konkret“, Fragen, Abschluss. Die
+  Besucher kommen über ein Thema von @julians.way, deshalb zuerst die Antwort auf
+  „woher weißt du das“, dann die Person. Der goldene Hero-Knopf führt zu `#gelernt`.
 
 ## Geplant (noch nicht auf die Seite)
 
@@ -58,15 +111,21 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Gespräch, Programm). Fakten von der Funnel-Seite (`FUNNEL_URL`) bzw. aus
   Julians Vault holen, nichts erfinden. Danach die Hero-Buttons prüfen:
   „Erst mal meine Geschichte“ sagt Besuchern noch nicht, was sie davon haben.
-- **Abschnitt „So läuft's bei mir konkret“:** Julians Arbeitsalltag (welche
-  Reels, Zeitaufwand, Keywords und Gratis-Prompts), Kosten des SCB-Programms
-  und, falls Julian das will, eine ehrliche Gesamtrechnung (Zeitraum,
-  Provisionen, Kosten, Zeitaufwand, erster Euro) statt Umsatz-Screenshots.
-  Alles von Julian bestätigen lassen. Offen: Ist Julian auch auf TikTok aktiv?
+- **„So läuft's bei mir konkret“ ist seit 25.09.2026 der Abschnitt `#werte`:** vier
+  Kacheln mit Antworten statt Versprechen, nur Julians eigene Fakten (Reels am Anfang
+  gefloppt, Live-Calls vom Team, erster Umsatz nach einem Monat, circa eine Stunde am
+  Tag, vieles per KI vom Handy, Kids sitzen manchmal daneben). Kacheln, die nur
+  ankündigen („ich sag dir, was klappt“), ohne es zu zeigen, hat Julian abgelehnt.
+  **Nicht zu viel erklären:** Julian: „Wenn man zu viel erklärt, macht man sich
+  angreifbar.“ Darum ist die Frage „Was hast du davon?“ wieder raus.
 
 - **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
-  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event wieder
-  einschalten (oder `eventActive` mit `eventDate` für den Countdown).
+  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event
+  `eventActive: true`, `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00`
+  Winterzeit) und `eventDurationMin` setzen. Dann zeigt die Seite Datum in Worten und
+  Countdown, während des Events „WIR SIND LIVE“, und nach Start + Dauer schaltet sie
+  von selbst zurück. Nur echte Termine, nie einen Timer, der neu startet oder immer
+  „morgen“ ist (irreführende Verknappung, UWG).
 - **Claude-Code-Kurs:** Julian erstellt gerade einen Kurs zu Claude Code, der
   später auf der Seite eingebunden werden soll. Erst einbauen, wenn Julian es sagt.
 - **Persönliche Webseiten:** Links zu Julians weiteren Seiten fehlen noch
@@ -77,12 +136,16 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 
 - Domain: **julians-way.net** (Hostinger, Node.js-Web-App, baut automatisch bei
   jedem Push auf `main`). `og:url` und `og:image` in `index.html` nutzen die volle
-  Adresse; bei einem Domainwechsel dort anpassen. Das Vorschaubild für geteilte
-  Links ist `public/og-image.jpg` (1200 × 630, aus `assets/julian-rooftop-gold.jpg`).
+  Adresse; bei einem Domainwechsel dort anpassen.
 
 - Webinar-Link, Hinweis-Banner, Live-Event (Datum/Countdown) und Extra-Links:
   Block `DEFAULTS` oben in `public/js/main.js`.
 - Funnel-Link: Konstante `FUNNEL_URL` in `public/js/main.js`.
+- Vorschaubild für geteilte Links: `public/og-bild.jpg` (1200 × 630), im `<head>`
+  absolut verlinkt. Bilder unter `assets/` taugen dafür nicht, sie bekommen beim
+  Build einen Hash im Namen.
+- Lokale Vorschau: Eintrag `julians-way-net` in `D:\Instagram Content\.claude\launch.json`
+  (Vite auf Port 5183).
 - Es gibt kein Admin-Cockpit und kein Backend (früher Netlify-Funktion, bei
   Hostinger nicht verfügbar) – Änderungen laufen über den Code.
 - Datenschutz nennt Hostinger als Hoster; bei neuen Diensten (Tracking, Formulare,

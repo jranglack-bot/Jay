@@ -493,6 +493,21 @@ body.has-announce .nav { top: 42px; }
 }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(-50%); } }
+/* Mit Skript folgt das Laufband dem Scrollen (js/main.js) */
+.marquee.is-js .marquee__track { animation: none; will-change: transform; }
+
+/* ============ Lesefortschritt (alle Seiten, per Skript eingefügt) ============ */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 70;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright), var(--gold-soft));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(236, 167, 20, 0.45);
+}
 
 /* ============ Sections (allgemein) ============ */
 .section { padding: 7em 1.5em; position: relative; }
@@ -510,6 +525,346 @@ body.has-announce .nav { top: 42px; }
   font-size: 1.15rem;
   color: var(--cream-dim);
   max-width: 38em;
+}
+
+/* ============ So ist ein Reel aufgebaut (Explosionszeichnung) ============
+   Ohne Skript zeigen die Startwerte unten das fertige, zerlegte Bild. Mit Skript
+   (.is-live) wird der Abschnitt hoch, der Inhalt bleibt kleben, und js/main.js setzt die
+   Variablen je nach Scrollposition: --m Symbol → Handy, --rx/--rz Kippen, --gap Abstand
+   der Ebenen, --e Zerlegung, --in je Ebene Einblenden. */
+.explode {
+  --pw: clamp(140px, min(25vh, 42vw), 230px); /* Breite des Handys */
+  --ph: calc(var(--pw) * 2);
+  --m: 1;
+  --e: 1;
+  --rx: 56deg;
+  --rz: -36deg;
+  --gap: calc(var(--pw) * 0.3);
+  --fw: var(--pw);
+  --fh: var(--ph);
+  --fr: calc(var(--pw) * 0.16);
+  --fs: 2.5px;
+  --lw: calc(var(--pw) * 0.3);
+  --lh: calc(var(--pw) * 0.075);
+  --lt: calc(var(--pw) * 0.05);
+  --ls: 1.5px;
+  --dd: 0px;
+  --dr: 0px;
+  position: relative;
+  /* clip statt hidden: schneidet den Lichtschein ab, ohne das Kleben (sticky) zu stören */
+  overflow-x: clip;
+  background: var(--bg);
+}
+.explode__sticky {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 7em 1.5em 3em;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-areas: "head stage" "legend stage";
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 3em;
+  align-items: start;
+}
+.explode__head { grid-area: head; align-self: end; }
+.explode__head .section__title { margin-bottom: 0.3em; }
+.explode__hint {
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: none;
+}
+.explode__hint::after {
+  content: "↓";
+  display: inline-block;
+  margin-left: 0.6em;
+  animation: hintBob 1.6s ease-in-out infinite;
+}
+@keyframes hintBob { 50% { transform: translateY(5px); } }
+.explode__stage {
+  grid-area: stage;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--pw) * 2.9);
+}
+.explode__after { padding: 1em 1.5em 6em; background: var(--bg); }
+.explode__after .softlink { margin-top: 0; }
+
+/* Legende: breit als Liste neben dem Handy, schmal immer nur der aktive Punkt */
+.ex__legend {
+  grid-area: legend;
+  list-style: none;
+  margin-top: 2em;
+  display: grid;
+  gap: 1.1em;
+  max-width: 26em;
+}
+.ex__legend li {
+  display: flex;
+  gap: 1em;
+  align-items: flex-start;
+  line-height: 1.5;
+  color: var(--cream-dim);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), color 0.4s;
+}
+.ex__legend strong {
+  display: block;
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.ex__n {
+  flex-shrink: 0;
+  width: 1.9em; height: 1.9em;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  color: var(--gold-soft);
+  transition: background 0.4s, color 0.4s, box-shadow 0.4s;
+}
+
+/* Bühne mit Tiefe */
+.ex {
+  position: relative;
+  width: var(--pw);
+  height: var(--ph);
+  perspective: 1500px;
+  perspective-origin: 50% 40%;
+}
+.ex__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* nie breiter als der Bildschirm (ältere iPhones kennen overflow-x: clip nicht) */
+  width: min(calc(var(--pw) * 3.4), 100vw);
+  height: min(calc(var(--pw) * 3.4), 100vw);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(236, 167, 20, 0.15), rgba(214, 164, 70, 0.09) 25%, rgba(188, 150, 95, 0.05) 45%, rgba(188, 150, 95, 0.025) 65%, rgba(188, 150, 95, 0.01) 82%, transparent);
+  animation: exBreath 7s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes exBreath {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.92); opacity: 0.75; }
+  50% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+/* Schwebt immer ein wenig, auch wenn niemand scrollt */
+.ex__float {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: exFloat 6.5s ease-in-out infinite;
+}
+@keyframes exFloat {
+  0%, 100% { transform: translate3d(0, -7px, 0); }
+  50% { transform: translate3d(0, 7px, 0); }
+}
+.ex__rig {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateZ(var(--rz));
+}
+.ex__layer {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--off) * var(--gap)));
+}
+
+/* Gehäuse: Rahmen mit goldenem Verlauf, Linse, Punkt (= Instagram-Symbol) */
+.ex__frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--fw);
+  height: var(--fh);
+  border-radius: var(--fr);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 18px rgba(236, 167, 20, 0.18));
+}
+.ex__frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: var(--fs);
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright) 35%, var(--gold) 65%, var(--gold-soft));
+  background-size: 220% 220%;
+  animation: exShine 6s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+@keyframes exShine { to { background-position: 220% 220%; } }
+.ex__lens {
+  position: absolute;
+  left: 50%;
+  top: var(--lt);
+  width: var(--lw);
+  height: var(--lh);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  border: var(--ls) solid #d6aa5c;
+  background: rgba(8, 8, 8, var(--m));
+}
+.ex__dot {
+  position: absolute;
+  top: var(--dr);
+  right: var(--dr);
+  width: var(--dd);
+  height: var(--dd);
+  border-radius: 50%;
+  background: var(--gold-soft);
+  opacity: calc(1 - var(--m) * 2.5);
+  animation: exPulse 2.4s ease-in-out infinite;
+}
+@keyframes exPulse { 50% { box-shadow: 0 0 0 6px rgba(231, 191, 107, 0.15); } }
+
+/* Ebenen: jede eine Glasscheibe in Größe des Bildschirms */
+.ex__plane {
+  position: absolute;
+  inset: 3.2% 4.5%;
+  border-radius: calc(var(--pw) * 0.1);
+  opacity: var(--in, 1);
+  transform: scale(calc(0.94 + 0.06 * var(--in, 1)));
+  transition: box-shadow 0.4s;
+}
+.ex__plane::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(231, 191, 107, 0.45);
+  background: linear-gradient(160deg, rgba(239, 239, 229, 0.07), rgba(239, 239, 229, 0.015));
+  opacity: var(--e);
+  transition: border-color 0.4s, background 0.4s;
+}
+.ex__plane--video { overflow: hidden; background: #0d0d0d; }
+.ex__plane--video::before { z-index: 1; background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.55)); }
+.ex__plane--video img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+
+/* Inhalte der Ebenen: Platzhalter-Zeilen statt echter Schrift */
+.ex__part { position: absolute; display: flex; flex-direction: column; align-items: center; }
+.ex__part b { display: block; border-radius: 999px; }
+.ex__part--first { top: 8%; left: 8%; right: 8%; gap: calc(var(--pw) * 0.025); }
+.ex__part--first b { height: calc(var(--pw) * 0.055); width: 92%; background: var(--cream); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35); }
+.ex__part--first b + b { width: 66%; }
+.ex__part--second { top: 24%; left: 14%; right: 14%; }
+.ex__part--second b { height: calc(var(--pw) * 0.034); width: 100%; background: rgba(239, 239, 229, 0.8); }
+.ex__part--box {
+  top: 44%; left: 15%; right: 15%;
+  gap: calc(var(--pw) * 0.022);
+  padding: calc(var(--pw) * 0.045) calc(var(--pw) * 0.05);
+  border-radius: calc(var(--pw) * 0.035);
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+.ex__part--box b { height: calc(var(--pw) * 0.03); width: 100%; background: #1a1508; }
+.ex__part--box b + b { width: 62%; }
+.ex__part--caption { left: 7%; right: 24%; bottom: 7%; align-items: flex-start; gap: calc(var(--pw) * 0.025); }
+.ex__part--caption b { height: calc(var(--pw) * 0.024); width: 100%; background: rgba(239, 239, 229, 0.75); }
+.ex__part--caption b + b { width: 72%; }
+.ex__who { display: flex; align-items: center; gap: calc(var(--pw) * 0.03); }
+.ex__avatar {
+  width: calc(var(--pw) * 0.09); height: calc(var(--pw) * 0.09);
+  border-radius: 50%;
+  border: 1.5px solid var(--gold-soft);
+  background: radial-gradient(circle at 50% 38%, var(--gold-soft) 0 22%, transparent 24%), #2a2418;
+}
+.ex__handle { font-family: var(--font-body); font-weight: 700; font-size: calc(var(--pw) * 0.055); color: var(--cream); white-space: nowrap; }
+.ex__part--icons { right: 5%; bottom: 10%; gap: calc(var(--pw) * 0.06); }
+.ex__part--icons i {
+  width: calc(var(--pw) * 0.075); height: calc(var(--pw) * 0.075);
+  border: 1.5px solid var(--cream);
+  border-radius: 50%;
+}
+.ex__part--icons i:first-child { border-color: var(--gold-bright); background: rgba(236, 167, 20, 0.35); }
+.ex__part--cta {
+  left: 7%; right: 24%; bottom: 25%;
+  flex-direction: row;
+  justify-content: center;
+  gap: calc(var(--pw) * 0.03);
+  padding: calc(var(--pw) * 0.035) calc(var(--pw) * 0.04);
+  border-radius: 999px;
+  border: 1.5px solid var(--gold-bright);
+  background: rgba(22, 18, 10, 0.75);
+}
+.ex__part--cta b { height: calc(var(--pw) * 0.028); width: 38%; background: var(--gold-bright); }
+.ex__part--cta b + b { width: 26%; background: var(--cream); }
+
+/* Nummern an den Ebenen, immer zum Betrachter gedreht */
+.ex__layer[data-n]::after {
+  content: attr(data-n);
+  position: absolute;
+  left: 0;
+  top: 11%;
+  width: 26px; height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: var(--bg);
+  font-family: var(--font-head);
+  font-size: 13px;
+  color: var(--gold-soft);
+  opacity: var(--e);
+  transform: translate(-75%, -50%) rotateZ(calc(var(--rz) * -1)) rotateX(calc(var(--rx) * -1));
+  transition: background 0.4s, color 0.4s, box-shadow 0.4s;
+}
+
+/* Aktive Ebene leuchtet, die Nummer in der Legende auch */
+.ex__layer.is-active .ex__plane { box-shadow: 0 0 40px rgba(236, 167, 20, 0.28); }
+.ex__layer.is-active .ex__plane::before { border-color: var(--gold-bright); background: linear-gradient(160deg, rgba(236, 167, 20, 0.16), rgba(236, 167, 20, 0.03)); }
+.ex__layer.is-active::after { background: var(--gold-bright); color: #1a1508; }
+.ex__legend li.is-active .ex__n { background: var(--gold-bright); color: #1a1508; box-shadow: 0 0 18px rgba(236, 167, 20, 0.5); }
+.ex__legend li.is-active { color: var(--cream); }
+
+/* Mit Skript: Abschnitt wird hoch, Inhalt bleibt kleben */
+.explode.is-live { height: 380vh; }
+.explode.is-live .explode__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 6em;
+  padding-bottom: 2em;
+}
+.explode.is-live .explode__hint { display: block; opacity: calc(1 - var(--hint-out, 0)); }
+.explode.is-live .ex__legend li { opacity: 0.28; }
+.explode.is-live .ex__legend.is-shown li { opacity: 0.55; }
+.explode.is-live .ex__legend li.is-done { opacity: 0.85; }
+.explode.is-live .ex__legend li.is-active { opacity: 1; }
+.explode.is-live .explode__stage { min-height: 0; height: 100%; }
+.explode.is-live:not(.is-near) .ex__glow,
+.explode.is-live:not(.is-near) .ex__float,
+.explode.is-live:not(.is-near) .ex__frame::before,
+.explode.is-live:not(.is-near) .ex__dot { animation-play-state: paused; }
+
+@media (max-width: 900px) {
+  .explode__sticky {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "stage" "legend";
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 5.5em 1.2em 2em;
+  }
+  .explode__head .section__title { font-size: clamp(1.8rem, 8.5vw, 2.6rem); }
+  .explode__stage { min-height: calc(var(--pw) * 2.9); }
+  .ex__layer[data-n]::after { width: 22px; height: 22px; font-size: 11px; }
+  /* Schmal: Legende als eine Zeile unten, die mit der aktiven Ebene wechselt */
+  .explode.is-live .ex__legend { position: relative; margin-top: 0.5em; min-height: 4.6em; max-width: none; }
+  .explode.is-live .ex__legend li { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px); }
+  .explode.is-live .ex__legend.is-shown li { opacity: 0; }
+  .explode.is-live .ex__legend li.is-done { opacity: 0; }
+  .explode.is-live .ex__legend li.is-active { opacity: 1; transform: none; }
+  .explode.is-live .explode__sticky { padding-top: 5em; padding-bottom: 1.2em; }
 }
 
 /* ============ Story / Timeline ============ */
@@ -1138,6 +1493,9 @@ body.has-announce .nav { top: 42px; }
   transition-delay: var(--rdelay, 0ms);
 }
 .reveal.is-inview { opacity: 1; transform: none; }
+/* Die goldene Linie vor der Dachzeile zieht sich beim Erscheinen auf */
+.reveal .eyebrow-line { width: 0; transition: width 1s var(--ease-out) 0.25s; }
+.reveal.is-inview .eyebrow-line { width: 48px; }
 /* Im ersten Bildschirm nicht lange warten lassen: Text ist nach gut einer halben
    Sekunde da (der Instagram-Browser zeigt sonst kurz eine fast leere Seite) */
 .hero .reveal { transition-duration: 0.5s; }
@@ -1188,6 +1546,7 @@ body.has-announce .nav { top: 42px; }
   }
   html { scroll-behavior: auto; }
   .reveal, .reveal-img { opacity: 1; transform: none; clip-path: none; }
+  .reveal .eyebrow-line { width: 48px; }
 }
 
 /* ============ Unterseiten: Gratis-Prompts und Meine Tools ============ */
@@ -1257,18 +1616,60 @@ body.has-announce .nav { top: 42px; }
 }
 .tool-card > p:nth-of-type(2) { flex: 1; }
 .tool-card .btn { align-self: flex-start; margin-top: 0.4em; }
-.tool-card__note { font-size: 0.75rem !important; }
-.disclosure-box {
+/* Werbehinweis auf „Meine Tools“: bewusst dezent ganz unten (Julian, 05.10.2026) */
+.sub-fineprint {
   max-width: 46em;
-  margin-top: 1.6em;
-  padding: 1em 1.3em;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--gold);
-  border-radius: 10px;
-  font-size: 0.9rem;
-  color: var(--cream-dim);
+  margin-top: 3.5em;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(239, 239, 229, 0.45);
 }
 .sub-note { max-width: 46em; margin-top: 2em; font-size: 0.85rem; color: var(--cream-dim); }
+
+/* Unterseiten in Bewegung: Einstieg steigt beim Laden auf, ein Lichtschein zieht im
+   Hintergrund, Karten erscheinen per js/sub.js nacheinander und haben einen Lichtfleck,
+   der der Maus folgt. Ohne Skript bleibt alles sichtbar. */
+.sub-intro { position: relative; overflow: hidden; }
+.sub-intro::before {
+  content: "";
+  position: absolute;
+  width: 640px; height: 640px;
+  top: -280px; right: -200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 167, 20, 0.1), transparent 65%);
+  animation: drift 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.sub-intro .section__inner { position: relative; }
+.sub-intro .section__inner > * { animation: subRise 0.9s var(--ease-out) both; }
+.sub-intro .section__inner > :nth-child(2) { animation-delay: 0.08s; }
+.sub-intro .section__inner > :nth-child(3) { animation-delay: 0.16s; }
+.sub-intro .section__inner > :nth-child(n+4) { animation-delay: 0.24s; }
+@keyframes subRise { from { opacity: 0; transform: translateY(26px); } }
+.sub-intro .eyebrow-line { animation: lineGrow 1s var(--ease-out) 0.3s both; }
+@keyframes lineGrow { from { width: 0; } }
+.pdf-card, .tool-card { position: relative; overflow: hidden; }
+.pdf-card::before, .tool-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(188, 150, 95, 0.13), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.pdf-card:hover::before, .tool-card:hover::before { opacity: 1; }
+.pdf-card > *, .tool-card > * { position: relative; }
+.sub-anim .pdf-card, .sub-anim .tool-card, .sub-anim .sub-group__title {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+  transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out), border-color 0.3s;
+  transition-delay: var(--d, 0ms);
+}
+.sub-anim .sub-group__title .eyebrow-line { width: 0; transition: width 1s var(--ease-out) 0.2s; }
+.sub-anim .is-in { opacity: 1; transform: none; }
+.sub-anim .sub-group__title.is-in .eyebrow-line { width: 48px; }
+.sub-anim .pdf-card.is-in:hover, .sub-anim .tool-card.is-in:hover { transform: translateY(-3px); }
 .sub-end { padding: 2em 1.5em 6em; }
 @media (max-width: 900px) {
   /* Handy: nur der Weg zurück, die Unterseiten stehen im Footer und auf der Startseite */

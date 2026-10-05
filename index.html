@@ -199,6 +199,81 @@
       </div>
     </section>
 
+    <!-- ============ SO IST EIN REEL AUFGEBAUT (Scroll-Szene) ============
+         Beim Scrollen wird aus dem Instagram-Symbol ein Handy, das kippt in die Schrägansicht
+         und zerlegt sich wie eine Explosionszeichnung in die Bausteine eines Reels, eine
+         Ebene nach der anderen leuchtet auf. Rückwärts setzt es sich wieder zusammen.
+         Steuerung in js/main.js („Explosionszeichnung“). Begriffe aus Julians Vorlagen
+         (Reel-Drehbuch, Job-Anfänge, Ohne Gesicht). Ohne Skript oder ohne Bewegung
+         (prefers-reduced-motion) steht das fertige, zerlegte Bild still da. -->
+    <section class="explode" id="aufbau" aria-labelledby="explodeTitle">
+      <div class="explode__sticky">
+        <div class="explode__head">
+          <p class="section__eyebrow"><span class="eyebrow-line"></span>VON INNEN ANGESCHAUT</p>
+          <h2 class="section__title" id="explodeTitle">SO IST EIN REEL<br><span class="grad">AUFGEBAUT.</span></h2>
+          <p class="explode__hint" aria-hidden="true">Scroll langsam weiter</p>
+        </div>
+        <ol class="ex__legend">
+          <li><span class="ex__n">1</span><span><strong>Der erste Satz</strong> Entscheidet, ob jemand stehen bleibt.</span></li>
+          <li><span class="ex__n">2</span><span><strong>Der Satz danach</strong> Hält die, die geblieben sind.</span></li>
+          <li><span class="ex__n">3</span><span><strong>Der Text im Bild</strong> Sagt etwas anderes als der gesprochene Satz.</span></li>
+          <li><span class="ex__n">4</span><span><strong>Das Video</strong> Mit dem Handy gefilmt, das reicht.</span></li>
+          <li><span class="ex__n">5</span><span><strong>Die Caption</strong> Der Text unter dem Reel, der weitererzählt.</span></li>
+          <li><span class="ex__n">6</span><span><strong>Der Aufruf am Ende</strong> Sagt klar, was die Leute jetzt tun sollen.</span></li>
+        </ol>
+        <div class="explode__stage" aria-hidden="true">
+          <div class="ex">
+            <div class="ex__glow"></div>
+            <div class="ex__float">
+              <div class="ex__rig">
+                <!-- Gehäuse: erst das Instagram-Symbol, dann der Rahmen des Handys -->
+                <div class="ex__layer ex__layer--frame" style="--off:3">
+                  <div class="ex__frame"><span class="ex__lens"></span><span class="ex__dot"></span></div>
+                </div>
+                <div class="ex__layer" style="--off:2" data-n="1">
+                  <div class="ex__plane"><div class="ex__part ex__part--first"><b></b><b></b></div></div>
+                </div>
+                <div class="ex__layer" style="--off:1" data-n="2">
+                  <div class="ex__plane"><div class="ex__part ex__part--second"><b></b></div></div>
+                </div>
+                <div class="ex__layer" style="--off:0" data-n="3">
+                  <div class="ex__plane"><div class="ex__part ex__part--box"><b></b><b></b></div></div>
+                </div>
+                <div class="ex__layer" style="--off:-1" data-n="4">
+                  <div class="ex__plane ex__plane--video">
+                    <img src="assets/julian-hero-cinematic.jpg" alt="" loading="lazy" decoding="async">
+                  </div>
+                </div>
+                <div class="ex__layer" style="--off:-2" data-n="5">
+                  <div class="ex__plane">
+                    <div class="ex__part ex__part--caption">
+                      <span class="ex__who"><span class="ex__avatar"></span><span class="ex__handle">@julians.way</span></span>
+                      <b></b><b></b>
+                    </div>
+                  </div>
+                </div>
+                <div class="ex__layer" style="--off:-3" data-n="6">
+                  <div class="ex__plane">
+                    <div class="ex__part ex__part--icons"><i></i><i></i><i></i></div>
+                    <div class="ex__part ex__part--cta"><b></b><b></b></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Außerhalb des Abschnitts, sonst schiebt sich der Link über das klebende Handy -->
+    <div class="explode__after">
+      <div class="section__inner">
+        <aside class="softlink">
+          <p class="softlink__text">Wie das Sekunde für Sekunde aussieht, zeigt dir mein Reel-Drehbuch. Das liegt kostenlos bei meinen Gratis-Prompts.</p>
+          <a class="softlink__link" href="prompts.html">Zu den Gratis-Prompts</a>
+        </aside>
+      </div>
+    </div>
+
     <!-- ============ MEIN WEG ============ -->
     <section class="story section" id="weg">
       <div class="section__inner">

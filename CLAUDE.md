@@ -15,15 +15,16 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - `package.json`, `vite.config.js` und die HTML-Seiten liegen in der **Repo-Wurzel**.
 - Jede HTML-Seite muss in `vite.config.js` unter `rollupOptions.input` stehen,
   sonst fehlt sie im Build. Neue Seite = dort eintragen.
-- `js/main.js` liegt unter `public/js/` (klassisches Skript ohne `type="module"`,
-  Vite kopiert `public/` 1:1). Nicht nach `js/` zurückverschieben.
+- `js/main.js` (Startseite) und `js/sub.js` (Unterseiten) liegen unter `public/js/`
+  (klassische Skripte ohne `type="module"`, Vite kopiert `public/` 1:1). Nicht nach `js/`
+  zurückverschieben.
 - Hostinger liefert Dateien aus `public/` mit 7 Tagen Browser-Cache aus. Deshalb hängt
-  das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an `js/main.js`,
+  das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an jedes `js/*.js`,
   sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
   entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
-- `npm run build` muss ein vollständiges `dist/` erzeugen (alle 3 HTML-Seiten,
-  `js/main.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen immer
-  bauen und prüfen.
+- `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
+  `js/main.js`, `js/sub.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen
+  immer bauen und prüfen.
 
 ## Schriften und Rooftop-Animation
 
@@ -78,7 +79,7 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   die Tools eine Provision. Werbelinks gibt es nur im Angebotskasten oben, im Abschluss,
   im Live-Event-Abschnitt und auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
   Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
-  direkt darunter, damit sie vor dem Klick sichtbar ist.
+  direkt darunter, damit sie vor dem Klick sichtbar ist. Ausnahme `tools.html`, siehe unten.
 - **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
   den Zahlen springen zum Abschluss (`#angebot`, `data-jump`), nicht nach draußen.
   So sieht jeder vor dem Klick die drei Schritte, und „Werbung“ steht nur einmal da;
@@ -102,9 +103,31 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
   dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
 - **Reihenfolge (seit 05.10.2026):** Hero, Angebotskasten (`#videotraining`),
-  „Woher ich das weiß“ (`#gelernt`), Geschichte (`#weg`), Zahlen, „So läuft's bei mir
-  konkret“, Fragen, Abschluss (`#angebot`, drei Schritte dort nur als ein Satz). Im
-  Live-Event-Modus ersetzt der Event-Abschnitt den Angebotskasten an derselben Stelle.
+  „Woher ich das weiß“ (`#gelernt`), „So ist ein Reel aufgebaut“ (`#aufbau`), Geschichte
+  (`#weg`), Zahlen, „So läuft's bei mir konkret“, Fragen, Abschluss (`#angebot`, drei
+  Schritte dort nur als ein Satz). Im Live-Event-Modus ersetzt der Event-Abschnitt den
+  Angebotskasten an derselben Stelle.
+
+## Bewegung (seit 05.10.2026)
+
+Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Runterscrollen,
+„Apple-Style“. Alles respektiert `prefers-reduced-motion` und funktioniert ohne Skript.
+
+- **Explosionszeichnung `#aufbau`** („So ist ein Reel aufgebaut“): Abschnitt 380vh hoch,
+  Inhalt klebt (sticky). Aus dem goldenen Instagram-Symbol wird ein Handy, es kippt in die
+  Schrägansicht und zerlegt sich in sechs Ebenen, die nacheinander aufleuchten: 1 erster
+  Satz, 2 Satz danach, 3 Text im Bild, 4 Video, 5 Caption, 6 Aufruf am Ende (Legende in
+  der gleichen Reihenfolge). Phasen und Größen in `public/js/main.js` („Explosionszeichnung“),
+  Startwerte in `css/style.css` zeigen ohne Skript das fertige, zerlegte Bild. Das Foto auf
+  der Video-Ebene ist `assets/julian-hero-cinematic.jpg`. Der Abschnitt nutzt
+  `overflow-x: clip`, nie `hidden` (sonst klebt nichts mehr). Der leise Link zu den
+  Gratis-Prompts steht als `.explode__after` hinter dem Abschnitt, nicht darin.
+- Startseite außerdem: goldene Lesefortschritts-Linie oben (auch auf den Unterseiten),
+  Laufband läuft im Stand langsam, beim Scrollen schneller und beim Hochscrollen andersherum,
+  Hero tritt auf breiten Bildschirmen beim Wegscrollen zurück, Partikel pausieren außerhalb
+  des Bildes.
+- Neue Bewegung immer auf echtem Handy prüfen; Bildfolgen im Test (Playwright) zeigen nur,
+  ob es richtig aussieht, nicht ob es flüssig läuft.
 
 ## Unterseiten (seit 05.10.2026)
 
@@ -116,10 +139,17 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   PDFs auf Instagram über Keywords gibt, das interessiert Besucher nicht. Sie sind
   „Anleitungen und Gratis-Prompts, die ich selbst gerne nutze“ (Julian, 05.10.2026).
 - `tools.html` „Meine Tools“: nur Tools, deren Einsatz in Julians eigenen Unterlagen
-  belegt ist, mit seinem Werbelink aus dem Drive-Dokument „Affiliate Links“. Hinweiskasten
-  vor dem ersten Link, Sternchen und „*Werbelink“ an jedem Knopf, `rel="sponsored"`.
+  belegt ist, mit seinem Werbelink aus dem Drive-Dokument „Affiliate Links“. Sternchen im
+  Knopftext und `rel="sponsored"` an jedem Link. Die Erklärung steht auf Julians Wunsch
+  dezent ganz unten (`.sub-fineprint`, 05.10.2026), nicht als Kasten oben. Das Sternchen
+  im Knopf bleibt deshalb Pflicht, es ist die einzige Markierung vor dem Klick.
+- Weitere Werbelinks, noch nicht auf der Seite, weil Julians Satz fehlt, wofür er das
+  Tool nutzt: ViralityAI `https://viralityai.net?ref=julianiocgdi`, ElevenLabs
+  `https://try.elevenlabs.io/hgxp9og7ikq4` (05.10.2026).
 - Beide stehen in `vite.config.js`, in der Navigation der Startseite und im Footer.
-  Unterseiten laden kein `js/main.js`, deshalb dort keine `.reveal`-Klassen verwenden.
+  Unterseiten laden `js/sub.js` statt `js/main.js`, deshalb dort keine `.reveal`-Klassen
+  verwenden. `js/sub.js` sorgt dafür, dass die Seiten oben öffnen (Julian: Gratis-Prompts
+  öffnete unten), und lässt Karten und Gruppentitel beim Scrollen nacheinander erscheinen.
 
 ## Geplant (noch nicht auf die Seite)
 

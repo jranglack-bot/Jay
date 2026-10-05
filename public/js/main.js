@@ -422,6 +422,137 @@
     asmIo.observe(asmCanvas);
   }
 
+  /* ---------- Explosionszeichnung: So ist ein Reel aufgebaut ----------
+     Der Abschnitt ist 380vh hoch, sein Inhalt klebt. Scrollfortschritt p von 0 bis 1:
+     bis 0,08 schwebt das Instagram-Symbol, bis 0,26 wird daraus ein Handy, ab 0,2 geht der
+     Bildschirm an, bis 0,5 kippt es in die Schrägansicht, bis 0,66 gehen die Ebenen
+     auseinander, danach leuchtet eine nach der anderen auf (1 bis 6), ab 0,92 sind alle
+     durch. Rückwärts scrollen setzt das Handy wieder zusammen. Ohne Skript oder mit
+     reduzierter Bewegung bleibt das fertige, zerlegte Bild aus dem CSS stehen. */
+  const explode = $("#aufbau");
+  if (explode && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const ex = explode.querySelector(".ex");
+    const stage = explode.querySelector(".explode__stage");
+    const legend = explode.querySelector(".ex__legend");
+    const layers = [...explode.querySelectorAll(".ex__layer[data-n]")]; // Nummer 1 bis 6
+    const items = [...legend.children];
+    const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
+    const seg = (p, a, b) => clamp01((p - a) / (b - a));
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const px = (v) => v.toFixed(1) + "px";
+    // Beim Einschalten erscheint zuerst das Video, dann der Text von oben nach unten
+    const inOrder = [3, 0, 1, 2, 4, 5];
+    let pw = 200;
+    let narrow = false;
+    let target = 0;
+    let shown = -1;
+    let raf = 0;
+    let active = -2;
+    let lastW = 0;
+    let lastH = 0;
+
+    explode.classList.add("is-live");
+
+    const render = (p) => {
+      const m = ease(seg(p, 0.08, 0.26));
+      const s = seg(p, 0.2, 0.38);
+      const t = ease(seg(p, 0.32, 0.5));
+      const e = ease(seg(p, 0.44, 0.66));
+      const ph = pw * 2;
+      const icon = pw * 0.8;
+      const lens = icon * 0.46;
+      const st = ex.style;
+      st.setProperty("--m", m.toFixed(3));
+      st.setProperty("--e", e.toFixed(3));
+      st.setProperty("--rx", (56 * t).toFixed(2) + "deg");
+      st.setProperty("--rz", (-36 * t - 4 * e).toFixed(2) + "deg");
+      st.setProperty("--gap", px(e * pw * 0.3));
+      st.setProperty("--fw", px(lerp(icon, pw, m)));
+      st.setProperty("--fh", px(lerp(icon, ph, m)));
+      st.setProperty("--fr", px(lerp(icon * 0.29, pw * 0.16, m)));
+      st.setProperty("--fs", px(lerp(icon * 0.075, 2.5, m)));
+      st.setProperty("--lw", px(lerp(lens, pw * 0.3, m)));
+      st.setProperty("--lh", px(lerp(lens, pw * 0.075, m)));
+      st.setProperty("--lt", px(lerp((icon - lens) / 2, pw * 0.05, m)));
+      st.setProperty("--ls", px(lerp(icon * 0.075, 1.5, m)));
+      st.setProperty("--dd", px(icon * 0.1));
+      st.setProperty("--dr", px(icon * 0.15));
+      explode.style.setProperty("--hint-out", seg(p, 0.03, 0.12).toFixed(3));
+      inOrder.forEach((li, k) => {
+        layers[li].style.setProperty("--in", seg(s, k * 0.11, k * 0.11 + 0.45).toFixed(3));
+      });
+
+      // Welche Ebene gerade dran ist: -1 noch keine, 0 bis 5, 6 = alle durch
+      const a = p >= 0.92 ? 6 : p >= 0.6 ? Math.min(5, Math.floor(seg(p, 0.6, 0.92) * 6)) : -1;
+      if (a !== active) {
+        active = a;
+        layers.forEach((l, i) => l.classList.toggle("is-active", i === a));
+        items.forEach((it, i) => {
+          // Schmal steht unten immer nur ein Punkt: am Ende bleibt der letzte stehen
+          it.classList.toggle("is-active", i === a || (a === 6 && narrow && i === 5));
+          it.classList.toggle("is-done", a === 6 || (a >= 0 && i < a));
+        });
+      }
+      legend.classList.toggle("is-shown", e > 0.3);
+    };
+
+    // Handygröße an den freien Platz anpassen: zerlegt und gekippt braucht es gut
+    // 2,7 Handybreiten in der Höhe
+    const size = () => {
+      if (Math.abs(innerWidth - lastW) < 1 && Math.abs(innerHeight - lastH) < 120) return;
+      lastW = innerWidth;
+      lastH = innerHeight;
+      narrow = innerWidth <= 900;
+      const r = stage.getBoundingClientRect();
+      pw = Math.round(Math.max(110, Math.min(230, r.height / 2.75, (narrow ? innerWidth : r.width) * 0.42)));
+      explode.style.setProperty("--pw", pw + "px");
+      active = -2;
+      render(shown < 0 ? target : shown);
+    };
+
+    const progress = () => {
+      const r = explode.getBoundingClientRect();
+      return clamp01(-r.top / Math.max(r.height - innerHeight, 1));
+    };
+
+    // Weich hinterherlaufen statt springen (glättet Mausrad und Touch)
+    const tick = () => {
+      const d = target - shown;
+      shown = Math.abs(d) < 0.0005 ? target : shown + d * 0.14;
+      render(shown);
+      raf = shown === target ? 0 : requestAnimationFrame(tick);
+    };
+
+    const onScroll = () => {
+      const r = explode.getBoundingClientRect();
+      if (r.bottom < -100 || r.top > innerHeight + 100) return;
+      target = progress();
+      if (shown < 0) {
+        shown = target;
+        render(shown);
+      } else if (!raf) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    // Schwebe- und Glanz-Animationen nur laufen lassen, wenn die Szene in der Nähe ist
+    new IntersectionObserver(
+      (entries) => explode.classList.toggle("is-near", entries[0].isIntersecting),
+      { rootMargin: "50% 0px" }
+    ).observe(explode);
+
+    size();
+    target = progress();
+    shown = target;
+    render(shown);
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", () => {
+      size();
+      onScroll();
+    });
+  }
+
   /* ---------- 3D-Karussell: Ergebnisse ----------
      Dreht sich automatisch im Kreis, vorderstes Bild scharf und hell,
      die übrigen abgedunkelt dahinter. Hover pausiert, Punkte springen. */
@@ -550,6 +681,9 @@
     resize();
     spawn();
     addEventListener("resize", () => { resize(); spawn(); });
+    // Partikel nur zeichnen, solange der Hero zu sehen ist
+    let heroLoop = null;
+    let heroVisible = true;
     (function loop(t) {
       ctx.clearRect(0, 0, W, H);
       for (const p of parts) {
@@ -566,7 +700,119 @@
         ctx.fillStyle = `rgba(231, 191, 107, ${alpha.toFixed(3)})`;
         ctx.fill();
       }
-      requestAnimationFrame(loop);
+      if (heroVisible) requestAnimationFrame(loop);
+      else heroLoop = loop;
     })(0);
+    new IntersectionObserver((entries) => {
+      heroVisible = entries[0].isIntersecting;
+      if (heroVisible && heroLoop) {
+        const l = heroLoop;
+        heroLoop = null;
+        requestAnimationFrame(l);
+      }
+    }).observe(canvas);
+  }
+
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Lesefortschritt: dünne goldene Linie ganz oben ---------- */
+  const bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  bar.setAttribute("aria-hidden", "true");
+  document.body.appendChild(bar);
+  let barTicking = false;
+  const updateBar = () => {
+    barTicking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = "scaleX(" + (max > 0 ? Math.min(scrollY / max, 1) : 0).toFixed(4) + ")";
+  };
+  addEventListener("scroll", () => {
+    if (!barTicking) {
+      barTicking = true;
+      requestAnimationFrame(updateBar);
+    }
+  }, { passive: true });
+  addEventListener("resize", updateBar);
+  updateBar();
+
+  /* ---------- Laufband folgt dem Scrollen ----------
+     Läuft im Stand langsam weiter, beim Scrollen schneller, und dreht beim Hochscrollen
+     die Richtung um. Steht still, solange die Maus darauf liegt oder es nicht zu sehen ist. */
+  const marquee = $("#marquee");
+  if (marquee && !reducedMotion) {
+    const track = marquee.querySelector(".marquee__track");
+    const BASE = 45; // Pixel pro Sekunde im Stand
+    let half = 0;
+    let x = 0;
+    let dir = 1;
+    let boost = 0;
+    let lastY = scrollY;
+    let last = 0;
+    let running = false;
+    let hover = false;
+    const measure = () => (half = track.scrollWidth / 2);
+    const step = (now) => {
+      const dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+      last = now;
+      boost *= Math.pow(0.05, dt); // Schwung klingt in gut einer Sekunde ab
+      if (!hover) x -= (BASE * dir + boost) * dt;
+      if (half > 0) {
+        if (x <= -half) x += half;
+        if (x > 0) x -= half;
+      }
+      track.style.transform = "translate3d(" + x.toFixed(2) + "px,0,0)";
+      if (running) requestAnimationFrame(step);
+      else last = 0;
+    };
+    marquee.classList.add("is-js");
+    measure();
+    if (document.fonts) document.fonts.ready.then(measure);
+    addEventListener("resize", measure);
+    addEventListener("scroll", () => {
+      const dy = scrollY - lastY;
+      lastY = scrollY;
+      if (!dy) return;
+      dir = dy > 0 ? 1 : -1;
+      boost = Math.max(-1400, Math.min(1400, boost + dy * 5));
+    }, { passive: true });
+    marquee.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") hover = true; });
+    marquee.addEventListener("pointerleave", () => (hover = false));
+    new IntersectionObserver((entries) => {
+      const vis = entries[0].isIntersecting;
+      if (vis && !running) {
+        running = true;
+        requestAnimationFrame(step);
+      } else if (!vis) {
+        running = false;
+      }
+    }).observe(marquee);
+  }
+
+  /* ---------- Hero tritt beim Wegscrollen zurück (nur breite Bildschirme) ----------
+     Text zieht etwas schneller nach oben und blendet aus, das Foto bleibt etwas zurück. */
+  const heroContent = $(".hero__content");
+  const heroVisual = $(".hero__visual");
+  if (heroContent && heroVisual && !reducedMotion) {
+    let heroTicking = false;
+    const updateHero = () => {
+      heroTicking = false;
+      if (innerWidth <= 900) {
+        heroContent.style.transform = heroContent.style.opacity = heroVisual.style.transform = "";
+        return;
+      }
+      const y = Math.min(scrollY, innerHeight * 1.2);
+      const k = y / innerHeight;
+      heroContent.style.transform = "translate3d(0," + (-y * 0.14).toFixed(1) + "px,0)";
+      heroContent.style.opacity = Math.max(1 - k * 1.1, 0).toFixed(3);
+      heroVisual.style.transform = "translate3d(0," + (y * 0.1).toFixed(1) + "px,0) scale(" + (1 - k * 0.06).toFixed(4) + ")";
+    };
+    addEventListener("scroll", () => {
+      if (!heroTicking) {
+        heroTicking = true;
+        requestAnimationFrame(updateHero);
+      }
+    }, { passive: true });
+    addEventListener("resize", updateHero);
+    updateHero();
   }
 })();

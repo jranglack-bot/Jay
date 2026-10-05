@@ -104,13 +104,15 @@ h1, h2, h3 {
 }
 
 /* Goldener Verlaufstext mit Shimmer */
+/* Goldener Verlaufstext: ein heller Glanzstreifen läuft gut sichtbar durch
+   (Julian, 05.10.2026: der alte Farbwechsel fiel kaum auf) */
 .grad {
-  background: linear-gradient(100deg, var(--gold) 20%, var(--gold-bright) 45%, var(--gold-soft) 55%, var(--gold) 80%);
+  background: linear-gradient(100deg, #a8783f 0%, var(--gold) 20%, var(--gold-bright) 36%, #ffe7b0 45%, #fff6e0 50%, #ffe7b0 55%, var(--gold-bright) 64%, var(--gold) 80%, #a8783f 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 5s linear infinite;
+  animation: shimmer 3.4s linear infinite;
 }
 @keyframes shimmer { to { background-position: 200% center; } }
 
@@ -317,13 +319,17 @@ body.has-announce .nav { top: 42px; }
   overflow: hidden;
   background: radial-gradient(1200px 700px at 75% 20%, rgba(188, 150, 95, 0.12), transparent 60%), var(--bg);
 }
-.hero__particles {
+/* Gold-Funken (js/sparks.js, data-sparks): liegen hinter dem Inhalt, mit
+   data-sparks-front davor */
+.sparks {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: -1;
   pointer-events: none;
 }
+.sparks--front { z-index: 3; }
 .hero__glow {
   position: absolute;
   width: 600px; height: 600px;
@@ -411,17 +417,45 @@ body.has-announce .nav { top: 42px; }
 }
 
 /* Portrait */
-.hero__visual { display: flex; justify-content: center; }
+/* Polster mit gleich großem negativem Rand: Das Einblenden (clip-path) schneidet sonst den
+   goldenen Rahmen ab, der 14 px über das Foto hinausragt. Das Foto wird dadurch nicht kleiner. */
+.hero__visual { display: flex; justify-content: center; padding: 24px; margin: -24px; }
 .portrait {
   position: relative;
   width: min(380px, 80vw);
   transition: transform 0.2s ease-out;
   transform-style: preserve-3d;
 }
-.portrait__img {
+.portrait__clip {
+  position: relative;
   border-radius: 12px;
-  filter: contrast(1.04) saturate(0.95);
+  overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  transform: translateZ(0); /* Safari behält so die Rundung beim Zoomen */
+}
+/* Lichtstreifen, der alle paar Sekunden über das Foto zieht */
+.portrait__clip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 226, 160, 0.16) 46%, rgba(255, 244, 220, 0.3) 50%, rgba(255, 226, 160, 0.16) 54%, transparent 65%);
+  transform: translateX(-130%);
+  animation: portraitShine 7s ease-in-out 1.5s infinite;
+  pointer-events: none;
+}
+@keyframes portraitShine {
+  0% { transform: translateX(-130%); }
+  32%, 100% { transform: translateX(130%); }
+}
+.portrait__pan { will-change: transform; }
+.portrait__img {
+  filter: contrast(1.04) saturate(0.95);
+  transform-origin: 50% 30%;
+  animation: portraitZoom 16s ease-in-out infinite alternate;
+}
+@keyframes portraitZoom {
+  from { transform: scale(1.06); }
+  to { transform: scale(1.13) translate(-1.2%, -0.8%); }
 }
 .portrait__frame {
   position: absolute;
@@ -429,6 +463,12 @@ body.has-announce .nav { top: 42px; }
   border: 1px solid var(--line);
   border-radius: 16px;
   transform: translateZ(-20px);
+}
+.portrait__frame::before,
+.portrait__frame::after { animation: cornerGlow 3.6s ease-in-out infinite; }
+.portrait__frame::after { animation-delay: 1.8s; }
+@keyframes cornerGlow {
+  50% { border-color: var(--gold-bright); box-shadow: 0 0 14px rgba(236, 167, 20, 0.45); }
 }
 .portrait__frame::before {
   content: "";
@@ -556,6 +596,7 @@ body.has-announce .nav { top: 42px; }
   background: var(--bg);
 }
 .explode__sticky {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 7em 1.5em 3em;
@@ -589,8 +630,6 @@ body.has-announce .nav { top: 42px; }
   place-items: center;
   min-height: calc(var(--pw) * 2.9);
 }
-.explode__after { padding: 1em 1.5em 6em; background: var(--bg); }
-.explode__after .softlink { margin-top: 0; }
 
 /* Legende: breit als Liste neben dem Handy, schmal immer nur der aktive Punkt */
 .ex__legend {
@@ -670,6 +709,7 @@ body.has-announce .nav { top: 42px; }
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
+  will-change: transform;
   transform: rotateX(var(--rx)) rotateZ(var(--rz));
 }
 .ex__layer {
@@ -858,6 +898,11 @@ body.has-announce .nav { top: 42px; }
   .explode__head .section__title { font-size: clamp(1.8rem, 8.5vw, 2.6rem); }
   .explode__stage { min-height: calc(var(--pw) * 2.9); }
   .ex__layer[data-n]::after { width: 22px; height: 22px; font-size: 11px; }
+  /* Handy: Weichzeichner-Schatten kosten beim Scrollen am meisten Rechenzeit */
+  .ex__frame { filter: none; }
+  /* Laufender Glanz auf dem Rahmen muss jedes Bild neu gezeichnet werden: am Handy aus */
+  .ex__frame::before { animation: none; }
+  .ex__layer.is-active .ex__plane { box-shadow: none; }
   /* Schmal: Legende als eine Zeile unten, die mit der aktiven Ebene wechselt */
   .explode.is-live .ex__legend { position: relative; margin-top: 0.5em; min-height: 4.6em; max-width: none; }
   .explode.is-live .ex__legend li { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px); }
@@ -865,6 +910,450 @@ body.has-announce .nav { top: 42px; }
   .explode.is-live .ex__legend li.is-done { opacity: 0; }
   .explode.is-live .ex__legend li.is-active { opacity: 1; transform: none; }
   .explode.is-live .explode__sticky { padding-top: 5em; padding-bottom: 1.2em; }
+}
+
+/* ============ Anleitungen nach der Reel-Szene: Fächer aus PDF-Karten ============
+   --f (0 bis 1) setzt js/main.js je nach Scrollposition: 0 = Stapel, 1 = aufgefächert.
+   Ohne Skript steht der Fächer offen. */
+.guides { background: var(--bg); padding-top: 4em; overflow-x: clip; }
+.guides__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 3em;
+  align-items: center;
+}
+.guides__text .section__lead { margin-bottom: 1em; }
+.guides__more { color: var(--cream-dim); max-width: 34em; margin-bottom: 1.8em; }
+.guides__fan {
+  --f: 1;
+  --dw: 190px;
+  position: relative;
+  display: block;
+  height: calc(var(--dw) * 1.95);
+  text-decoration: none;
+}
+.doc {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--dw);
+  height: calc(var(--dw) * 1.32);
+  margin: calc(var(--dw) * -0.66) 0 0 calc(var(--dw) * -0.5);
+  transform:
+    translate(calc(var(--x) * var(--f)), calc(var(--y) * var(--f)))
+    rotate(calc(var(--r0) + (var(--r) - var(--r0)) * var(--f)));
+  will-change: transform;
+}
+.doc:nth-child(1) { --x: calc(var(--dw) * -0.66); --y: calc(var(--dw) * 0.08); --r: -16deg; --r0: -4deg; }
+.doc:nth-child(2) { --x: 0px; --y: calc(var(--dw) * -0.24); --r: -1deg; --r0: 3deg; }
+.doc:nth-child(3) { --x: calc(var(--dw) * 0.66); --y: calc(var(--dw) * 0.08); --r: 15deg; --r0: -2deg; }
+.doc:nth-child(4) { --x: 0px; --y: calc(var(--dw) * 0.2); --r: -3deg; --r0: 1deg; }
+.doc__in {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--dw) * 0.045);
+  padding: calc(var(--dw) * 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(231, 191, 107, 0.35);
+  background: linear-gradient(160deg, #2c2a26, #1b1a18);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.5);
+  animation: docFloat 5s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -1.3s);
+}
+@keyframes docFloat {
+  from { transform: translateY(-5px); }
+  to { transform: translateY(5px); }
+}
+.doc__kind {
+  font-family: var(--font-head);
+  font-size: calc(var(--dw) * 0.058);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.doc__title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: calc(var(--dw) * 0.105);
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-bottom: auto;
+}
+.doc__in b { display: block; height: calc(var(--dw) * 0.028); border-radius: 99px; background: rgba(239, 239, 229, 0.18); }
+.doc__in b:nth-of-type(2n) { width: 78%; }
+/* Das Drehbuch liegt vorn, hell wie Papier */
+.doc--main .doc__in {
+  border-color: var(--gold-bright);
+  background: linear-gradient(160deg, #f3ead6, #d8c49b);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55), 0 0 40px rgba(236, 167, 20, 0.25);
+}
+.doc--main .doc__kind { color: #8a5f1c; }
+.doc--main .doc__title { color: #1a1508; }
+.doc--main .doc__in b { background: rgba(26, 21, 8, 0.25); }
+.doc--main .doc__in::after {
+  content: "PDF";
+  position: absolute;
+  top: calc(var(--dw) * -0.07);
+  right: calc(var(--dw) * -0.07);
+  padding: 0.35em 0.6em;
+  border-radius: 6px;
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  color: #1a1508;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: calc(var(--dw) * 0.065);
+  letter-spacing: 0.08em;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 900px) {
+  .guides { padding-top: 3em; }
+  .guides__inner { grid-template-columns: minmax(0, 1fr); gap: 1.5em; }
+  .guides__fan { --dw: min(150px, 38vw); order: -1; }
+}
+
+/* ============ Meine KI-Tools (Scroll-Szene) ============
+   Startwerte = Endzustand (alles angedockt), damit es ohne Skript vollständig ist.
+   js/main.js setzt mit .is-live je nach Scrollposition: --t1..--t4 Text tippt sich,
+   --v Video da, --k Scan-Fortschritt, --so Scanlinie sichtbar, --c Kommentar,
+   --m Nachricht fliegt raus; Chips per --cx/--cy/--cs. */
+.toolscene {
+  --pw: clamp(130px, min(23vh, 36vw), 210px);
+  --ph: calc(var(--pw) * 2);
+  --t1: 1; --t2: 1; --t3: 1; --t4: 1;
+  --v: 1; --k: 1; --so: 0; --c: 1; --m: 1;
+  position: relative;
+  overflow-x: clip;
+  background: var(--bg-deep);
+}
+.toolscene__sticky {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 7em 1.5em 4em;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-areas: "head stage" "foot stage";
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 3em;
+}
+.toolscene__head { grid-area: head; align-self: end; }
+.toolscene__foot { grid-area: foot; margin-top: 2em; }
+.toolscene__stage {
+  grid-area: stage;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-height: calc(var(--ph) * 1.25);
+}
+.ts__legend { list-style: none; display: grid; gap: 1.1em; max-width: 27em; margin-bottom: 1.8em; }
+.ts__legend li {
+  display: flex;
+  gap: 1em;
+  align-items: flex-start;
+  line-height: 1.5;
+  color: var(--cream-dim);
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out), color 0.4s;
+}
+.ts__legend strong {
+  display: block;
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.ts__tag {
+  flex-shrink: 0;
+  min-width: 6.4em;
+  padding: 0.25em 0.7em;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  color: var(--gold-soft);
+  transition: background 0.4s, color 0.4s, box-shadow 0.4s;
+}
+.ts__legend li.is-active { color: var(--cream); }
+.ts__legend li.is-active .ts__tag { background: var(--gold-bright); color: #1a1508; box-shadow: 0 0 18px rgba(236, 167, 20, 0.45); }
+
+/* Bühne */
+.ts { position: relative; width: var(--pw); height: var(--ph); perspective: 1200px; }
+.ts__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(calc(var(--pw) * 3.2), 100vw);
+  height: min(calc(var(--pw) * 3.2), 100vw);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(236, 167, 20, 0.14), rgba(214, 164, 70, 0.07) 35%, rgba(188, 150, 95, 0.025) 65%, transparent);
+  animation: exBreath 7s ease-in-out infinite;
+  pointer-events: none;
+}
+.ts__phone {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: calc(var(--pw) * 0.16);
+  background: #0c0c0c;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(231, 191, 107, 0.15);
+  animation: tsSway 8s ease-in-out infinite;
+}
+.ts__phone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright) 35%, var(--gold) 65%, var(--gold-soft));
+  background-size: 220% 220%;
+  animation: exShine 6s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+@keyframes tsSway {
+  0%, 100% { transform: rotateY(-7deg) rotateX(2deg); }
+  50% { transform: rotateY(7deg) rotateX(-2deg); }
+}
+.ts__island {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--pw) * 0.05);
+  width: calc(var(--pw) * 0.3);
+  height: calc(var(--pw) * 0.075);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #050505;
+  border: 1.5px solid #d6aa5c;
+  z-index: 3;
+}
+.ts__screen {
+  position: absolute;
+  inset: 3.2% 4.5%;
+  border-radius: calc(var(--pw) * 0.1);
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1d1a14, #0b0b0b 70%);
+}
+.ts__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+  opacity: var(--v);
+}
+/* Higgsfield: neuer Hintergrund in Vulkan-Farben, das Gesicht in der Mitte bleibt */
+.ts__lava {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 48% at 50% 36%, transparent 55%, rgba(236, 120, 20, 0.45) 78%, rgba(150, 30, 10, 0.75) 100%),
+    linear-gradient(180deg, rgba(255, 120, 30, 0.25), transparent 30%, transparent 70%, rgba(200, 50, 10, 0.4));
+  mix-blend-mode: screen;
+  clip-path: inset(0 0 calc((1 - var(--k)) * 100%) 0);
+}
+.ts__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--k) * 100%);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff3d0, transparent);
+  box-shadow: 0 0 14px 3px rgba(236, 167, 20, 0.7);
+  opacity: var(--so);
+}
+/* i10x: Zeilen schreiben sich */
+.ts__hook, .ts__caption {
+  position: absolute;
+  left: 9%;
+  right: 9%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--pw) * 0.025);
+}
+.ts__hook { top: 13%; align-items: center; }
+.ts__caption { bottom: 8%; right: 22%; align-items: flex-start; }
+.ts__hook b, .ts__caption b { display: block; border-radius: 99px; }
+.ts__hook b { height: calc(var(--pw) * 0.055); background: var(--cream); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4); }
+.ts__hook b:first-child { width: calc(92% * var(--t1)); }
+.ts__hook b:last-child { width: calc(64% * var(--t2)); }
+.ts__caption b { height: calc(var(--pw) * 0.026); background: rgba(239, 239, 229, 0.8); }
+.ts__caption b:first-child { width: calc(100% * var(--t3)); }
+.ts__caption b:last-child { width: calc(72% * var(--t4)); }
+/* Blinkender Schreibstrich, solange noch nichts dasteht */
+.ts__hook::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: calc(var(--pw) * 0.07);
+  background: var(--gold-bright);
+  opacity: calc(1 - var(--t1) * 4);
+  animation: tsCaret 1s steps(1) infinite;
+}
+@keyframes tsCaret { 50% { visibility: hidden; } }
+/* ChatPlace: Kommentar mit Keyword, dann fliegt die Nachricht mit dem PDF raus */
+.ts__comment {
+  position: absolute;
+  left: 8%;
+  bottom: 24%;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.45em 0.75em;
+  border-radius: 12px 12px 12px 3px;
+  background: rgba(239, 239, 229, 0.95);
+  color: #1a1508;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: calc(var(--pw) * 0.07);
+  letter-spacing: 0.05em;
+  opacity: var(--c);
+  transform: scale(calc(0.6 + 0.4 * var(--c)));
+  transform-origin: 0 100%;
+}
+.ts__comment i {
+  width: calc(var(--pw) * 0.07);
+  height: calc(var(--pw) * 0.07);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 38%, #8a5f1c 0 22%, transparent 24%), #e2c48c;
+}
+.ts__dm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.55em 0.85em 0.55em 0.55em;
+  border-radius: 14px 14px 3px 14px;
+  border: 1px solid var(--gold-bright);
+  background: linear-gradient(140deg, #2c2a26, #1a1916);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 26px rgba(236, 167, 20, 0.25);
+  color: var(--cream);
+  font-family: var(--font-head);
+  font-size: calc(var(--pw) * 0.072);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: min(1, calc(var(--m) * 3));
+  transform:
+    translate(-50%, -50%)
+    translate(calc(var(--pw) * 0.42 * var(--m)), calc(var(--ph) * (0.25 - 0.62 * var(--m))))
+    scale(calc(0.4 + 0.6 * var(--m)));
+}
+.ts__pdf {
+  padding: 0.3em 0.45em;
+  border-radius: 5px;
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  color: #1a1508;
+  font-weight: 700;
+}
+/* Tool-Chips */
+.ts__chip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 0.9em;
+  border-radius: 999px;
+  border: 1px solid var(--gold);
+  background: rgba(24, 22, 18, 0.92);
+  color: var(--cream);
+  font-family: var(--font-head);
+  font-size: clamp(12px, calc(var(--pw) * 0.085), 17px);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%) translate(var(--cx), var(--cy)) scale(var(--cs, 1));
+  transition: background 0.35s, color 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+.ts__chip[data-i="0"] { --cx: calc(var(--pw) * -0.78); --cy: calc(var(--ph) * -0.34); }
+.ts__chip[data-i="1"] { --cx: calc(var(--pw) * 0.78); --cy: calc(var(--ph) * -0.02); }
+.ts__chip[data-i="2"] { --cx: calc(var(--pw) * -0.78); --cy: calc(var(--ph) * 0.3); }
+.ts__chip.is-docked {
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  border-color: var(--gold-bright);
+  color: #1a1508;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45), 0 0 22px rgba(236, 167, 20, 0.45);
+}
+.ts__ico { width: 1em; height: 1em; flex-shrink: 0; position: relative; }
+.ts__ico--text {
+  background:
+    linear-gradient(currentColor 0 0) 0 15% / 100% 2px no-repeat,
+    linear-gradient(currentColor 0 0) 0 50% / 70% 2px no-repeat,
+    linear-gradient(currentColor 0 0) 0 85% / 88% 2px no-repeat;
+}
+.ts__ico--video { border: 1.5px solid currentColor; border-radius: 3px; }
+.ts__ico--video::after {
+  content: "";
+  position: absolute;
+  left: 36%;
+  top: 25%;
+  border-left: 0.36em solid currentColor;
+  border-top: 0.24em solid transparent;
+  border-bottom: 0.24em solid transparent;
+}
+.ts__ico--chat { border: 1.5px solid currentColor; border-radius: 50% 50% 50% 2px; }
+
+/* Mit Skript: Abschnitt wird hoch, Inhalt klebt */
+.toolscene.is-live { height: 330vh; }
+.toolscene.is-live .toolscene__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 6em;
+  padding-bottom: 2em;
+}
+.toolscene.is-live .toolscene__stage { min-height: 0; height: 100%; }
+.toolscene.is-live .ts__legend li { opacity: 0.35; }
+.toolscene.is-live .ts__legend li.is-done { opacity: 0.8; }
+.toolscene.is-live .ts__legend li.is-active { opacity: 1; }
+.toolscene.is-live:not(.is-near) .ts__phone,
+.toolscene.is-live:not(.is-near) .ts__phone::before,
+.toolscene.is-live:not(.is-near) .ts__glow { animation-play-state: paused; }
+
+@media (max-width: 900px) {
+  .toolscene__sticky {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "head" "stage" "foot";
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 5.5em 1.2em 2.5em;
+  }
+  .toolscene__head .section__title { font-size: clamp(1.8rem, 8.5vw, 2.6rem); }
+  .toolscene__foot { margin-top: 1em; }
+  .ts__phone { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); }
+  .ts__phone::before { animation: none; }
+  /* Schmal: unten steht nur das gerade aktive Tool, am Ende der Knopf */
+  .toolscene.is-live .toolscene__foot { position: relative; min-height: 6.2em; }
+  .toolscene.is-live .ts__legend { margin: 0; max-width: none; }
+  .toolscene.is-live .ts__legend li { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(10px); }
+  .toolscene.is-live .ts__legend li.is-done { opacity: 0; }
+  .toolscene.is-live .ts__legend li.is-active { opacity: 1; transform: none; }
+  .toolscene.is-live .ts__cta {
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  }
+  .toolscene.is-live.is-done .ts__legend li.is-active { opacity: 0; }
+  .toolscene.is-live.is-done .ts__cta { opacity: 1; transform: none; pointer-events: auto; }
+  .toolscene.is-live .toolscene__sticky { padding-top: 5em; padding-bottom: 1.2em; }
 }
 
 /* ============ Story / Timeline ============ */
@@ -1499,6 +1988,7 @@ body.has-announce .nav { top: 42px; }
 /* Im ersten Bildschirm nicht lange warten lassen: Text ist nach gut einer halben
    Sekunde da (der Instagram-Browser zeigt sonst kurz eine fast leere Seite) */
 .hero .reveal { transition-duration: 0.5s; }
+.hero .reveal-img { transition-duration: 0.7s, 0.5s; }
 
 .reveal-img {
   clip-path: inset(8% 8% 8% 8% round 14px);
@@ -1549,7 +2039,7 @@ body.has-announce .nav { top: 42px; }
   .reveal .eyebrow-line { width: 48px; }
 }
 
-/* ============ Unterseiten: Gratis-Prompts und Meine Tools ============ */
+/* ============ Unterseiten: Anleitungen und Meine Tools ============ */
 .subnav { display: flex; gap: 1.8em; }
 .subnav a {
   color: var(--cream-dim);
@@ -1626,6 +2116,54 @@ body.has-announce .nav { top: 42px; }
 }
 .sub-note { max-width: 46em; margin-top: 2em; font-size: 0.85rem; color: var(--cream-dim); }
 
+/* Anleitungen: Themen zum Antippen (js/sub.js filtert), kurze Karten, ganze Karte ist der Link */
+.gi { padding: 0 1.5em; }
+.gi__ask {
+  margin-bottom: 0.9em;
+  font-family: var(--font-head);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.gi__chips { display: flex; flex-wrap: wrap; gap: 0.6em; }
+.gi__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.6em 1em;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--cream);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s var(--ease-out), box-shadow 0.3s;
+}
+.gi__chip span {
+  min-width: 1.7em;
+  height: 1.7em;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(188, 150, 95, 0.15);
+  color: var(--gold-soft);
+  font-size: 0.78rem;
+}
+.gi__chip:hover { border-color: var(--gold); transform: translateY(-2px); }
+.gi__chip.is-on {
+  background: linear-gradient(120deg, var(--gold), var(--gold-bright));
+  border-color: transparent;
+  color: #1a1508;
+  box-shadow: 0 6px 20px rgba(236, 167, 20, 0.25);
+}
+.gi__chip.is-on span { background: rgba(26, 21, 8, 0.15); color: #1a1508; }
+.sub-group.is-hidden { display: none; }
+.sub-group.gi-enter { animation: subRise 0.5s var(--ease-out) both; }
+a.pdf-card { text-decoration: none; color: inherit; }
+a.pdf-card:hover .pdf-card__link { color: var(--gold-bright); border-color: var(--gold); }
+
 /* Unterseiten in Bewegung: Einstieg steigt beim Laden auf, ein Lichtschein zieht im
    Hintergrund, Karten erscheinen per js/sub.js nacheinander und haben einen Lichtfleck,
    der der Maus folgt. Ohne Skript bleibt alles sichtbar. */
@@ -1674,5 +2212,12 @@ body.has-announce .nav { top: 42px; }
 @media (max-width: 900px) {
   /* Handy: nur der Weg zurück, die Unterseiten stehen im Footer und auf der Startseite */
   .subnav a:not(.subnav__home) { display: none; }
+  /* Handy: Karten kompakter, damit man schneller durchkommt */
+  .pdf-grid { gap: 0.7em; }
+  .pdf-card { padding: 1.1em 1.2em; gap: 0.35em; }
+  .pdf-card h3 { font-size: 1.02rem; }
+  .pdf-card p { font-size: 0.9rem; }
+  .gi { padding: 0 1.2em; }
+  .gi__chip { font-size: 0.9rem; padding: 0.55em 0.9em; }
   .sub-intro { padding-top: 7em; }
 }

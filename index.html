@@ -41,7 +41,7 @@
         <a href="#gelernt">Woher ich's weiß</a>
         <a href="#weg">Mein Weg</a>
         <a href="#fragen">Fragen</a>
-        <a href="prompts.html">Gratis-Prompts</a>
+        <a href="anleitungen.html">Anleitungen</a>
         <a href="tools.html">Meine Tools</a>
       </nav>
       <button class="nav__burger" id="burger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
@@ -52,15 +52,14 @@
     <a href="#gelernt">Woher ich's weiß</a>
     <a href="#weg">Mein Weg</a>
     <a href="#fragen">Fragen</a>
-    <a href="prompts.html">Gratis-Prompts</a>
+    <a href="anleitungen.html">Anleitungen</a>
     <a href="tools.html">Meine Tools</a>
   </div>
 
   <main id="top">
 
     <!-- ============ HERO ============ -->
-    <section class="hero">
-      <canvas id="particles" class="hero__particles" aria-hidden="true"></canvas>
+    <section class="hero" data-sparks="hero">
       <div class="hero__glow" aria-hidden="true"></div>
       <div class="hero__inner">
         <div class="hero__content">
@@ -87,9 +86,15 @@
           </div>
         </div>
         <div class="hero__visual reveal-img" data-delay="300">
-          <div class="portrait" id="portrait">
+          <!-- Bewegung ohne Maus (Julian, 05.10.2026: die meisten kommen mit dem Handy):
+               langsamer Zoom, Lichtstreifen und Funken vor dem Foto. Kippen per Maus nur am Computer. -->
+          <div class="portrait" id="portrait" data-sparks="soft" data-sparks-front>
             <div class="portrait__frame"></div>
-            <img src="assets/julian-hero-cinematic.jpg" alt="Julian von Julians Way" class="portrait__img">
+            <div class="portrait__clip">
+              <div class="portrait__pan">
+                <img src="assets/julian-hero-cinematic.jpg" alt="Julian von Julians Way" class="portrait__img" fetchpriority="high">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -101,7 +106,7 @@
          es nach dem Klick weitergeht (Julian, 05.10.2026: „wo ist was für mich?“). Erster von
          zwei Werbelinks, der zweite steht im Abschluss. Fakten: Fragen und Video kostenlos
          (Julian, 25.09.2026), Ablauf laut Funnel-Seite (FUNNEL_URL). -->
-    <section class="offer section" id="videotraining">
+    <section class="offer section" id="videotraining" data-sparks="soft">
       <div class="section__inner cta__inner">
         <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>DAS KOSTENLOSE VIDEOTRAINING</p>
         <h2 class="section__title reveal" data-delay="100">DAS STECKT<br><span class="grad">DAHINTER.</span></h2>
@@ -207,7 +212,7 @@
          (Reel-Drehbuch, Job-Anfänge, Ohne Gesicht). Ohne Skript oder ohne Bewegung
          (prefers-reduced-motion) steht das fertige, zerlegte Bild still da. -->
     <section class="explode" id="aufbau" aria-labelledby="explodeTitle">
-      <div class="explode__sticky">
+      <div class="explode__sticky" data-sparks="soft">
         <div class="explode__head">
           <p class="section__eyebrow"><span class="eyebrow-line"></span>VON INNEN ANGESCHAUT</p>
           <h2 class="section__title" id="explodeTitle">SO IST EIN REEL<br><span class="grad">AUFGEBAUT.</span></h2>
@@ -241,7 +246,7 @@
                 </div>
                 <div class="ex__layer" style="--off:-1" data-n="4">
                   <div class="ex__plane ex__plane--video">
-                    <img src="assets/julian-hero-cinematic.jpg" alt="" loading="lazy" decoding="async">
+                    <img src="assets/julian-hero-cinematic.jpg" alt="" decoding="async">
                   </div>
                 </div>
                 <div class="ex__layer" style="--off:-2" data-n="5">
@@ -264,15 +269,88 @@
         </div>
       </div>
     </section>
-    <!-- Außerhalb des Abschnitts, sonst schiebt sich der Link über das klebende Handy -->
-    <div class="explode__after">
-      <div class="section__inner">
-        <aside class="softlink">
-          <p class="softlink__text">Wie das Sekunde für Sekunde aussieht, zeigt dir mein Reel-Drehbuch. Das liegt kostenlos bei meinen Gratis-Prompts.</p>
-          <a class="softlink__link" href="prompts.html">Zu den Gratis-Prompts</a>
-        </aside>
+    <!-- ============ ANLEITUNGEN (direkt nach der Reel-Szene) ============
+         Julian, 05.10.2026: Anleitungen und Tools gingen auf der Startseite unter. Vier
+         PDF-Karten liegen als Stapel und fächern beim Scrollen auf (js/main.js „Fächer“).
+         Interner Link, kein Werbelink. Linktext „Zu den Anleitungen“, nicht „Gratis-…“
+         (Julian). Fakten zu den PDFs wie auf anleitungen.html. Steht außerhalb von #aufbau,
+         sonst schiebt es sich über das klebende Handy. -->
+    <section class="guides section" id="anleitungen-start" data-sparks="soft">
+      <div class="section__inner guides__inner">
+        <div class="guides__text">
+          <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>ZUM MITNEHMEN</p>
+          <h2 class="section__title reveal">DIE ANLEITUNG<br><span class="grad">DAZU.</span></h2>
+          <p class="section__lead reveal">
+            Damit du das beim nächsten Reel nicht im Kopf behalten musst, hab ich dir ein
+            Reel-Drehbuch geschrieben. Es zeigt dir den Aufbau Sekunde für Sekunde an einem
+            Beispiel, und am Ende baut dir ein Prompt dein eigenes Reel.
+          </p>
+          <p class="guides__more reveal">
+            Daneben liegen noch mehr Anleitungen, zum Beispiel fünf Story-Vorlagen oder 25
+            Bild-Prompts zum Kopieren. Du kannst sie alle kostenlos als PDF öffnen.
+          </p>
+          <a class="btn btn--gold btn--magnetic reveal" href="anleitungen.html">Zu den Anleitungen <span class="btn__arrow">→</span></a>
+        </div>
+        <a class="guides__fan" href="anleitungen.html" tabindex="-1" aria-hidden="true">
+          <span class="doc" style="--i:0"><span class="doc__in">
+            <span class="doc__kind">Anleitung</span><span class="doc__title">Dein Startplan</span><b></b><b></b><b></b>
+          </span></span>
+          <span class="doc" style="--i:1"><span class="doc__in">
+            <span class="doc__kind">Vorlagen</span><span class="doc__title">Die fünf Storys</span><b></b><b></b><b></b>
+          </span></span>
+          <span class="doc" style="--i:2"><span class="doc__in">
+            <span class="doc__kind">Prompts</span><span class="doc__title">25 Bild-Prompts</span><b></b><b></b><b></b>
+          </span></span>
+          <span class="doc doc--main" style="--i:3"><span class="doc__in">
+            <span class="doc__kind">Workbook</span><span class="doc__title">Das Reel-Drehbuch</span><b></b><b></b><b></b><b></b>
+          </span></span>
+        </a>
       </div>
-    </div>
+    </section>
+
+    <!-- ============ MEINE KI-TOOLS (Scroll-Szene) ============
+         Julian, 05.10.2026: „genauso in der Art, nur für die KI-Tools“. Drei Tool-Chips
+         kreisen um ein Handy und docken beim Scrollen nacheinander an: i10x schreibt den
+         Text, Higgsfield bearbeitet das Video, ChatPlace schickt auf ein Keyword die
+         Anleitung per Nachricht. Texte nur aus Julians belegten Einsätzen (wie tools.html).
+         Kein Werbelink: Der Knopf führt auf tools.html, dort sind die Links gekennzeichnet.
+         Steuerung in js/main.js („KI-Tools-Szene“). Ohne Skript ist alles angedockt. -->
+    <section class="toolscene" id="ki-tools" aria-labelledby="toolsTitle">
+      <div class="toolscene__sticky" data-sparks="soft">
+        <div class="toolscene__head">
+          <p class="section__eyebrow"><span class="eyebrow-line"></span>MEINE KI-TOOLS</p>
+          <h2 class="section__title" id="toolsTitle">DAMIT BAU ICH<br><span class="grad">MEINE REELS.</span></h2>
+        </div>
+        <div class="toolscene__foot">
+          <ol class="ts__legend">
+            <li><span class="ts__tag">i10x</span><span><strong>Der Text</strong> Damit lass ich mir Reel-Ideen und Captions schreiben, mal von ChatGPT und mal von Claude.</span></li>
+            <li><span class="ts__tag">Higgsfield</span><span><strong>Das Video</strong> Damit bearbeite ich Videos mit KI, zum Beispiel einen neuen Hintergrund, während Gesicht und Stimme meine bleiben.</span></li>
+            <li><span class="ts__tag">ChatPlace</span><span><strong>Die Antwort</strong> Wer unter meinem Reel ein Keyword kommentiert, bekommt die passende Anleitung automatisch per Nachricht.</span></li>
+          </ol>
+          <a class="btn btn--gold btn--magnetic ts__cta" href="tools.html">Zu meinen Tools <span class="btn__arrow">→</span></a>
+        </div>
+        <div class="toolscene__stage" aria-hidden="true">
+          <div class="ts">
+            <div class="ts__glow"></div>
+            <div class="ts__phone">
+              <div class="ts__screen">
+                <img class="ts__img" src="assets/julian-hero-cinematic.jpg" alt="" decoding="async">
+                <span class="ts__lava"></span>
+                <span class="ts__scan"></span>
+                <span class="ts__hook"><b></b><b></b></span>
+                <span class="ts__caption"><b></b><b></b></span>
+                <span class="ts__comment"><i></i>DREHBUCH</span>
+              </div>
+              <span class="ts__island"></span>
+            </div>
+            <span class="ts__dm"><span class="ts__pdf">PDF</span><span>Das Reel-Drehbuch</span></span>
+            <span class="ts__chip" data-i="0"><i class="ts__ico ts__ico--text"></i>i10x</span>
+            <span class="ts__chip" data-i="1"><i class="ts__ico ts__ico--video"></i>Higgsfield</span>
+            <span class="ts__chip" data-i="2"><i class="ts__ico ts__ico--chat"></i>ChatPlace</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ============ MEIN WEG ============ -->
     <section class="story section" id="weg">
@@ -511,7 +589,7 @@
     </section>
 
     <!-- ============ FINAL CTA ============ -->
-    <section class="cta section" id="angebot">
+    <section class="cta section" id="angebot" data-sparks="hero">
       <div class="section__inner cta__inner">
         <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>WENN DU MAGST</p>
         <h2 class="cta__title reveal" data-delay="100">
@@ -543,7 +621,7 @@
           </svg>
           @julians.way
         </a>
-        <p class="cta__freebies">Oder hol dir erst mal meine <a href="prompts.html">Gratis-Prompts und Anleitungen</a>.</p>
+        <p class="cta__freebies">Oder schau dir erst mal meine <a href="anleitungen.html">Anleitungen</a> an, die kannst du kostenlos öffnen.</p>
       </div>
     </section>
 
@@ -555,7 +633,7 @@
       <span class="footer__logo" id="footerLogo">J<i>·</i>W</span>
       <p class="footer__copy">© 2026 JULIANS WAY. Alle Rechte vorbehalten.</p>
       <nav class="footer__links">
-        <a href="prompts.html">Gratis-Prompts</a>
+        <a href="anleitungen.html">Anleitungen</a>
         <a href="tools.html">Meine Tools</a>
         <a href="https://www.instagram.com/julians.way/" target="_blank" rel="noopener">Instagram</a>
         <a href="impressum.html">Impressum</a>
@@ -565,5 +643,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/sparks.js"></script>
 </body>
 </html>

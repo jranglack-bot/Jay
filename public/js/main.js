@@ -31,6 +31,15 @@
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
+  // CSS-Variable nur schreiben, wenn sich der Wert ändert: spart dem Browser bei jedem
+  // Bild das Neuberechnen aller Elemente darunter (wichtig für die Scroll-Szenen am Handy)
+  const setVar = (el, name, val) => {
+    const cache = el.varCache || (el.varCache = {});
+    if (cache[name] !== val) {
+      cache[name] = val;
+      el.style.setProperty(name, val);
+    }
+  };
 
   /* ---------- Leise Links in der Mitte ----------
      Sie springen zum Abschluss (#angebot), damit jeder vor dem Klick nach draußen die
@@ -462,25 +471,24 @@
       const ph = pw * 2;
       const icon = pw * 0.8;
       const lens = icon * 0.46;
-      const st = ex.style;
-      st.setProperty("--m", m.toFixed(3));
-      st.setProperty("--e", e.toFixed(3));
-      st.setProperty("--rx", (56 * t).toFixed(2) + "deg");
-      st.setProperty("--rz", (-36 * t - 4 * e).toFixed(2) + "deg");
-      st.setProperty("--gap", px(e * pw * 0.3));
-      st.setProperty("--fw", px(lerp(icon, pw, m)));
-      st.setProperty("--fh", px(lerp(icon, ph, m)));
-      st.setProperty("--fr", px(lerp(icon * 0.29, pw * 0.16, m)));
-      st.setProperty("--fs", px(lerp(icon * 0.075, 2.5, m)));
-      st.setProperty("--lw", px(lerp(lens, pw * 0.3, m)));
-      st.setProperty("--lh", px(lerp(lens, pw * 0.075, m)));
-      st.setProperty("--lt", px(lerp((icon - lens) / 2, pw * 0.05, m)));
-      st.setProperty("--ls", px(lerp(icon * 0.075, 1.5, m)));
-      st.setProperty("--dd", px(icon * 0.1));
-      st.setProperty("--dr", px(icon * 0.15));
-      explode.style.setProperty("--hint-out", seg(p, 0.03, 0.12).toFixed(3));
+      setVar(ex, "--m", m.toFixed(3));
+      setVar(ex, "--e", e.toFixed(3));
+      setVar(ex, "--rx", (56 * t).toFixed(2) + "deg");
+      setVar(ex, "--rz", (-36 * t - 4 * e).toFixed(2) + "deg");
+      setVar(ex, "--gap", px(e * pw * 0.3));
+      setVar(ex, "--fw", px(lerp(icon, pw, m)));
+      setVar(ex, "--fh", px(lerp(icon, ph, m)));
+      setVar(ex, "--fr", px(lerp(icon * 0.29, pw * 0.16, m)));
+      setVar(ex, "--fs", px(lerp(icon * 0.075, 2.5, m)));
+      setVar(ex, "--lw", px(lerp(lens, pw * 0.3, m)));
+      setVar(ex, "--lh", px(lerp(lens, pw * 0.075, m)));
+      setVar(ex, "--lt", px(lerp((icon - lens) / 2, pw * 0.05, m)));
+      setVar(ex, "--ls", px(lerp(icon * 0.075, 1.5, m)));
+      setVar(ex, "--dd", px(icon * 0.1));
+      setVar(ex, "--dr", px(icon * 0.15));
+      setVar(explode, "--hint-out", seg(p, 0.03, 0.12).toFixed(3));
       inOrder.forEach((li, k) => {
-        layers[li].style.setProperty("--in", seg(s, k * 0.11, k * 0.11 + 0.45).toFixed(3));
+        setVar(layers[li], "--in", seg(s, k * 0.11, k * 0.11 + 0.45).toFixed(3));
       });
 
       // Welche Ebene gerade dran ist: -1 noch keine, 0 bis 5, 6 = alle durch
@@ -516,10 +524,12 @@
       return clamp01(-r.top / Math.max(r.height - innerHeight, 1));
     };
 
-    // Weich hinterherlaufen statt springen (glättet Mausrad und Touch)
+    // Weich hinterherlaufen statt springen. Mausrad springt grob und braucht mehr Glättung,
+    // Wischen am Handy ist schon weich und soll sich direkt anfühlen.
+    const follow = matchMedia("(pointer: coarse)").matches ? 0.24 : 0.14;
     const tick = () => {
       const d = target - shown;
-      shown = Math.abs(d) < 0.0005 ? target : shown + d * 0.14;
+      shown = Math.abs(d) < 0.0005 ? target : shown + d * follow;
       render(shown);
       raf = shown === target ? 0 : requestAnimationFrame(tick);
     };
@@ -551,6 +561,158 @@
       size();
       onScroll();
     });
+  }
+
+  /* ---------- KI-Tools-Szene ----------
+     Abschnitt 330vh, Inhalt klebt. Scrollfortschritt p von 0 bis 1: Erst kreisen die drei
+     Chips ums Handy (auch im Stand). Ab 0,1 dockt i10x an und der Text schreibt sich, ab
+     0,38 Higgsfield (Video erscheint, ein Scan legt den neuen Hintergrund drüber), ab 0,64
+     ChatPlace (Kommentar mit Keyword, die Nachricht mit dem PDF fliegt raus). Ab 0,9 ist
+     alles fertig, am Handy erscheint dann der Knopf „Zu meinen Tools“. Rückwärts genauso. */
+  const toolScene = $("#ki-tools");
+  if (toolScene && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const tsStage = toolScene.querySelector(".toolscene__stage");
+    const chips = [...toolScene.querySelectorAll(".ts__chip")];
+    const tItems = [...toolScene.querySelectorAll(".ts__legend li")];
+    const START = [0.1, 0.38, 0.64]; // ab hier dockt Chip i an
+    const DOCK = [[-0.78, -0.34], [0.78, -0.02], [-0.78, 0.3]]; // in Handybreiten/-höhen
+    const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
+    const seg = (p, a, b) => clamp01((p - a) / (b - a));
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const follow = matchMedia("(pointer: coarse)").matches ? 0.24 : 0.14;
+    let pw = 180;
+    let ph = 360;
+    let half = 400;
+    let target = 0;
+    let shown = 0;
+    let near = false;
+    let raf = 0;
+    let step = -2;
+    let lastW = 0;
+    let lastH = 0;
+
+    toolScene.classList.add("is-live");
+
+    const size = () => {
+      if (Math.abs(innerWidth - lastW) < 1 && Math.abs(innerHeight - lastH) < 120) return;
+      lastW = innerWidth;
+      lastH = innerHeight;
+      const r = tsStage.getBoundingClientRect();
+      half = (innerWidth <= 900 ? innerWidth : r.width) / 2;
+      // Chips kreisen gut eine halbe Handyhöhe über und unter der Mitte
+      pw = Math.round(Math.max(110, Math.min(210, (r.height - 40) / 2.4, half * 0.76)));
+      ph = pw * 2;
+      toolScene.style.setProperty("--pw", pw + "px");
+      chips.forEach((c) => (c.w = c.offsetWidth));
+      step = -2;
+    };
+
+    const render = (p, time) => {
+      chips.forEach((c, i) => {
+        const lim = half - c.w / 2 - 8; // nie über den Bildschirmrand hinaus
+        // Kreisbahn wie ein schräger Ring: unten vor dem Handy, oben dahinter
+        const ang = time * 0.45 + i * ((Math.PI * 2) / 3);
+        const depth = Math.sin(ang);
+        const ox = Math.cos(ang) * Math.min(pw * 1.05, lim);
+        const oy = depth * ph * 0.42;
+        const os = 0.82 + 0.18 * (depth + 1) / 2;
+        const d = ease(seg(p, START[i], START[i] + 0.1));
+        const dx = Math.sign(DOCK[i][0]) * Math.min(Math.abs(DOCK[i][0]) * pw, lim);
+        setVar(c, "--cx", lerp(ox, dx, d).toFixed(1) + "px");
+        setVar(c, "--cy", lerp(oy, DOCK[i][1] * ph, d).toFixed(1) + "px");
+        setVar(c, "--cs", lerp(os, 1, d).toFixed(3));
+        c.style.opacity = lerp(0.55 + 0.45 * (depth + 1) / 2, 1, d).toFixed(3);
+        c.style.zIndex = d > 0.5 || depth > 0 ? 5 : 2;
+        c.classList.toggle("is-docked", d > 0.97);
+      });
+      const a1 = seg(p, 0.18, 0.36); // i10x schreibt
+      setVar(toolScene, "--t1", seg(a1, 0, 0.4).toFixed(3));
+      setVar(toolScene, "--t2", seg(a1, 0.25, 0.6).toFixed(3));
+      setVar(toolScene, "--t3", seg(a1, 0.5, 0.8).toFixed(3));
+      setVar(toolScene, "--t4", seg(a1, 0.7, 1).toFixed(3));
+      const a2 = seg(p, 0.46, 0.62); // Higgsfield: Video, dann Scan
+      const k = seg(a2, 0.3, 1);
+      setVar(toolScene, "--v", seg(a2, 0, 0.3).toFixed(3));
+      setVar(toolScene, "--k", k.toFixed(3));
+      setVar(toolScene, "--so", Math.sin(k * Math.PI).toFixed(3));
+      const a3 = seg(p, 0.72, 0.9); // ChatPlace: Kommentar, dann Nachricht
+      setVar(toolScene, "--c", seg(a3, 0, 0.3).toFixed(3));
+      setVar(toolScene, "--m", ease(seg(a3, 0.35, 1)).toFixed(3));
+
+      const s = p >= START[2] ? 2 : p >= START[1] ? 1 : p >= START[0] ? 0 : -1;
+      if (s !== step) {
+        step = s;
+        tItems.forEach((it, i) => {
+          it.classList.toggle("is-active", i === s);
+          it.classList.toggle("is-done", i < s);
+        });
+      }
+      toolScene.classList.toggle("is-done", p >= 0.9);
+    };
+
+    const progress = () => {
+      const r = toolScene.getBoundingClientRect();
+      return clamp01(-r.top / Math.max(r.height - innerHeight, 1));
+    };
+
+    // Läuft nur, solange die Szene in der Nähe ist: Chips kreisen, Scrollwert läuft weich nach
+    const loop = (now) => {
+      const d = target - shown;
+      shown = Math.abs(d) < 0.0005 ? target : shown + d * follow;
+      render(shown, now / 1000);
+      raf = near ? requestAnimationFrame(loop) : 0;
+    };
+
+    new IntersectionObserver(
+      (entries) => {
+        near = entries[0].isIntersecting;
+        toolScene.classList.toggle("is-near", near);
+        if (near && !raf) {
+          target = shown = progress();
+          raf = requestAnimationFrame(loop);
+        }
+      },
+      { rootMargin: "30% 0px" }
+    ).observe(toolScene);
+
+    size();
+    target = shown = progress();
+    render(shown, performance.now() / 1000);
+    addEventListener("scroll", () => {
+      if (near) target = progress();
+    }, { passive: true });
+    addEventListener("resize", () => {
+      size();
+      target = progress();
+    });
+    if (document.fonts) document.fonts.ready.then(() => {
+      lastW = 0;
+      size();
+    });
+  }
+
+  /* ---------- Fächer der Anleitungen ----------
+     Die vier PDF-Karten liegen als Stapel, solange der Block unten am Rand steht, und
+     fächern auf, je weiter er ins Bild kommt. Hochscrollen schiebt sie wieder zusammen. */
+  const fan = $(".guides__fan");
+  if (fan && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let fanTicking = false;
+    const updateFan = () => {
+      fanTicking = false;
+      const r = fan.getBoundingClientRect();
+      if (r.bottom < -50 || r.top > innerHeight + 50) return;
+      const p = Math.min(Math.max((innerHeight - r.top) / (innerHeight * 0.7), 0), 1);
+      fan.style.setProperty("--f", (1 - Math.pow(1 - p, 3)).toFixed(3));
+    };
+    addEventListener("scroll", () => {
+      if (!fanTicking) {
+        fanTicking = true;
+        requestAnimationFrame(updateFan);
+      }
+    }, { passive: true });
+    addEventListener("resize", updateFan);
+    updateFan();
   }
 
   /* ---------- 3D-Karussell: Ergebnisse ----------
@@ -657,61 +819,7 @@
     }
   }
 
-  /* ---------- Gold-Partikel im Hero ---------- */
-  const canvas = $("#particles");
-  if (canvas && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const ctx = canvas.getContext("2d");
-    let W, H, parts;
-    const N = 70;
-    function resize() {
-      W = canvas.width = canvas.offsetWidth * devicePixelRatio;
-      H = canvas.height = canvas.offsetHeight * devicePixelRatio;
-    }
-    function spawn() {
-      parts = Array.from({ length: N }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: (Math.random() * 2 + 0.6) * devicePixelRatio,
-        vx: (Math.random() - 0.5) * 0.12 * devicePixelRatio,
-        vy: (-Math.random() * 0.25 - 0.05) * devicePixelRatio,
-        a: Math.random() * 0.55 + 0.25,
-        tw: Math.random() * Math.PI * 2,
-      }));
-    }
-    resize();
-    spawn();
-    addEventListener("resize", () => { resize(); spawn(); });
-    // Partikel nur zeichnen, solange der Hero zu sehen ist
-    let heroLoop = null;
-    let heroVisible = true;
-    (function loop(t) {
-      ctx.clearRect(0, 0, W, H);
-      for (const p of parts) {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.tw += 0.02;
-        if (p.y < -10 || p.x < -10 || p.x > W + 10) {
-          p.x = Math.random() * W;
-          p.y = H + 10;
-        }
-        const alpha = p.a * (0.6 + 0.4 * Math.sin(p.tw));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(231, 191, 107, ${alpha.toFixed(3)})`;
-        ctx.fill();
-      }
-      if (heroVisible) requestAnimationFrame(loop);
-      else heroLoop = loop;
-    })(0);
-    new IntersectionObserver((entries) => {
-      heroVisible = entries[0].isIntersecting;
-      if (heroVisible && heroLoop) {
-        const l = heroLoop;
-        heroLoop = null;
-        requestAnimationFrame(l);
-      }
-    }).observe(canvas);
-  }
+  /* Gold-Funken im Hero und in anderen Abschnitten: js/sparks.js (data-sparks) */
 
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -786,6 +894,27 @@
         running = false;
       }
     }).observe(marquee);
+  }
+
+  /* ---------- Foto im Hero wandert beim Scrollen leicht im Rahmen ----------
+     Funktioniert ohne Maus, also auch am Handy. Der langsame Zoom (CSS) gibt dafür Rand. */
+  const pan = $(".portrait__pan");
+  if (pan && !reducedMotion) {
+    let panTicking = false;
+    const updatePan = () => {
+      panTicking = false;
+      const r = pan.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const d = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+      pan.style.transform = "translate3d(0," + (Math.max(-1, Math.min(1, d)) * -10).toFixed(1) + "px,0)";
+    };
+    addEventListener("scroll", () => {
+      if (!panTicking) {
+        panTicking = true;
+        requestAnimationFrame(updatePan);
+      }
+    }, { passive: true });
+    updatePan();
   }
 
   /* ---------- Hero tritt beim Wegscrollen zurück (nur breite Bildschirme) ----------

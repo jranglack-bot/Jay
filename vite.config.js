@@ -24,7 +24,7 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         impressum: resolve(import.meta.dirname, 'impressum.html'),
         datenschutz: resolve(import.meta.dirname, 'datenschutz.html'),
-        prompts: resolve(import.meta.dirname, 'prompts.html'),
+        anleitungen: resolve(import.meta.dirname, 'anleitungen.html'),
         tools: resolve(import.meta.dirname, 'tools.html'),
       },
     },

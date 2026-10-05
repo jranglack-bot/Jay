@@ -1,5 +1,5 @@
 /* ============================================================
-   JULIANS WAY: Unterseiten (Gratis-Prompts, Meine Tools)
+   JULIANS WAY: Unterseiten (Anleitungen, Meine Tools)
    Startet oben, Lesefortschritt, Karten erscheinen nacheinander,
    Lichtfleck folgt der Maus. Klassisches Skript wie js/main.js.
    ============================================================ */
@@ -7,7 +7,7 @@
   "use strict";
 
   /* ---------- Immer oben anfangen ----------
-     Gratis-Prompts öffnete bei Julian unten (05.10.2026). Ohne Sprungziel (#...) stellt
+     Die Anleitungen-Seite öffnete bei Julian unten (05.10.2026). Ohne Sprungziel (#...) stellt
      der Browser deshalb keine alte Scrollposition wieder her. */
   if (!location.hash) {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -63,6 +63,39 @@
       { threshold: 0.12, rootMargin: "0px 0px -5% 0px" }
     );
     items.forEach((el) => io.observe(el));
+  }
+
+  /* ---------- Anleitungen nach Thema filtern ----------
+     Ohne Skript springen die Themen-Knöpfe nur zum passenden Abschnitt. Mit Skript zeigen
+     sie nur dieses Thema, „Alle“ zeigt wieder alles. */
+  const chips = [...document.querySelectorAll(".gi__chip")];
+  const groups = [...document.querySelectorAll("[data-group]")];
+  if (chips.length && groups.length) {
+    const show = (f, animate) => {
+      chips.forEach((c) => {
+        const on = c.dataset.filter === f;
+        c.classList.toggle("is-on", on);
+        if (on) c.setAttribute("aria-current", "true");
+        else c.removeAttribute("aria-current");
+      });
+      groups.forEach((g) => {
+        const on = f === "alle" || g.dataset.group === f;
+        g.classList.toggle("is-hidden", !on);
+        g.classList.remove("gi-enter");
+        if (on && animate && !reduced) {
+          void g.offsetWidth; // Animation neu starten
+          g.classList.add("gi-enter");
+        }
+      });
+    };
+    chips.forEach((c) => {
+      c.hidden = false;
+      c.addEventListener("click", (e) => {
+        e.preventDefault();
+        show(c.dataset.filter, true);
+      });
+    });
+    show("alle", false);
   }
 
   /* ---------- Lichtfleck auf den Karten folgt der Maus ---------- */

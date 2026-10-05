@@ -15,16 +15,17 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - `package.json`, `vite.config.js` und die HTML-Seiten liegen in der **Repo-Wurzel**.
 - Jede HTML-Seite muss in `vite.config.js` unter `rollupOptions.input` stehen,
   sonst fehlt sie im Build. Neue Seite = dort eintragen.
-- `js/main.js` (Startseite) und `js/sub.js` (Unterseiten) liegen unter `public/js/`
-  (klassische Skripte ohne `type="module"`, Vite kopiert `public/` 1:1). Nicht nach `js/`
-  zurückverschieben.
+- `js/main.js` (Startseite), `js/sub.js` (Unterseiten) und `js/sparks.js` (Gold-Funken,
+  überall) liegen unter `public/js/` (klassische Skripte ohne `type="module"`, Vite kopiert
+  `public/` 1:1). Nicht nach `js/` zurückverschieben. `js/sparks.js` immer nach `js/main.js`
+  bzw. `js/sub.js` laden (es braucht die schon gesetzten Klassen der Scroll-Szenen).
 - Hostinger liefert Dateien aus `public/` mit 7 Tagen Browser-Cache aus. Deshalb hängt
   das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an jedes `js/*.js`,
   sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
   entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
-  `js/main.js`, `js/sub.js`, CSS, Bilder, Schriften, `frames/rooftop/`). Vor dem Pushen
-  immer bauen und prüfen.
+  `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften, `frames/rooftop/`).
+  Vor dem Pushen immer bauen und prüfen.
 
 ## Schriften und Rooftop-Animation
 
@@ -74,7 +75,7 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   wer ich bin“ führt zu `#gelernt`. Gemessen vorher: Knopf zum Funnel auf dem iPhone erst
   bei Bildschirm 14,8; nachher bei 2,4. Das Videotraining steht nicht in der Navigation,
   kein fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere
-  Optionen gibt es Instagram (@julians.way) und die Gratis-Prompts.
+  Optionen gibt es Instagram (@julians.way) und die Anleitungen.
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining, Live-Event und
   die Tools eine Provision. Werbelinks gibt es nur im Angebotskasten oben, im Abschluss,
   im Live-Event-Abschnitt und auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
@@ -103,10 +104,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
   dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
 - **Reihenfolge (seit 05.10.2026):** Hero, Angebotskasten (`#videotraining`),
-  „Woher ich das weiß“ (`#gelernt`), „So ist ein Reel aufgebaut“ (`#aufbau`), Geschichte
-  (`#weg`), Zahlen, „So läuft's bei mir konkret“, Fragen, Abschluss (`#angebot`, drei
-  Schritte dort nur als ein Satz). Im Live-Event-Modus ersetzt der Event-Abschnitt den
-  Angebotskasten an derselben Stelle.
+  „Woher ich das weiß“ (`#gelernt`), „So ist ein Reel aufgebaut“ (`#aufbau`), „Die Anleitung
+  dazu“ (`#anleitungen-start`), „Meine KI-Tools“ (`#ki-tools`), Geschichte (`#weg`), Zahlen,
+  „So läuft's bei mir konkret“, Fragen, Abschluss (`#angebot`, drei Schritte dort nur als
+  ein Satz). Im Live-Event-Modus ersetzt der Event-Abschnitt den Angebotskasten an derselben
+  Stelle. Anleitungen und Tools stehen bewusst früh und groß, Julian: „die gehen hier
+  komplett unter“ (05.10.2026).
 
 ## Bewegung (seit 05.10.2026)
 
@@ -120,8 +123,29 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   der gleichen Reihenfolge). Phasen und Größen in `public/js/main.js` („Explosionszeichnung“),
   Startwerte in `css/style.css` zeigen ohne Skript das fertige, zerlegte Bild. Das Foto auf
   der Video-Ebene ist `assets/julian-hero-cinematic.jpg`. Der Abschnitt nutzt
-  `overflow-x: clip`, nie `hidden` (sonst klebt nichts mehr). Der leise Link zu den
-  Gratis-Prompts steht als `.explode__after` hinter dem Abschnitt, nicht darin.
+  `overflow-x: clip`, nie `hidden` (sonst klebt nichts mehr). Julian findet die Szene
+  „ultra krass“, sie bleibt so; Änderungen nur fürs Handy (Leistung, Größe).
+- **Anleitungen-Block `#anleitungen-start`** direkt danach: vier PDF-Karten fächern beim
+  Scrollen auf (`--f`, „Fächer“ in `public/js/main.js`), Knopf „Zu den Anleitungen“. Steht
+  außerhalb von `#aufbau`, sonst schiebt er sich über das klebende Handy.
+- **KI-Tools-Szene `#ki-tools`** (330vh, sticky): drei Chips (i10x, Higgsfield, ChatPlace)
+  kreisen ums Handy und docken nacheinander an. i10x schreibt Text, Higgsfield legt per Scan
+  einen neuen Hintergrund in Vulkan-Farben über das Video, ChatPlace zeigt einen Kommentar
+  mit Keyword und schickt die Nachricht mit dem PDF raus. Legende nur mit Julians belegten
+  Einsätzen (wie `tools.html`). Kein Werbelink in der Szene, der Knopf führt auf
+  `tools.html`. Am Handy erscheint der Knopf erst am Ende anstelle der Legende.
+- **Gold-Funken** (`js/sparks.js`): jedes Element mit `data-sparks="hero"` oder `"soft"`
+  bekommt eine Leinwand mit aufsteigenden Punkten und Funken mit Schweif, `data-sparks-front`
+  legt sie vor den Inhalt (Hero-Foto). Gezeichnet wird nur, was im Bild ist; am Handy
+  weniger Teilchen. Ein Element mit `data-sparks` darf nicht `position: static` sein, wenn es
+  per Skript sticky wird (sonst setzt das Modul `relative` und das Kleben ist weg).
+- **Hero-Foto** bewegt sich ohne Maus (Julian: die meisten kommen mit dem Handy): langsamer
+  Zoom, Lichtstreifen, Ecken leuchten, Funken davor, leichtes Wandern beim Scrollen. Das
+  Kippen per Maus bleibt nur am Computer. `fetchpriority="high"`, damit es zuerst lädt.
+- **Goldschrift** (`.grad`): ein heller Glanzstreifen läuft gut sichtbar durch (Julian: der
+  alte Farbwechsel fiel kaum auf).
+- **Leistung am Handy:** Scroll-Szenen schreiben CSS-Variablen nur bei Änderung (`setVar`),
+  am Handy laufen kein Glanz auf den Handy-Rahmen und keine Weichzeichner-Schatten.
 - Startseite außerdem: goldene Lesefortschritts-Linie oben (auch auf den Unterseiten),
   Laufband läuft im Stand langsam, beim Scrollen schneller und beim Hochscrollen andersherum,
   Hero tritt auf breiten Bildschirmen beim Wegscrollen zurück, Partikel pausieren außerhalb
@@ -131,13 +155,20 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
 
 ## Unterseiten (seit 05.10.2026)
 
-- `prompts.html` „Gratis-Prompts & Anleitungen“: die Freebies aus dem Drive-Ordner
+- `anleitungen.html` „Meine Anleitungen“ (bis 05.10.2026 `prompts.html`): Julian: „Es sind
+  ja keine Gratis-Prompts, es sind Anleitungen.“ Deshalb nie „Gratis-Prompts“ schreiben,
+  Linktexte heißen „Zu den Anleitungen“ (nicht „Gratis-Anleitungen“). Inhalt: die Freebies
+  aus dem Drive-Ordner
   „Freebies julians.way“ zum direkten Öffnen (Google-Drive-Links, Freigabe „jeder mit
   Link“), gruppiert nach „Prompts“ und „Content & Reels“. Jedes PDF vor dem Aufnehmen
   lesen: keine Einkommensversprechen, keine riskanten Tipps. Welche zurückgehalten sind
   und warum, steht als Kommentar in der Datei. Auf der Seite nicht erwähnen, dass es die
   PDFs auf Instagram über Keywords gibt, das interessiert Besucher nicht. Sie sind
-  „Anleitungen und Gratis-Prompts, die ich selbst gerne nutze“ (Julian, 05.10.2026).
+  „Anleitungen, die ich selbst gerne nutze“. **Übersicht nach Themen** (Julian: „Das ist so
+  viel … dass die Leute sich schneller durchklicken können“): oben „Wo stehst du gerade?“
+  mit vier Themen-Knöpfen (Loslegen, Dein Thema finden, Reels & Bilder, Mehr Kommentare),
+  die per `js/sub.js` filtern; je Karte nur ein kurzer Satz, die ganze Karte ist der Link.
+  Neue PDFs einem Thema zuordnen und die Zahl im Knopf anpassen.
 - `tools.html` „Meine Tools“: nur Tools, deren Einsatz in Julians eigenen Unterlagen
   belegt ist, mit seinem Werbelink aus dem Drive-Dokument „Affiliate Links“. Sternchen im
   Knopftext und `rel="sponsored"` an jedem Link. Die Erklärung steht auf Julians Wunsch
@@ -148,7 +179,7 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   `https://try.elevenlabs.io/hgxp9og7ikq4` (05.10.2026).
 - Beide stehen in `vite.config.js`, in der Navigation der Startseite und im Footer.
   Unterseiten laden `js/sub.js` statt `js/main.js`, deshalb dort keine `.reveal`-Klassen
-  verwenden. `js/sub.js` sorgt dafür, dass die Seiten oben öffnen (Julian: Gratis-Prompts
+  verwenden. `js/sub.js` sorgt dafür, dass die Seiten oben öffnen (Julian: die Anleitungen-Seite
   öffnete unten), und lässt Karten und Gruppentitel beim Scrollen nacheinander erscheinen.
 
 ## Geplant (noch nicht auf die Seite)

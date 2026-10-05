@@ -112,7 +112,9 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   „Freebies julians.way“ zum direkten Öffnen (Google-Drive-Links, Freigabe „jeder mit
   Link“), gruppiert nach „Prompts“ und „Content & Reels“. Jedes PDF vor dem Aufnehmen
   lesen: keine Einkommensversprechen, keine riskanten Tipps. Welche zurückgehalten sind
-  und warum, steht als Kommentar in der Datei.
+  und warum, steht als Kommentar in der Datei. Auf der Seite nicht erwähnen, dass es die
+  PDFs auf Instagram über Keywords gibt, das interessiert Besucher nicht. Sie sind
+  „Anleitungen und Gratis-Prompts, die ich selbst gerne nutze“ (Julian, 05.10.2026).
 - `tools.html` „Meine Tools“: nur Tools, deren Einsatz in Julians eigenen Unterlagen
   belegt ist, mit seinem Werbelink aus dem Drive-Dokument „Affiliate Links“. Hinweiskasten
   vor dem ersten Link, Sternchen und „*Werbelink“ an jedem Knopf, `rel="sponsored"`.

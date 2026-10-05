@@ -174,11 +174,16 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   Knopftext und `rel="sponsored"` an jedem Link. Die Erklärung steht auf Julians Wunsch
   dezent ganz unten (`.sub-fineprint`, 05.10.2026), nicht als Kasten oben. Das Sternchen
   im Knopf bleibt deshalb Pflicht, es ist die einzige Markierung vor dem Klick.
-- Fünf Tools seit 05.10.2026, in der Reihenfolge, in der ein Reel bei Julian entsteht:
-  ViralityAI (virale Ideen finden), i10x (Text), Higgsfield (Video), ElevenLabs (Stimmen,
-  Musik und Soundeffekte), ChatPlace (Keyword-Automationen). Woher jeder Satz stammt, steht
-  als Kommentar in `tools.html`. Ein neues Tool erst aufnehmen, wenn Julian gesagt hat,
-  wofür er es nutzt.
+- Sechs Tools seit 05.10.2026, in der Reihenfolge, in der ein Reel bei Julian entsteht:
+  ViralityAI (virale Ideen), i10x (ChatGPT, Claude, Gemini und Grok in einer App), Higgsfield
+  (die neuesten Video- und Bildmodelle), HeyGen (KI-Avatare, z. B. Julians KI-Podcast-Avatarin,
+  Stimme ändern, Reels übersetzen), ElevenLabs (Text zu Sprache und zurück, Stimmen, Musik,
+  Soundeffekte), ChatPlace (Keyword-Automationen). Julian: Karten müssen erklären, was das Tool
+  ist, nicht nur seinen Insider-Fall („Vulkan-Trick“ versteht keiner). Modellnamen bei
+  Higgsfield (Stand 05.10.2026: Seedance 2.5, Kling 3.0, Nano Banana) veralten, vor
+  Textänderungen prüfen. Nie empfehlen, fremde Reels zu übersetzen und wiederzuverwenden
+  (Urheberrecht). Woher jeder Satz stammt, steht als Kommentar in `tools.html`. Ein neues
+  Tool erst aufnehmen, wenn Julian gesagt hat, wofür er es nutzt.
 - Beide stehen in `vite.config.js`, in der Navigation der Startseite und im Footer.
   Unterseiten laden `js/sub.js` statt `js/main.js`, deshalb dort keine `.reveal`-Klassen
   verwenden. `js/sub.js` sorgt dafür, dass die Seiten oben öffnen (Julian: die Anleitungen-Seite

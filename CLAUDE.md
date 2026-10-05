@@ -230,9 +230,9 @@ Julian fand die Seite bei Google nur über die genaue Adresse, mit Weltkugel sta
 - **Seitensymbol** als echte Dateien in `public/`: `favicon.ico` (16, 32, 48), `icon-192.png`,
   `icon-512.png`, `apple-touch-icon.png`. Motiv „J·W“ wie das Logo, gold auf dunkel. Kein
   `data:`-Symbol mehr, das zeigt Google nicht an. Neue Seiten bekommen dieselben drei Zeilen.
-- **Seitenname:** JSON-LD (`WebSite` „Julians Way“, `Person` „Julian“ mit Instagram) im
-  `<head>` von `index.html`, dazu `og:site_name` auf allen Seiten. Den Nachnamen nur auf
-  Julians Wunsch aufnehmen (steht sonst nur im Impressum).
+- **Seitenname:** JSON-LD (`WebSite` „Julians Way“, `Person` „Julian Ranglack“ mit Instagram)
+  im `<head>` von `index.html`, dazu `og:site_name` auf allen Seiten. Den vollen Namen hat
+  Julian ausdrücklich gewollt (05.10.2026), damit man die Seite auch darüber findet.
 - `public/robots.txt` und `public/sitemap.xml` (nur die drei indexierbaren Seiten). Neue
   Seite = in die Sitemap eintragen, `lastmod` anpassen. Jede Seite hat `rel="canonical"`.
 - Was nur Julian kann: Google Search Console (Domain bestätigen, Sitemap einreichen,

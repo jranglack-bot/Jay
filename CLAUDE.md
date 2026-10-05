@@ -23,6 +23,11 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an jedes `js/*.js`,
   sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
   entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
+- **Vite 6, nicht neuer (05.10.2026):** Hostinger meldete fünf Schwachstellen, alle in Vite 5
+  und esbuild. Sie betreffen nur den Entwicklungsserver (`npm run dev`), nicht die fertige
+  Seite. Behoben mit Vite 6.4.3 (`npm audit`: 0). Vite 7 und 8 brauchen Node 20.19+, Hostinger
+  baut aber mit Node 18 (Build-Log). Erst nach Umstellung auf Node 22 im hPanel auf Vite 7/8
+  gehen. Den Entwicklungsserver nie mit `--host` ins Netz stellen.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
   `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften, `frames/rooftop/`).
   Vor dem Pushen immer bauen und prüfen.

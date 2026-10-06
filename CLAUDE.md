@@ -68,22 +68,25 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   dieses Wissen im SCB-System gelernt hat; KI ist sein eigener Teil (er betreut im
   Programm den Bereich KI). Oben im Abschnitt steht „Woher ich das weiß.“ groß und fließt
   beim Scrollen von links herein, „Was mir das SCB-System beigebracht hat“ von rechts
-  (`data-flow`, `.flowhead`); darunter der Kasten „Was ist das SCB-System?“ in drei
-  Sätzen und vier Kacheln in Ich-Form (Julian, 25.09.2026). Der **Look bleibt** schwarz und gold, weil er so zum
+  (`data-flow`, `.flowhead`); darunter vier Kacheln in Ich-Form (Julian, 25.09.2026). Die
+  Erklärung „Was ist das SCB-System?“ steht seit 06.10.2026 oben in `#scb`. Der **Look bleibt** schwarz und gold, weil er so zum
   SCB-Funnel passt (Julian, 25.09.2026).
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- **Angebot oben (Umbau 05.10.2026, Julian: „wo ist was für mich?“):** Der Hero sagt,
-  dass es ein kostenloses Videotraining gibt. Der goldene Hero-Knopf „Zum kostenlosen
-  Videotraining“ springt zum Angebotskasten `#videotraining` direkt unter dem Hero
-  (was es ist, die drei Schritte, Knopf, Werbehinweis). Der zweite Knopf „Erst mal wissen,
-  wer ich bin“ führt zu `#gelernt`. Gemessen vorher: Knopf zum Funnel auf dem iPhone erst
-  bei Bildschirm 14,8; nachher bei 2,4. Das Videotraining steht nicht in der Navigation,
-  kein fixierter Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere
-  Optionen gibt es Instagram (@julians.way) und die Anleitungen.
+- **Erst erklären, dann anbieten (Umbau 06.10.2026):** Direkt unter dem Hero steht „Was ist
+  das SCB-System?“ (`#scb`): ein Satz, was es ist, Julians Satz dazu (dort gelernt, betreut
+  den Bereich KI) und ein Kasten mit vier Punkten. Der goldene Hero-Knopf „Was ist das
+  SCB-System?“ springt dorthin, der Knopf „Zum Videotraining ↓“ in `#scb` springt zum
+  Abschluss (`#angebot`, `data-jump="scb"`). Der frühere Angebotskasten `#videotraining`
+  (05.10.2026, mit „So geht's nach dem Klick weiter“ und Anruf) ist raus, Julian: Das würde
+  ihn direkt nach dem Hero abschrecken. Den Ablauf nach dem Klick erst im Abschluss zeigen,
+  wenn die Leute wissen, wer Julian ist. Der zweite Hero-Knopf „Erst mal wissen, wer ich
+  bin“ führt zu `#gelernt`. Das Videotraining steht nicht in der Navigation, kein fixierter
+  Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere Optionen gibt es
+  Instagram (@julians.way) und die Anleitungen.
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining, Live-Event und
-  die Tools eine Provision. Werbelinks gibt es nur im Angebotskasten oben, im Abschluss,
-  im Live-Event-Abschnitt und auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
+  die Tools eine Provision. Werbelinks gibt es nur im Abschluss, im Live-Event-Abschnitt und
+  auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
   Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
   direkt darunter, damit sie vor dem Klick sichtbar ist. Ausnahme `tools.html`, siehe unten.
 - **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
@@ -105,15 +108,15 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
   Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
 - Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
-  `utm_content` an (`oben`, `abschluss`, `abschluss-event`), über `funnelUrl()` in
-  `public/js/main.js`. Wer über einen leisen Link zum Abschluss gesprungen ist, klickt
-  dort mit `abschluss-via-gelernt` bzw. `abschluss-via-zahlen`.
-- **Reihenfolge (seit 05.10.2026):** Hero, Angebotskasten (`#videotraining`),
+  `utm_content` an (`abschluss`, `abschluss-event`), über `funnelUrl()` in
+  `public/js/main.js`. Wer über den Knopf in `#scb` oder einen leisen Link zum Abschluss
+  gesprungen ist, klickt dort mit `abschluss-via-scb`, `abschluss-via-gelernt` bzw.
+  `abschluss-via-zahlen`.
+- **Reihenfolge (seit 06.10.2026):** Hero, „Was ist das SCB-System?“ (`#scb`),
   „Woher ich das weiß“ (`#gelernt`), „So ist ein Reel aufgebaut“ (`#aufbau`), „Die Anleitung
   dazu“ (`#anleitungen-start`), „Meine KI-Tools“ (`#ki-tools`), Geschichte (`#weg`), Zahlen,
   „So läuft's bei mir konkret“, Fragen, Abschluss (`#angebot`, drei Schritte dort nur als
-  ein Satz). Im Live-Event-Modus ersetzt der Event-Abschnitt den Angebotskasten an derselben
-  Stelle. Anleitungen und Tools stehen bewusst früh und groß, Julian: „die gehen hier
+  ein Satz). Im Live-Event-Modus steht der Event-Abschnitt direkt unter dem Hero, vor `#scb`. Anleitungen und Tools stehen bewusst früh und groß, Julian: „die gehen hier
   komplett unter“ (05.10.2026).
 
 ## Bewegung (seit 05.10.2026)
@@ -233,8 +236,10 @@ Julian fand die Seite bei Google nur über die genaue Adresse, mit Weltkugel sta
 - **Seitenname:** JSON-LD (`WebSite` „Julians Way“, `Person` „Julian Ranglack“ mit Instagram)
   im `<head>` von `index.html`, dazu `og:site_name` auf allen Seiten. Den vollen Namen hat
   Julian ausdrücklich gewollt (05.10.2026), damit man die Seite auch darüber findet.
-- `public/robots.txt` und `public/sitemap.xml` (nur die drei indexierbaren Seiten). Neue
-  Seite = in die Sitemap eintragen, `lastmod` anpassen. Jede Seite hat `rel="canonical"`.
+- `public/robots.txt` und `public/sitemap.xml` (nur die Startseite). Anleitungen und Tools
+  haben `noindex, follow`: Julian will, dass Besucher über Google zuerst auf die Startseite
+  kommen (06.10.2026). Neue Seite: mit Julian klären, ob sie in die Suche soll. Jede Seite
+  hat `rel="canonical"`.
 - Google Search Console: Domain-Property `julians-way.net`, bestätigt per DNS-TXT-Eintrag
   `google-site-verification=…` bei Hostinger (eingetragen 06.10.2026). Den TXT-Eintrag nie
   löschen, sonst verliert Julian den Zugriff. Sitemap einreichen und Indexierung beantragen

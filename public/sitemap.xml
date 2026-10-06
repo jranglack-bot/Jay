@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Impressum und Datenschutz fehlen bewusst (noindex). Neue Seiten hier eintragen. -->
+<!-- Nur die Startseite. Anleitungen und Tools sind bewusst nicht in der Google-Suche
+     (noindex, Julian 06.10.2026), Impressum und Datenschutz ebenso. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://julians-way.net/</loc><lastmod>2026-10-05</lastmod></url>
-  <url><loc>https://julians-way.net/anleitungen.html</loc><lastmod>2026-10-05</lastmod></url>
-  <url><loc>https://julians-way.net/tools.html</loc><lastmod>2026-10-05</lastmod></url>
+  <url><loc>https://julians-way.net/</loc><lastmod>2026-10-06</lastmod></url>
 </urlset>

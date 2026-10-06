@@ -26,8 +26,8 @@
   const FUNNEL_URL =
     "https://julians-way.de/videotraining/?utm_source=instagram&utm_medium=bio&utm_campaign=julians-way";
   // Eigener utm_content je Knopf: zeigt in der Auswertung des Funnels, welcher Knopf
-  // die Anmeldungen bringt (oben, abschluss, abschluss-via-gelernt, abschluss-via-zahlen,
-  // abschluss-event).
+  // die Anmeldungen bringt (abschluss, abschluss-via-scb, abschluss-via-gelernt,
+  // abschluss-via-zahlen, abschluss-event).
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
@@ -97,18 +97,16 @@
     // Link im Hinweis-Banner zeigt sonst ins Leere
     $("#announceLink").hidden = webinarSec.hidden;
 
-    /* Der goldene Hero-Knopf springt zum Angebot direkt unter dem Hero: normal zum
-       Angebotskasten (#videotraining), im Live-Event-Modus zum Event, das dann an dieser
-       Stelle steht. Werbelinks gibt es nur dort und im Abschluss, jeweils mit Sternchen und
-       Erklärung direkt darunter. Die leisen Links in der Mitte springen zum Abschluss. */
+    /* Der goldene Hero-Knopf springt normal zur Erklärung des SCB-Systems (#scb) direkt
+       unter dem Hero, im Live-Event-Modus zum Event, das dann dort steht. Werbelinks gibt es
+       nur im Abschluss und im Event, jeweils mit Sternchen und Erklärung direkt darunter.
+       Der Knopf in #scb und die leisen Links in der Mitte springen zum Abschluss. */
     const heroLink = $("#heroOffer");
-    const offerSec = $("#videotraining");
     const pillText = $("#webinarPillText");
 
     if (c.eventActive) {
       heroLink.href = "#webinar";
       heroLink.innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow btn__arrow--down">↓</span>';
-      offerSec.hidden = true;
       // Finale CTA unten ebenfalls aufs Live-Event drehen
       $("#ctaFunnel").href = c.webinarUrl;
       $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event* <span class="btn__arrow">→</span>';
@@ -118,13 +116,11 @@
       const ctaAlt = $("#ctaAlt");
       ctaAlt.href = funnelUrl("abschluss-event");
       ctaAlt.hidden = false;
-      // Event-Sektion an die Stelle des Angebotskastens direkt unter den Hero
+      // Event-Sektion direkt unter den Hero, vor die Erklärung des SCB-Systems
       $(".hero").after(webinarSec);
     } else {
-      heroLink.href = "#videotraining";
-      heroLink.innerHTML = 'Zum kostenlosen Videotraining <span class="btn__arrow btn__arrow--down">↓</span>';
-      offerSec.hidden = false;
-      $("#offerFunnel").href = funnelUrl("oben");
+      heroLink.href = "#scb";
+      heroLink.innerHTML = 'Was ist das SCB-System? <span class="btn__arrow btn__arrow--down">↓</span>';
       // Finale CTA unten zurück aufs Videotraining
       $("#ctaFunnel").href = funnelUrl("abschluss");
       $("#ctaFunnel").innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';

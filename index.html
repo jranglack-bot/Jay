@@ -113,9 +113,10 @@
             Handy aus.
           </p>
           <div class="hero__actions reveal" data-delay="250">
-            <!-- Springt zum Angebotskasten direkt unter dem Hero, kein Werbelink -->
-            <a href="#videotraining" id="heroOffer" class="btn btn--gold btn--magnetic">
-              Zum kostenlosen Videotraining <span class="btn__arrow btn__arrow--down">↓</span>
+            <!-- Springt zur Erklärung des SCB-Systems direkt unter dem Hero, kein Werbelink.
+                 Im Live-Event-Modus springt er zum Event (js/main.js). -->
+            <a href="#scb" id="heroOffer" class="btn btn--gold btn--magnetic">
+              Was ist das SCB-System? <span class="btn__arrow btn__arrow--down">↓</span>
             </a>
             <a href="#gelernt" class="btn btn--ghost btn--magnetic">
               Erst mal wissen, wer ich bin <span class="btn__arrow btn__arrow--down">↓</span>
@@ -138,37 +139,41 @@
       <a href="#marquee" class="hero__scroll" aria-label="Weiterscrollen"><span></span></a>
     </section>
 
-    <!-- ============ DAS VIDEOTRAINING (Angebot oben) ============
-         Wer aus der Bio kommt, sieht gleich nach dem ersten Bildschirm, was es gibt und wie
-         es nach dem Klick weitergeht (Julian, 05.10.2026: „wo ist was für mich?“). Erster von
-         zwei Werbelinks, der zweite steht im Abschluss. Fakten: Fragen und Video kostenlos
-         (Julian, 25.09.2026), Ablauf laut Funnel-Seite (FUNNEL_URL). -->
-    <section class="offer section" id="videotraining" data-sparks="soft">
-      <div class="section__inner cta__inner">
-        <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>DAS KOSTENLOSE VIDEOTRAINING</p>
-        <h2 class="section__title reveal" data-delay="100">DAS STECKT<br><span class="grad">DAHINTER.</span></h2>
-        <p class="section__lead reveal" data-delay="150">
-          Im Videotraining siehst du das SCB-System, mit dem ich arbeite: wie du auf Instagram
-          Reichweite aufbaust und darüber Produkte empfiehlst, die es schon gibt.
-        </p>
-        <!-- Nächster Schritt vorher ansagen: die Funnel-Seite ist ein Test mit anderem Design,
-             kein Video. So kommt nichts davon überraschend. -->
-        <div class="nextsteps reveal" data-delay="200">
-          <p class="nextsteps__title">So geht's nach dem Klick weiter</p>
-          <ol class="nextsteps__list">
-            <li><span class="nextsteps__num">1</span><span>Ein paar kurze Fragen zum Anklicken</span></li>
-            <li><span class="nextsteps__num">2</span><span>Das Videotraining</span></li>
-            <li><span class="nextsteps__num">3</span><span>Wenn es für dich passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich jemand vom Team an und geht alles in Ruhe mit dir durch.</span></li>
-          </ol>
-          <p class="nextsteps__hint">Die Fragen und das Video sind kostenlos. Die nächste Seite gehört zum Programm, deshalb sieht sie anders aus als meine.</p>
+    <!-- ============ WAS IST DAS SCB-SYSTEM? (direkt unter dem Hero) ============
+         Julian, 06.10.2026: Der Kasten „Das kostenlose Videotraining“ mit „So geht's nach dem
+         Klick weiter“ und dem Anruf schreckte direkt nach dem Hero ab. Hier wird erst erklärt,
+         was das SCB-System ist. Kein Werbelink: Der Knopf springt zum Abschluss (#angebot), wo
+         der Ablauf nach dem Klick steht (data-jump="scb"). Fakten wie bisher im Kasten in
+         #gelernt; den Bereich KI betreut Julian im Programm selbst (Julian, 25.09.2026). -->
+    <section class="scb section" id="scb" data-sparks="soft">
+      <div class="section__inner scb__inner">
+        <div class="scb__text">
+          <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>KURZ ERKLÄRT</p>
+          <h2 class="section__title reveal" data-delay="100">WAS IST DAS<br><span class="nowrap grad">SCB-SYSTEM?</span></h2>
+          <p class="section__lead reveal" data-delay="150">
+            Das SCB-System ist ein Online-Programm, in dem du Schritt für Schritt lernst, auf
+            Instagram Reichweite aufzubauen und daraus Umsatz zu machen.
+          </p>
+          <blockquote class="scb__note reveal" data-delay="200">
+            Ich hab dort gelernt, was ich dir auf Instagram zeige. Inzwischen kümmere ich mich im
+            Programm selbst um den Bereich KI.
+          </blockquote>
         </div>
-        <a href="#" id="offerFunnel" class="btn btn--gold btn--big btn--magnetic reveal" data-delay="250" target="_blank" rel="noopener">
-          Zu den Fragen und zum Video* <span class="btn__arrow">→</span>
-        </a>
-        <p class="cta__disclosure">
-          *Werbung: Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.
-        </p>
-        <p class="offer__more">Erst mal wissen, wer ich bin? <a href="#gelernt">Dann lies hier weiter&nbsp;↓</a></p>
+        <div class="scb__panel reveal" data-delay="150">
+          <p class="scb__panel-title">Darum geht's</p>
+          <ul class="scb__list">
+            <li style="--k:0"><span class="scb__check" aria-hidden="true"></span><span><strong>Reichweite aufbauen</strong> auf Instagram, Schritt für Schritt</span></li>
+            <li style="--k:1"><span class="scb__check" aria-hidden="true"></span><span><strong>Produkte empfehlen</strong> die es schon gibt</span></li>
+            <li style="--k:2"><span class="scb__check" aria-hidden="true"></span><span><strong>Ohne eigenes Produkt</strong> du musst nichts herstellen oder verschicken</span></li>
+            <li style="--k:3"><span class="scb__check" aria-hidden="true"></span><span><strong>Live-Calls</strong> in denen dir das Team bei deinen Fragen hilft</span></li>
+          </ul>
+        </div>
+        <div class="scb__cta reveal" data-delay="250">
+          <p class="scb__cta-line">Wie das System aufgebaut ist, zeigt dir das kostenlose Videotraining.</p>
+          <a href="#angebot" data-jump="scb" class="btn btn--gold btn--magnetic">
+            Zum Videotraining <span class="btn__arrow btn__arrow--down">↓</span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -202,11 +207,6 @@
           selbst ausgedacht. Ich hab es im SCB-System gelernt und geb es so weiter, dass es auch
           nebenbei klappt.
         </p>
-
-        <div class="whatis reveal">
-          <p class="whatis__label">Was ist das SCB-System?</p>
-          <p class="whatis__text">Das SCB-System ist ein Online-Programm, in dem du Schritt für Schritt lernst, auf Instagram Reichweite aufzubauen und daraus Umsatz zu machen. Du empfiehlst dabei Produkte, die es schon gibt, ein eigenes brauchst du nicht. Dazu gibt's Live-Calls, in denen dir das Team bei deinen Fragen hilft.</p>
-        </div>
 
         <p class="learned__label reveal">Das hab ich dort gelernt</p>
         <div class="values__grid">
@@ -635,7 +635,7 @@
         <p class="section__lead reveal" data-delay="200" id="ctaLead">
           Letztes Jahr hab ich mich noch oft gefragt, wie ich meine Familie über die Runden bringen soll. Heute ist dieser Druck weg. Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite.
         </p>
-        <!-- Die drei Schritte stehen ausführlich im Angebotskasten oben (#videotraining) -->
+        <!-- Ablauf nach dem Klick, bevor jemand den Werbelink anklickt (der Funnel ist ein Test) -->
         <p class="nextsteps__short reveal" data-delay="250" id="ctaSteps">
           Nach dem Klick kommen ein paar kurze Fragen und dann das Video. Wenn es für dich passt,
           kannst du dich danach für ein persönliches Gespräch entscheiden.

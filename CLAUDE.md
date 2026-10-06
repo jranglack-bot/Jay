@@ -235,8 +235,10 @@ Julian fand die Seite bei Google nur über die genaue Adresse, mit Weltkugel sta
   Julian ausdrücklich gewollt (05.10.2026), damit man die Seite auch darüber findet.
 - `public/robots.txt` und `public/sitemap.xml` (nur die drei indexierbaren Seiten). Neue
   Seite = in die Sitemap eintragen, `lastmod` anpassen. Jede Seite hat `rel="canonical"`.
-- Was nur Julian kann: Google Search Console (Domain bestätigen, Sitemap einreichen,
-  Indexierung beantragen) und die Seite in der Instagram-Bio verlinken.
+- Google Search Console: Domain-Property `julians-way.net`, bestätigt per DNS-TXT-Eintrag
+  `google-site-verification=…` bei Hostinger (eingetragen 06.10.2026). Den TXT-Eintrag nie
+  löschen, sonst verliert Julian den Zugriff. Sitemap einreichen und Indexierung beantragen
+  macht Julian selbst, ebenso den Link in der Instagram-Bio.
 
 ## Inhalte ändern
 

@@ -28,6 +28,11 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Seite. Behoben mit Vite 6.4.3 (`npm audit`: 0). Vite 7 und 8 brauchen Node 20.19+, Hostinger
   baut aber mit Node 18 (Build-Log). Erst nach Umstellung auf Node 22 im hPanel auf Vite 7/8
   gehen. Den Entwicklungsserver nie mit `--host` ins Netz stellen.
+- **Sicherheitsmeldungen von Hostinger (06.10.2026):** `source-map-js` mit `npm audit fix` auf
+  1.2.2 gehoben (nur Sperrdatei). Die Meldung zu `esbuild` (GHSA-gv7w-rqvm-qjhr, „Withdrawn
+  Advisory“) ist von GitHub zurückgezogen, sie betrifft nur das Deno-Modul von esbuild. Nicht
+  per `overrides` auf esbuild 0.28 zwingen, Vite 6 braucht 0.25. Neue Meldungen immer mit
+  `npm audit` gegenprüfen.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
   `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften).
   Vor dem Pushen immer bauen und prüfen.

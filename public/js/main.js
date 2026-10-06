@@ -306,7 +306,10 @@
      Bildschirmmitte, liegen die Splitter außerhalb des Bildschirms. Beim Scrollen fliegen
      sie in Bögen über die ganze Seite in den Rahmen, die äußeren zuerst, und setzen sich
      mit goldenen Fugen zum Foto zusammen; danach blendet das ganze Foto darüber ein.
-     Beim Weiterscrollen bleibt es ganz, zurückscrollen = sie fliegen wieder raus.
+     Beim Weiterscrollen bleibt es eine Weile ganz und fliegt erst auseinander, wenn der
+     Rahmen oben aus dem Bild geht; beim Hochscrollen genauso, nur andersherum.
+     Einmal ganz zu sehen, bleibt das Foto mindestens MIN_WHOLE stehen, auch wenn jemand
+     schnell weiterscrollt (Julian: es soll „einmal klar zu sehen sein“).
      Fliegende Splitter liegen auf einer Leinwand über der ganzen Seite (fixed),
      gelandete auf einer Leinwand im Rahmen, damit sie beim Scrollen nicht nachwackeln.
      Ohne Skript oder mit reduzierter Bewegung steht einfach das Foto da. */
@@ -315,8 +318,10 @@
   if (asmImg && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const small = innerWidth <= 900;
     const RATIO = 9 / 16; // Höhe des Fotos in Breiten-Einheiten
-    const HOLD = 0.1; // Zone um die Bildschirmmitte, in der das Foto ganz bleibt
-    const REACH = 0.95; // ab hier (Rahmen fast am Bildschirmrand) sind alle Splitter draußen
+    const HOLD = 0.1; // unter der Bildschirmmitte: so nah an der Mitte ist das Foto ganz
+    const REACH = 0.95; // ab hier (Rahmen fast am unteren Rand) sind alle Splitter draußen
+    const UP_HOLD = 0.3; // über der Mitte: ganz, bis die Rahmenmitte bei 30 % der Höhe ist
+    const MIN_WHOLE = 1200; // ms, so lange bleibt das fertige Foto mindestens stehen
     const SPAN = 0.5; // Flugdauer eines Splitters, Anteil am Fortschritt
     const LAND = 0.9; // bis hier sind alle gelandet, danach blendet das Foto ein
     const follow = matchMedia("(pointer: coarse)").matches ? 0.24 : 0.16;
@@ -598,16 +603,29 @@
     let target = 0;
     let shown = 0;
     let raf = 0;
+    let wholeSince = 0; // seit wann das Foto ganz zu sehen ist (0 = gerade nicht)
     const render = () => {
       raf = 0;
-      const d = target - shown;
-      shown = Math.abs(d) < 0.0005 ? target : shown + d * follow;
+      const r = asmBox.getBoundingClientRect();
+      const visible = r.bottom > 0 && r.top < innerHeight;
+      const now = performance.now();
+      // Schnell vorbeigescrollt: das fertige Foto bleibt trotzdem kurz stehen. Danach geht
+      // es erst mit dem nächsten Scrollen weiter, nie von selbst.
+      const goal = wholeSince && visible && now - wholeSince < MIN_WHOLE ? 1 : target;
+      if (!visible) {
+        shown = goal; // Rahmen nicht zu sehen: ohne Flug umschalten
+      } else {
+        const d = goal - shown;
+        shown = Math.abs(d) < 0.0005 ? goal : shown + d * follow;
+      }
+      if (shown >= 1 && visible && !wholeSince) wholeSince = now;
+      if (shown < LAND) wholeSince = 0;
       let n = 0;
       while (n < shards.length && shards[n].d + SPAN <= shown) n++;
       drawLanded(n);
       drawFlying(shown);
       setVar(asmBox, "--asm-img", clamp01((shown - LAND) / (1 - LAND)).toFixed(3));
-      if (shown !== target) raf = requestAnimationFrame(render);
+      if (shown !== goal) raf = requestAnimationFrame(render);
     };
     // Neues Bild nur, wenn sich etwas bewegt: Fortschritt ändert sich, oder Splitter
     // fliegen gerade (die gelandeten im Rahmen scrollen von selbst mit)
@@ -618,12 +636,15 @@
     const updateTarget = () => {
       const r = asmBox.getBoundingClientRect();
       const vh = innerHeight;
-      const below = r.top + r.height / 2 - vh / 2; // > 0: Rahmen unterhalb der Bildschirmmitte
-      // Oberhalb der Mitte bleibt das Foto ganz, damit beim Weiterlesen nichts über den
-      // nächsten Abschnitt fliegt. Zurückscrollen bis unter die Mitte = Splitter fliegen raus.
-      if (below <= 0) target = 1;
-      else if (r.top > 2 * vh) target = 0;
-      else target = 1 - clamp01((below / ((vh + r.height) / 2) - HOLD) / (REACH - HOLD));
+      const cy = r.top + r.height / 2; // Mitte des Rahmens im Bildschirm
+      if (r.top > 2 * vh || r.bottom < -vh) target = 0;
+      else if (cy >= vh / 2) {
+        // Von unten: zusammensetzen, bis der Rahmen fast in der Mitte ist
+        target = 1 - clamp01(((cy - vh / 2) / ((vh + r.height) / 2) - HOLD) / (REACH - HOLD));
+      } else {
+        // Nach oben: erst ganz lassen, dann auflösen, bis der Rahmen oben raus ist
+        target = clamp01((cy + r.height / 2) / (UP_HOLD * vh + r.height / 2));
+      }
       kick();
     };
 

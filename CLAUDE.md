@@ -44,9 +44,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   `assets/julian-rooftop-sonnenuntergang.webp` (letztes Bild des Videos) in ein Bruchmuster
   um einen Einschlagpunkt (Handy 70, Computer 123 Splitter). Sie starten
   außerhalb des Bildschirms, fliegen in Bögen über die ganze Seite in den Rahmen, die äußeren
-  zuerst, landen mit goldenen Fugen, dann blendet das ganze Foto darüber ein. Oberhalb der
-  Bildschirmmitte bleibt das Foto ganz (nichts fliegt über „Meine Zahlen“), zurückscrollen
-  lässt die Splitter wieder rausfliegen. Fliegende Splitter liegen auf einer festen Leinwand
+  zuerst, landen mit goldenen Fugen, dann blendet das ganze Foto darüber ein. Beim
+  Weiterscrollen löst es sich wieder auf, beim Hochscrollen genauso (Julian, 06.10.2026), aber
+  das Bild soll „einmal klar zu sehen sein“: Es bleibt ganz, solange die Rahmenmitte zwischen
+  knapp unter der Bildschirmmitte und 30 % der Bildschirmhöhe steht (`HOLD`, `UP_HOLD`), und
+  einmal fertig mindestens 1,2 s (`MIN_WHOLE`), auch wenn jemand schnell vorbeiscrollt. Danach
+  geht es erst mit dem nächsten Scrollen weiter, nie von selbst. Ist der Rahmen nicht zu
+  sehen, schaltet es ohne Flug um. Fliegende Splitter liegen auf einer festen Leinwand
   über der Seite (`.shards-layer`, z-index 40, unter Navigation und Handy-Menü), gelandete auf
   einer Leinwand im Rahmen, sonst wackeln sie beim Scrollen nach. Ohne Skript und mit
   reduzierter Bewegung steht nur das Foto da. Das Foto lädt erst, wenn der Abschnitt in die

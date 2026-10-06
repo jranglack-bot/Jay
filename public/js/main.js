@@ -1203,4 +1203,77 @@
     addEventListener("resize", updateHero);
     updateHero();
   }
+
+  /* ---------- Hero-Foto zoomt am Handy über die ganze Seite herein ----------
+     Julian, 06.10.2026: Am Handy sieht man oben erst nur den Text. Beim Runterscrollen
+     erscheint das Foto leicht durchsichtig und groß über dem ganzen Bildschirm, zoomt dann
+     in seinen Rahmen und ist erst dort klar zu sehen. Hochscrollen spielt es rückwärts ab.
+     Das große Foto liegt hinter dem Text, damit Text und Knöpfe lesbar bleiben.
+     Nur im Handy-Layout (bis 900 px, Foto unter dem Text); am Computer steht das Foto neben
+     dem Text und bleibt wie es ist. Bewegt wird nur das Foto (.portrait__clip), Rahmen und
+     Funken blenden zum Schluss ein. Ohne Skript und mit reduzierter Bewegung: wie bisher. */
+  const zPortrait = $("#portrait");
+  const zClip = zPortrait && zPortrait.querySelector(".portrait__clip");
+  const zVisual = $(".hero__visual");
+  const zHero = $(".hero");
+  if (zClip && zVisual && zHero && !reducedMotion) {
+    const FADE = 0.15; // erstes Stück Scrollweg: Foto taucht durchsichtig auf
+    const START_OPACITY = 0.35; // so durchsichtig liegt es anfangs über der Seite
+    const LAND_AT = 0.55; // fertig, wenn die Fotomitte bei 55 % der Bildschirmhöhe ist
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    let zOn = false;
+    let zTicking = false;
+    const zReset = () => {
+      zClip.style.transform = zClip.style.opacity = "";
+      zClip.varCache = null;
+      zPortrait.style.removeProperty("--hz-ui");
+      zPortrait.varCache = null;
+    };
+    const updateZoom = () => {
+      zTicking = false;
+      const mobile = innerWidth <= 900;
+      if (mobile !== zOn) {
+        zOn = mobile;
+        zHero.classList.toggle("hero--zoomfx", mobile);
+        zVisual.classList.toggle("is-zoomfx", mobile);
+        zPortrait.classList.toggle("is-zoomfx", mobile);
+        if (!mobile) zReset();
+      }
+      if (!mobile) return;
+      // .portrait selbst wird nicht verschoben: seine Lage ist der Platz des Fotos im Rahmen
+      const r = zPortrait.getBoundingClientRect();
+      const vw = innerWidth;
+      const vh = innerHeight;
+      const cy = r.top + r.height / 2;
+      const range = Math.max(cy + scrollY - vh * LAND_AT, vh * 0.35);
+      const q = clamp01(scrollY / range);
+      if (q >= 1 || r.bottom < -vh) {
+        setVar(zClip, "transform", "translateZ(0)"); // wie im CSS: Safari behält die Rundung
+        setVar(zClip, "opacity", "1");
+        setVar(zPortrait, "--hz-ui", "1");
+        return;
+      }
+      const shown = clamp01(q / FADE);
+      const e = ease(clamp01((q - FADE) / (1 - FADE)));
+      const k = 1 - e;
+      // Anfangs so groß, dass es den ganzen Bildschirm bedeckt, mittig im Bild
+      const big = Math.max(vw / r.width, vh / r.height) * 1.05;
+      const sc = 1 + (big - 1) * k;
+      const dx = (vw / 2 - (r.left + r.width / 2)) * k;
+      const dy = (vh / 2 - cy) * k;
+      setVar(zClip, "transform", "translate3d(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px,0) scale(" + sc.toFixed(4) + ")");
+      setVar(zClip, "opacity", (shown * (START_OPACITY + (1 - START_OPACITY) * e)).toFixed(3));
+      setVar(zPortrait, "--hz-ui", clamp01((e - 0.7) / 0.3).toFixed(3));
+    };
+    const onZoomScroll = () => {
+      if (!zTicking) {
+        zTicking = true;
+        requestAnimationFrame(updateZoom);
+      }
+    };
+    addEventListener("scroll", onZoomScroll, { passive: true });
+    addEventListener("resize", onZoomScroll);
+    updateZoom();
+  }
 })();

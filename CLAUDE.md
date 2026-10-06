@@ -168,6 +168,13 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
 - **Hero-Foto** bewegt sich ohne Maus (Julian: die meisten kommen mit dem Handy): langsamer
   Zoom, Lichtstreifen, Ecken leuchten, Funken davor, leichtes Wandern beim Scrollen. Das
   Kippen per Maus bleibt nur am Computer. `fetchpriority="high"`, damit es zuerst lädt.
+- **Hero-Foto zoomt am Handy herein (Julian, 06.10.2026):** Nur im Handy-Layout (bis 900 px).
+  Oben steht erst nur der Text; beim Runterscrollen erscheint das Foto groß und leicht
+  durchsichtig über den ganzen Bildschirm, zoomt in seinen Rahmen und ist erst dort klar
+  (fertig, wenn die Fotomitte bei 55 % der Bildschirmhöhe steht). Hochscrollen spielt es
+  rückwärts ab. Das große Foto liegt hinter dem Text (`.hero--zoomfx`), sonst waren die Knöpfe
+  kaum zu lesen. Bewegt wird nur `.portrait__clip`, Rahmen und Funken blenden zum Schluss ein
+  (`--hz-ui`). Code: „Hero-Foto zoomt am Handy“ in `public/js/main.js`.
 - **Goldschrift** (`.grad`): ein heller Glanzstreifen läuft gut sichtbar durch (Julian: der
   alte Farbwechsel fiel kaum auf).
 - **Leistung am Handy:** Scroll-Szenen schreiben CSS-Variablen nur bei Änderung (`setVar`),

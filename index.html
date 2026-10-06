@@ -441,8 +441,11 @@
           </article>
         </div>
         <figure class="story__photo">
-          <div class="assemble">
-            <canvas id="assembleCanvas" role="img" aria-label="Julian über den Dächern der Stadt bei Sonnenuntergang, das Bild setzt sich beim Scrollen zusammen"></canvas>
+          <!-- Splitter-Animation: js/main.js („Splitter-Animation“) zerlegt dieses Foto in
+               Glassplitter, die beim Scrollen über die ganze Seite in den Rahmen fliegen.
+               Ohne Skript steht hier einfach das Foto. -->
+          <div class="assemble" id="assemble">
+            <img src="assets/julian-rooftop-sonnenuntergang.webp" width="1280" height="720" alt="Julian über den Dächern der Stadt bei Sonnenuntergang" loading="lazy" decoding="async">
           </div>
           <figcaption>Einer der seltenen Momente, in denen ich mal stillstehe.</figcaption>
         </figure>

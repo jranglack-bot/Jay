@@ -301,130 +301,372 @@
     updateFlows();
   }
 
-  /* ---------- Zusammensetz-Animation (Bildsequenz, scrollgesteuert) ----------
-     61 Einzelbilder aus dem Seedance-Video (public/frames/rooftop/) werden auf ein
-     Canvas gemalt: weit weg = Scherben, Bildschirmmitte = fertiges Foto,
-     Rückwärtsscrollen = zerfällt wieder. Einzelbilder statt Video, weil Browser
-     (vor allem Safari auf dem iPhone) beim ständigen Springen im Video ruckeln. */
-  const asmCanvas = $("#assembleCanvas");
-  if (asmCanvas) {
-    const FRAMES = 61;
-    const HOLD = 0.12; // Zone um die Mitte, in der das Bild komplett bleibt
-    const frameSrc = (i) => "frames/rooftop/" + String(i + 1).padStart(3, "0") + ".webp";
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const actx = asmCanvas.getContext("2d");
-    const imgs = new Array(FRAMES);
-    const ready = new Array(FRAMES).fill(false);
-    let target = reduced ? FRAMES - 1 : 0; // Ziel-Bild laut Scrollposition
-    let shown = target; // aktuell gezeigtes Bild (läuft weich hinterher)
+  /* ---------- Splitter-Animation „Mein Weg“ (scrollgesteuert) ----------
+     Das Foto auf dem Dach ist in Glassplitter zerlegt. Ist der Rahmen weit weg von der
+     Bildschirmmitte, liegen die Splitter außerhalb des Bildschirms. Beim Scrollen fliegen
+     sie in Bögen über die ganze Seite in den Rahmen, die äußeren zuerst, und setzen sich
+     mit goldenen Fugen zum Foto zusammen; danach blendet das ganze Foto darüber ein.
+     Beim Weiterscrollen bleibt es ganz, zurückscrollen = sie fliegen wieder raus.
+     Fliegende Splitter liegen auf einer Leinwand über der ganzen Seite (fixed),
+     gelandete auf einer Leinwand im Rahmen, damit sie beim Scrollen nicht nachwackeln.
+     Ohne Skript oder mit reduzierter Bewegung steht einfach das Foto da. */
+  const asmBox = $("#assemble");
+  const asmImg = asmBox && asmBox.querySelector("img");
+  if (asmImg && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const small = innerWidth <= 900;
+    const RATIO = 9 / 16; // Höhe des Fotos in Breiten-Einheiten
+    const HOLD = 0.1; // Zone um die Bildschirmmitte, in der das Foto ganz bleibt
+    const REACH = 0.95; // ab hier (Rahmen fast am Bildschirmrand) sind alle Splitter draußen
+    const SPAN = 0.5; // Flugdauer eines Splitters, Anteil am Fortschritt
+    const LAND = 0.9; // bis hier sind alle gelandet, danach blendet das Foto ein
+    const follow = matchMedia("(pointer: coarse)").matches ? 0.24 : 0.16;
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+
+    // Gleiche Zufallszahlen bei jedem Besuch: die Splitter sehen immer gleich aus
+    let seed = 20250925;
+    const rnd = () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const rand = (a, b) => a + rnd() * (b - a);
+
+    // Vieleck auf das Foto (0..1 x 0..RATIO) zuschneiden (Sutherland-Hodgman)
+    const clipPoly = (pts) => {
+      const edges = [
+        (p) => p[0] >= 0, (p) => p[0] <= 1, (p) => p[1] >= 0, (p) => p[1] <= RATIO,
+      ];
+      const cut = [
+        (a, b) => a[1] + ((b[1] - a[1]) * (0 - a[0])) / (b[0] - a[0]),
+        (a, b) => a[1] + ((b[1] - a[1]) * (1 - a[0])) / (b[0] - a[0]),
+        (a, b) => a[0] + ((b[0] - a[0]) * (0 - a[1])) / (b[1] - a[1]),
+        (a, b) => a[0] + ((b[0] - a[0]) * (RATIO - a[1])) / (b[1] - a[1]),
+      ];
+      const at = [
+        (a, b) => [0, cut[0](a, b)], (a, b) => [1, cut[1](a, b)],
+        (a, b) => [cut[2](a, b), 0], (a, b) => [cut[3](a, b), RATIO],
+      ];
+      let out = pts;
+      for (let e = 0; e < 4 && out.length; e++) {
+        const inp = out;
+        out = [];
+        for (let i = 0; i < inp.length; i++) {
+          const cur = inp[i];
+          const prev = inp[(i + inp.length - 1) % inp.length];
+          const ci = edges[e](cur);
+          const pi = edges[e](prev);
+          if (ci) {
+            if (!pi) out.push(at[e](prev, cur));
+            out.push(cur);
+          } else if (pi) out.push(at[e](prev, cur));
+        }
+      }
+      return out;
+    };
+
+    // Bruchmuster wie bei einer Scheibe: Strahlen und Ringe um einen Einschlagpunkt,
+    // innen kleine, außen große Splitter. Große Vierecke teilweise in Dreiecke geteilt.
+    const shards = [];
+    (() => {
+      const IX = 0.5;
+      const IY = 0.27;
+      const NS = small ? 11 : 15;
+      const RINGS = small
+        ? [0.06, 0.15, 0.27, 0.42, 0.6, 0.82]
+        : [0.035, 0.085, 0.15, 0.23, 0.33, 0.46, 0.62, 0.82];
+      const base = rand(0, Math.PI * 2);
+      const ang = [];
+      for (let i = 0; i < NS; i++) ang.push(base + ((i + rand(-0.3, 0.3)) / NS) * Math.PI * 2);
+      const P = RINGS.map((r) =>
+        ang.map((a) => {
+          const rr = r * rand(0.86, 1.14);
+          const aa = a + rand(-0.07, 0.07);
+          return [IX + Math.cos(aa) * rr, IY + Math.sin(aa) * rr];
+        })
+      );
+      const polys = [];
+      for (let i = 0; i < NS; i++) {
+        const j = (i + 1) % NS;
+        polys.push([[IX, IY], P[0][i], P[0][j]]);
+        for (let k = 1; k < RINGS.length; k++) {
+          const quad = [P[k - 1][i], P[k - 1][j], P[k][j], P[k][i]];
+          if (rnd() < (k > 2 ? 0.55 : 0.25)) {
+            if (rnd() < 0.5) polys.push([quad[0], quad[1], quad[2]], [quad[0], quad[2], quad[3]]);
+            else polys.push([quad[0], quad[1], quad[3]], [quad[1], quad[2], quad[3]]);
+          } else polys.push(quad);
+        }
+      }
+      let maxDist = 0;
+      for (const poly of polys) {
+        const pts = clipPoly(poly);
+        if (pts.length < 3) continue;
+        let area = 0;
+        let cx = 0;
+        let cy = 0;
+        let x0 = 1;
+        let y0 = RATIO;
+        let x1 = 0;
+        let y1 = 0;
+        for (let i = 0; i < pts.length; i++) {
+          const [ax, ay] = pts[i];
+          const [bx, by] = pts[(i + 1) % pts.length];
+          const cr = ax * by - bx * ay;
+          area += cr;
+          cx += (ax + bx) * cr;
+          cy += (ay + by) * cr;
+          x0 = Math.min(x0, ax);
+          y0 = Math.min(y0, ay);
+          x1 = Math.max(x1, ax);
+          y1 = Math.max(y1, ay);
+        }
+        if (Math.abs(area) < 1e-5) continue;
+        cx /= 3 * area;
+        cy /= 3 * area;
+        const dist = Math.hypot(cx - IX, cy - IY);
+        maxDist = Math.max(maxDist, dist);
+        shards.push({ pts, cx, cy, x0, y0, x1, y1, dist, dir: Math.atan2(cy - IY, cx - IX) });
+      }
+      for (const s of shards) {
+        // Außen zuerst, der Einschlagpunkt schließt sich zuletzt
+        s.d = (LAND - SPAN) * clamp01(0.55 * (1 - s.dist / maxDist) + 0.45 * rnd());
+        // Start außerhalb des Bildschirms, ungefähr aus der Richtung, in die er beim
+        // Zerspringen geflogen wäre; Bogen über einen Punkt irgendwo auf der Seite
+        s.ang = s.dir + rand(-1, 1);
+        s.far = rand(0.68, 1.0);
+        s.qx = rand(0.08, 0.92);
+        s.qy = rand(0.1, 0.9);
+        s.rot = (rnd() < 0.5 ? -1 : 1) * rand(2.5, 6);
+        s.flip = (rnd() < 0.5 ? -1 : 1) * rand(3, 9);
+        s.ph = rand(0, Math.PI);
+        s.grow = rand(0.15, small ? 0.9 : 0.6);
+      }
+      shards.sort((a, b) => a.d - b.d); // Reihenfolge = Landereihenfolge
+    })();
+
+    // Jeden Splitter einmal als kleines Bild vorbereiten (spart beim Fliegen das Zuschneiden)
+    let unit = 0; // Breite des Rahmens in CSS-Pixeln
+    let scale = 1; // Bildpunkte je CSS-Pixel der vorbereiteten Splitter
+    const prepare = () => {
+      unit = asmBox.clientWidth;
+      if (!unit) return false;
+      scale = Math.min(unit * Math.min(devicePixelRatio || 1, 2), asmImg.naturalWidth || 1280) / unit;
+      for (const s of shards) {
+        const bx = s.x0 * unit - 1;
+        const by = s.y0 * unit - 1;
+        const bw = (s.x1 - s.x0) * unit + 2;
+        const bh = (s.y1 - s.y0) * unit + 2;
+        const c = s.bmp || document.createElement("canvas");
+        c.width = Math.max(Math.ceil(bw * scale), 1);
+        c.height = Math.max(Math.ceil(bh * scale), 1);
+        const g = c.getContext("2d");
+        g.setTransform(scale, 0, 0, scale, -bx * scale, -by * scale);
+        g.beginPath();
+        s.pts.forEach(([x, y], i) => (i ? g.lineTo(x * unit, y * unit) : g.moveTo(x * unit, y * unit)));
+        g.closePath();
+        g.clip();
+        g.drawImage(asmImg, 0, 0, unit, unit * RATIO);
+        s.bmp = c;
+        s.bx = bx;
+        s.by = by;
+        s.bw = c.width / scale;
+        s.bh = c.height / scale;
+      }
+      return true;
+    };
+
+    // Umriss eines Splitters als Pfad (Koordinaten relativ zu seinem Schwerpunkt)
+    const outline = (g, s) => {
+      g.beginPath();
+      s.pts.forEach(([x, y], i) => {
+        const px = (x - s.cx) * unit;
+        const py = (y - s.cy) * unit;
+        if (i) g.lineTo(px, py);
+        else g.moveTo(px, py);
+      });
+      g.closePath();
+    };
+
+    // Leinwand im Rahmen für die gelandeten Splitter
+    const landed = document.createElement("canvas");
+    landed.className = "assemble__landed";
+    landed.setAttribute("aria-hidden", "true");
+    const lg = landed.getContext("2d");
+    let landedCount = -1;
+    const drawLanded = (n) => {
+      if (n === landedCount) return;
+      landedCount = n;
+      const w = Math.round(unit * scale);
+      const h = Math.round(unit * RATIO * scale);
+      if (landed.width !== w || landed.height !== h) {
+        landed.width = w;
+        landed.height = h;
+      }
+      lg.setTransform(1, 0, 0, 1, 0, 0);
+      lg.clearRect(0, 0, w, h);
+      for (let i = 0; i < n; i++) {
+        const s = shards[i];
+        lg.setTransform(scale, 0, 0, scale, 0, 0);
+        lg.drawImage(s.bmp, s.bx, s.by, s.bw, s.bh);
+      }
+      // Goldene Fugen zwischen den gelandeten Splittern
+      lg.strokeStyle = "rgba(231, 191, 107, 0.5)";
+      lg.lineWidth = 1;
+      for (let i = 0; i < n; i++) {
+        const s = shards[i];
+        lg.setTransform(scale, 0, 0, scale, s.cx * unit * scale, s.cy * unit * scale);
+        outline(lg, s);
+        lg.stroke();
+      }
+    };
+
+    // Leinwand über der ganzen Seite für die fliegenden Splitter
+    const layer = document.createElement("canvas");
+    layer.className = "shards-layer";
+    layer.setAttribute("aria-hidden", "true");
+    const fg = layer.getContext("2d");
+    // Fliegende Splitter brauchen keine volle Schärfe: höchstens 1,5-fache Pixeldichte,
+    // das spart auf Retina-Bildschirmen über die Hälfte der Bildpunkte
+    const LDPR = Math.min(devicePixelRatio || 1, 1.5);
+    let layerOn = false;
+    const drawFlying = (p) => {
+      const flying = p > 0 && p < LAND;
+      if (flying !== layerOn) {
+        layerOn = flying;
+        layer.classList.toggle("is-on", flying);
+      }
+      if (!flying) return;
+      const vw = layer.clientWidth;
+      const vh = layer.clientHeight;
+      if (layer.width !== Math.round(vw * LDPR) || layer.height !== Math.round(vh * LDPR)) {
+        layer.width = Math.round(vw * LDPR);
+        layer.height = Math.round(vh * LDPR);
+      }
+      fg.setTransform(1, 0, 0, 1, 0, 0);
+      fg.clearRect(0, 0, layer.width, layer.height);
+      const r = asmBox.getBoundingClientRect();
+      const diag = Math.hypot(vw, vh);
+      fg.lineJoin = "round";
+      // Früh landende zuerst malen, die noch weit fliegenden liegen obendrauf
+      for (const s of shards) {
+        const t = (p - s.d) / SPAN;
+        if (t >= 1) continue; // schon gelandet, liegt im Rahmen
+        if (t <= 0) break; // alle weiteren sind noch draußen
+        const e = 1 - (1 - t) * (1 - t) * (1 - t); // bremst zum Landen ab
+        const k = 1 - e;
+        const sx = vw / 2 + Math.cos(s.ang) * s.far * diag;
+        const sy = vh / 2 + Math.sin(s.ang) * s.far * diag;
+        const qx = s.qx * vw;
+        const qy = s.qy * vh;
+        const tx = r.left + s.cx * unit;
+        const ty = r.top + s.cy * unit;
+        const x = k * k * sx + 2 * k * e * qx + e * e * tx;
+        const y = k * k * sy + 2 * k * e * qy + e * e * ty;
+        const rot = s.rot * k;
+        const flip = s.flip * k;
+        const sc = 1 + s.grow * k; // weiter weg = näher an der Kamera
+        const fx = Math.cos(flip) * sc; // Kippen um die eigene Achse
+        const c = Math.cos(rot);
+        const sn = Math.sin(rot);
+        fg.setTransform(LDPR * c * fx, LDPR * sn * fx, -LDPR * sn * sc, LDPR * c * sc, LDPR * x, LDPR * y);
+        const ox = s.bx - s.cx * unit;
+        const oy = s.by - s.cy * unit;
+        fg.globalAlpha = 1;
+        fg.drawImage(s.bmp, ox, oy, s.bw, s.bh);
+        // Lichtblitz, wenn der Splitter sich zur Seite dreht
+        const glint = Math.pow(Math.abs(Math.sin(flip + s.ph)), 10) * Math.min(1, k * 2.5);
+        if (glint > 0.04) {
+          fg.globalCompositeOperation = "lighter";
+          fg.globalAlpha = glint * 0.4;
+          fg.drawImage(s.bmp, ox, oy, s.bw, s.bh);
+          fg.globalCompositeOperation = "source-over";
+        }
+        // Glaskante, verschwindet kurz vor dem Landen
+        const edge = Math.min(1, 0.5 + glint) * Math.min(1, k * 4);
+        if (edge > 0.03) {
+          fg.globalAlpha = edge;
+          fg.strokeStyle = "rgb(255, 232, 186)";
+          fg.lineWidth = 1.3 / sc;
+          outline(fg, s);
+          fg.stroke();
+        }
+      }
+      fg.globalAlpha = 1;
+    };
+
+    let ready = false;
+    let target = 0;
+    let shown = 0;
     let raf = 0;
-
-    // Nächstgelegenes schon geladenes Bild, solange noch nicht alle da sind
-    const nearest = (i) => {
-      for (let d = 0; d < FRAMES; d++) {
-        if (i - d >= 0 && ready[i - d]) return i - d;
-        if (i + d < FRAMES && ready[i + d]) return i + d;
-      }
-      return -1;
+    const render = () => {
+      raf = 0;
+      const d = target - shown;
+      shown = Math.abs(d) < 0.0005 ? target : shown + d * follow;
+      let n = 0;
+      while (n < shards.length && shards[n].d + SPAN <= shown) n++;
+      drawLanded(n);
+      drawFlying(shown);
+      setVar(asmBox, "--asm-img", clamp01((shown - LAND) / (1 - LAND)).toFixed(3));
+      if (shown !== target) raf = requestAnimationFrame(render);
     };
-
-    const draw = (pos) => {
-      const a = Math.floor(pos);
-      const ia = nearest(a);
-      if (ia < 0) return;
-      const W = asmCanvas.width;
-      const H = asmCanvas.height;
-      actx.globalAlpha = 1;
-      actx.drawImage(imgs[ia], 0, 0, W, H);
-      // Zwischen zwei benachbarten Bildern weich überblenden
-      const b = Math.min(a + 1, FRAMES - 1);
-      const f = pos - a;
-      if (ia === a && b !== a && ready[b] && f > 0.02) {
-        actx.globalAlpha = f;
-        actx.drawImage(imgs[b], 0, 0, W, H);
-        actx.globalAlpha = 1;
-      }
-    };
-
-    // Canvas-Auflösung an Anzeigegröße und Pixeldichte anpassen (Bilder sind 1280 breit)
-    const sizeCanvas = () => {
-      const w = Math.max(Math.min(Math.round(asmCanvas.clientWidth * devicePixelRatio), 1280), 1);
-      const h = Math.round((w * 9) / 16);
-      if (asmCanvas.width !== w || asmCanvas.height !== h) {
-        asmCanvas.width = w;
-        asmCanvas.height = h;
-        draw(shown);
-      }
-    };
-
-    // Weich hinterherlaufen statt springen (glättet Mausrad- und Touch-Sprünge)
-    const tick = () => {
-      const diff = target - shown;
-      shown = Math.abs(diff) < 0.01 ? target : shown + diff * 0.2;
-      draw(shown);
-      raf = shown === target ? 0 : requestAnimationFrame(tick);
+    // Neues Bild nur, wenn sich etwas bewegt: Fortschritt ändert sich, oder Splitter
+    // fliegen gerade (die gelandeten im Rahmen scrollen von selbst mit)
+    const kick = () => {
+      if (ready && !raf && (target !== shown || layerOn)) raf = requestAnimationFrame(render);
     };
 
     const updateTarget = () => {
-      const r = asmCanvas.getBoundingClientRect();
-      if (r.bottom < -50 || r.top > innerHeight + 50) return;
-      const midDist =
-        Math.abs(r.top + r.height / 2 - innerHeight / 2) / ((innerHeight + r.height) / 2);
-      const p = Math.min(Math.max((midDist * 1.7 - HOLD) / (1 - HOLD), 0), 1);
-      target = (1 - p) * (FRAMES - 1);
-      if (!raf) raf = requestAnimationFrame(tick);
+      const r = asmBox.getBoundingClientRect();
+      const vh = innerHeight;
+      const below = r.top + r.height / 2 - vh / 2; // > 0: Rahmen unterhalb der Bildschirmmitte
+      // Oberhalb der Mitte bleibt das Foto ganz, damit beim Weiterlesen nichts über den
+      // nächsten Abschnitt fliegt. Zurückscrollen bis unter die Mitte = Splitter fliegen raus.
+      if (below <= 0) target = 1;
+      else if (r.top > 2 * vh) target = 0;
+      else target = 1 - clamp01((below / ((vh + r.height) / 2) - HOLD) / (REACH - HOLD));
+      kick();
     };
 
-    // Ladereihenfolge: erstes und letztes Bild zuerst, dann grob nach fein.
-    // So läuft die Animation schon mit wenigen Bildern und wird immer feiner.
-    const loadOrder = () => {
-      if (reduced) return [FRAMES - 1];
-      const seq = [0, FRAMES - 1];
-      for (let step = 32; step >= 1; step >>= 1) {
-        for (let i = 0; i < FRAMES; i += step) if (!seq.includes(i)) seq.push(i);
-      }
-      return seq;
+    let resizeTimer = 0;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (ready && asmBox.clientWidth !== unit && prepare()) {
+          landedCount = -1;
+          shown = target;
+          render();
+        }
+        updateTarget();
+      }, 150);
     };
 
-    const loadFrames = () => {
-      const seq = loadOrder();
-      let next = 0;
-      const loadNext = () => {
-        if (next >= seq.length) return;
-        const i = seq[next++];
-        const img = new Image();
-        img.src = frameSrc(i);
-        img
-          .decode()
-          .then(() => {
-            imgs[i] = img;
-            ready[i] = true;
-            draw(shown);
-          })
-          .catch(() => {})
-          .finally(loadNext);
-      };
-      for (let k = 0; k < 4; k++) loadNext(); // 4 Bilder parallel laden
-    };
-
-    sizeCanvas();
-    addEventListener("resize", sizeCanvas);
-    if (!reduced) {
-      addEventListener("scroll", updateTarget, { passive: true });
+    const start = () => {
+      if (ready || !prepare()) return;
+      ready = true;
+      asmBox.prepend(landed);
+      document.body.appendChild(layer);
+      asmBox.classList.add("is-shards");
       updateTarget();
-    }
+      shown = target; // beim ersten Mal nicht von 0 hochlaufen, wenn man mittendrin lädt
+      render();
+      addEventListener("scroll", updateTarget, { passive: true });
+      addEventListener("resize", onResize);
+    };
 
-    // Bilder erst laden, wenn die Sektion in die Nähe scrollt (spart mobiles Datenvolumen)
+    // Foto erst laden, wenn der Abschnitt in die Nähe kommt (spart mobiles Datenvolumen)
     const asmIo = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          asmIo.disconnect();
-          loadFrames();
-        }
+        if (!entries.some((e) => e.isIntersecting)) return;
+        asmIo.disconnect();
+        asmImg.loading = "eager";
+        asmImg
+          .decode()
+          .then(start)
+          .catch(() => {}); // Foto bleibt dann einfach ohne Animation stehen
       },
-      { rootMargin: "200% 0px" }
+      { rootMargin: "150% 0px" }
     );
-    asmIo.observe(asmCanvas);
+    asmIo.observe(asmBox);
   }
 
   /* ---------- Explosionszeichnung: So ist ein Reel aufgebaut ----------

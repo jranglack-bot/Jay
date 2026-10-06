@@ -29,19 +29,28 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   baut aber mit Node 18 (Build-Log). Erst nach Umstellung auf Node 22 im hPanel auf Vite 7/8
   gehen. Den Entwicklungsserver nie mit `--host` ins Netz stellen.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
-  `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften, `frames/rooftop/`).
+  `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften).
   Vor dem Pushen immer bauen und prüfen.
 
-## Schriften und Rooftop-Animation
+## Schriften und Splitter-Animation
 
 - Oswald und Open Sans liegen lokal in `fonts/` und werden per `@font-face` in
   `css/style.css` eingebunden. **Keine Google Fonts mehr per Link einbinden**
   (Datenschutz, siehe LG München I, Az. 3 O 17493/20).
-- Die Scroll-Animation im Abschnitt „Mein Weg“ ist eine Bildsequenz auf einem
-  Canvas, kein Video (Video-Scrubbing ruckelt, vor allem auf dem iPhone). Die
-  Einzelbilder in `public/frames/rooftop/` stammen aus `assets/rooftop-assemble.mp4`:
-  `ffmpeg -i assets/rooftop-assemble.mp4 -vf "select='not(mod(n\,2))'" -vsync vfr -c:v libwebp -quality 72 public/frames/rooftop/%03d.webp`
-  Bei geänderter Bildanzahl `FRAMES` in `public/js/main.js` anpassen.
+- **Splitter-Animation im Abschnitt „Mein Weg“ (seit 06.10.2026):** Julian wollte, dass
+  die Splitter „komplett von außen kommen, über die komplette Webseite reingeflogen“. Darum
+  keine Bildsequenz mehr (die 61 Einzelbilder aus `assets/rooftop-assemble.mp4` blieben im
+  Rahmen), sondern Code: `public/js/main.js` („Splitter-Animation“) zerlegt das Foto
+  `assets/julian-rooftop-sonnenuntergang.webp` (letztes Bild des Videos) in ein Bruchmuster
+  um einen Einschlagpunkt (Handy 70, Computer 123 Splitter). Sie starten
+  außerhalb des Bildschirms, fliegen in Bögen über die ganze Seite in den Rahmen, die äußeren
+  zuerst, landen mit goldenen Fugen, dann blendet das ganze Foto darüber ein. Oberhalb der
+  Bildschirmmitte bleibt das Foto ganz (nichts fliegt über „Meine Zahlen“), zurückscrollen
+  lässt die Splitter wieder rausfliegen. Fliegende Splitter liegen auf einer festen Leinwand
+  über der Seite (`.shards-layer`, z-index 40, unter Navigation und Handy-Menü), gelandete auf
+  einer Leinwand im Rahmen, sonst wackeln sie beim Scrollen nach. Ohne Skript und mit
+  reduzierter Bewegung steht nur das Foto da. Das Foto lädt erst, wenn der Abschnitt in die
+  Nähe kommt (47 KB statt vorher 2,1 MB Einzelbilder).
 
 ## Tonalität
 

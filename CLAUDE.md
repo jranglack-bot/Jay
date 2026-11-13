@@ -87,6 +87,18 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   die Spam-Testberichte), „Hamsterrad“, „mehr Zeit für die Familie“, „ohne
   Vorerfahrung“ und ähnliche Wörter, die die Konkurrenzseiten wortgleich benutzen.
   Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
+- **Erzählen statt erklären (Julian, 13.11.2026):** Die erste Fassung der Texte vom selben
+  Tag fand er „total kalt“ und „nicht menschlich“: „Du versuchst es hier auf eine logische
+  Art und Weise zu erklären, aber wichtig ist immer, du musst bei jemandem eine Emotion
+  auslösen.“ Deshalb erzählt jeder Text, was Julian passiert ist und wie es sich angefühlt
+  hat, wie einem Kumpel (Vault `Schreibstil.md`, Korrektur 30.10.2026 „Kumpel, nicht
+  Mentor“): lange Sätze mit und, denn, weil, danach ein kurzer Satz zum Gefühl, „hab“,
+  „kriegst“, „gecheckt“, keine Lehrsätze („Wichtiger ist, dass …“), kein Passiv („wird
+  erklärt“, „wird gerechnet“), keine Sätze über „du lernst“. Der Vault liegt auch in Google
+  Drive (`Schreibstil.md`, `Über Mich.md`, `Schmerzpunkte.md`, `ICP.md`, Ordner
+  `Schreibstil-Beispiele`), vor jedem Text dort lesen. **Gefühle und Erlebnisse nie
+  erfinden**, nur die aus `Über Mich.md` nehmen und alles Neue für Julian markieren. Beruf
+  und Branche nie nennen, öffentlich nur „ganz normaler Job“.
 - **Story-Fakten** (Geldsorgen 2025, Satz seiner Frau, erster Verkauf nach einem Monat,
   Augenzucken weg, Schuhe ohne Blick aufs Konto) stehen im Vault `Über Mich.md`,
   „Nachtrag 25.09.2026“. **Zeitleiste (Julian, 13.11.2026):** über ein Jahr gezögert, 2025
@@ -104,13 +116,15 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
   Julian als Papa mit Job. Dass er sein Wissen im SCB-System gelernt hat, steht in `#scb` im
   Kasten „Das hab ich dort gelernt“ (vier Punkte in Ich-Form; KI ist sein eigener Teil, er
-  betreut im Programm den Bereich KI). Bis 13.11.2026 war das der eigene Abschnitt `#gelernt`
+  hält im Programm die Calls zu KI selbst). Bis 13.11.2026 war das der eigene Abschnitt `#gelernt`
   („Woher ich das weiß“), er ist in `#scb` aufgegangen. Der **Look bleibt** schwarz und gold,
   weil er so zum SCB-Funnel passt (Julian, 25.09.2026).
 - **Hero (seit 13.11.2026):** Der Absatz nennt gleich den Grund zu bleiben. Er ist aus
-  Julians Einstieg in „Mein Weg“ gebaut (Job und Gehaltserhöhung), dazu der belegte Fakt:
-  Start im Januar 2026, erster Verkauf einen Monat später, „die Mail dazu zeig ich dir weiter
-  unten“. Goldener Knopf „Was ist das SCB-System? ↓“ (`#scb`), zweiter Knopf „Erst meine
+  Julians Einstieg in „Mein Weg“ gebaut (Job und Gehaltserhöhung), dazu „2025 hat bei uns
+  das Geld ohne Ende gefehlt“ (seine Worte) und der belegte Fakt: Start im Januar 2026,
+  erster Verkauf einen Monat später, „die Mail dazu zeig ich dir weiter unten“. Nicht länger
+  machen: Auf einem kleinen Handy (375 × 667) muss der goldene Knopf noch im ersten
+  Bildschirm stehen, das sind höchstens zehn Zeilen. Goldener Knopf „Was ist das SCB-System? ↓“ (`#scb`), zweiter Knopf „Erst meine
   Geschichte ↓“ (`#weg`). `meta description` und `og:description` sagen dasselbe, die
   Vorschau in Instagram-DMs ist oft der erste Eindruck. **Überschriften und erste Sätze nie
   neu erfinden**, nur aus Sätzen bauen, die schon von Julian sind.
@@ -125,8 +139,9 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   (05.10.2026) bleibt raus. Das Video steht nicht in der Navigation, kein fixierter
   Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere Optionen gibt es
   Instagram (@julians.way) und die Anleitungen.
-- **Wer im Video spricht:** „Im Video erklären dir Jacky und Julez, die das System gebaut
-  haben, wie es aufgebaut ist.“ steht in `#scb` und im Abschluss vor dem Knopf. Nur nennen,
+- **Wer im Video spricht:** „Wie das System genau aufgebaut ist, erklären dir Jacky und
+  Julez im Video, die beiden haben es gebaut.“ steht in `#scb`, im Abschluss fast gleich,
+  jeweils vor dem Knopf. Nur nennen,
   kein Foto (Julian, 12.11.2026: „nennen ja, zeigen nicht direkt“). Die Firma steht nur im
   Werbehinweis des Live-Events.
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Video, Live-Event und die Tools eine
@@ -152,11 +167,12 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   sechs Klickfragen (Beruf, Zufriedenheit, Alter, Bereitschaft, Stunden pro Woche, gewünschter
   Nebenverdienst), laut Funnel „weniger als 2 Minuten“, danach Vorname und E-Mail, erst dann
   das Video (30 bis 40 Minuten, gehalten von Jacky und Julez), bei Eignung ruft laut Funnel
-  das Team innerhalb von 48 Stunden an. Genau das steht vor jedem Werbelink: „Nach dem Klick
-  kommen sechs kurze Fragen zum Anklicken, das dauert keine zwei Minuten. Danach trägst du
-  deinen Vornamen und deine E-Mail ein und bekommst das Video, das geht ungefähr 30 bis 40
-  Minuten. Wenn es für dich passt, kannst du dich danach für ein persönliches Gespräch
-  entscheiden.“ Linktext „Zu den Fragen und zum Video*“, nie nur „Video“ versprechen.
+  das Team innerhalb von 48 Stunden an. Genau diese Fakten stehen vor jedem Werbelink, an
+  jeder der drei Stellen etwas anders gesagt, weil derselbe Absatz dreimal wortgleich nach
+  Formular klang. In `#scb`: „Nach dem Klick kommen erst mal sechs Fragen zum Anklicken, und
+  da bist du in nicht mal zwei Minuten durch. Danach trägst du deinen Vornamen und deine
+  E-Mail ein und kriegst das Video, das geht ungefähr 30 bis 40 Minuten. Und wenn es für
+  dich passt, kannst du dich danach für ein persönliches Gespräch entscheiden.“ Linktext „Zu den Fragen und zum Video*“, nie nur „Video“ versprechen.
   Überall „Video“ sagen, nicht mehr „Videotraining“. **Nicht übernehmen** von der
   Funnel-Seite: Telegram-Bildschirmfotos und „31,5 Tage bis zum ersten Erfolg“
   (Erfolgsaussagen über andere), „Nur 7 Zugänge verfügbar“ (Verknappung), „ohne dein Gesicht“
@@ -306,7 +322,7 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   Live-Event anmelden*“), davor stehen Termin und Fakten, darunter leiser „Oder schau dir
   zuerst das Video an*“. Während des Events „WIR SIND LIVE“ und „Jetzt live dazukommen*“,
   nach Start + Dauer schaltet alles von selbst zurück. Weitere Felder, nur Gefülltes wird
-  gezeigt: `eventHosts` („Jacky und Julez“, sie halten es), `eventLengthText` (ganzer Satz
+  gezeigt: `eventHosts` („Jacky und Julez“, daraus wird „… halten es selbst.“), `eventLengthText` (ganzer Satz
   zur Dauer, noch leer) und `eventReplay` („In der Regel gibt es danach eine
   Aufzeichnung.“). Nur echte Termine, nie einen Timer, der neu startet oder immer „morgen“
   ist (irreführende Verknappung, UWG). Zum Testen `eventActive` und ein Testdatum nur im
@@ -320,7 +336,11 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
 - **Fehlt noch von Julian:** Datum, Uhrzeit und Dauer des nächsten Live-Events; zwei bis
   drei Punkte, was man im Video sieht (dann unter den Satz zu Jacky und Julez, nichts
   erfinden); sein eigener erster Satz für „Mein Weg“ (der alte Einstieg steht jetzt im Hero,
-  als Übergang steht dort ein Satz aus seinen Worten); optional die Zahl 750 von Jacky und
+  als Einstieg steht dort die Frage seiner Tochter, sein eigenes Beispiel aus
+  `Schreibstil.md`); drei Momente, die nur er kennt und die die Seite wärmer machen würden:
+  was er gemacht hat, als die Mail zum ersten Verkauf kam, ein Moment aus 2025, in dem das
+  Geld gefehlt hat, und ob ihn die gefloppten Reels am Anfang wirklich „angepisst“ haben
+  (das Wort stammt aus seinem abgenommenen Reel über die B-Rolls); optional die Zahl 750 von Jacky und
   Julez, sonst bleibt sie weg.
 - **Claude-Code-Kurs:** Julian erstellt gerade einen Kurs zu Claude Code, der
   später auf der Seite eingebunden werden soll. Erst einbauen, wenn Julian es sagt.

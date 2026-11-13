@@ -22,7 +22,7 @@
     // Nach Start + Dauer gilt das Event als vorbei, die Seite schaltet von selbst zurück.
     eventDurationMin: 120,
     // Was vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt, leer lassen = weglassen.
-    // eventHosts: wer das Event hält ("Gehalten wird es von …").
+    // eventHosts: wer das Event hält, in der Mehrzahl ("… halten es selbst.").
     eventHosts: "Jacky und Julez",
     // eventLengthText: ganzer Satz zur Dauer, z. B. "Es dauert ungefähr zwei Stunden."
     eventLengthText: "",
@@ -101,7 +101,7 @@
     const webinarBtn = $("#webinarBtn");
     webinarBtn.href = eventUrl(c.webinarUrl, "event");
     // Wer es hält, wie lange es dauert, ob es eine Aufzeichnung gibt: nur was eingetragen ist
-    const eventFacts = [c.eventHosts && "Gehalten wird es von " + c.eventHosts + ".", c.eventLengthText, c.eventReplay]
+    const eventFacts = [c.eventHosts && c.eventHosts + " halten es selbst.", c.eventLengthText, c.eventReplay]
       .filter(Boolean)
       .join(" ");
     $("#eventFacts").textContent = eventFacts;
@@ -144,7 +144,7 @@
     const offerEventText = (live) =>
       (live ? "Das Live-Event läuft gerade." : "Das nächste Live-Event ist am " + formatEventDate(eventStart) + ".") +
       (eventFacts ? " " + eventFacts : "") +
-      " Die Anmeldung ist kostenlos.";
+      " Anmelden kostet dich nichts.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";

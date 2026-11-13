@@ -1408,6 +1408,116 @@ body.has-announce .nav { top: 42px; }
 .tl-item p { color: var(--cream-dim); max-width: 34em; }
 .tl-item p strong { color: var(--cream); }
 
+
+/* Belege in „Mein Weg“ (Julians eigene Mails, 13.11.2026): kleine Karte im Gold-Rahmen der
+   Seite statt volle Breite, am Handy höchstens eine halbe Bildschirmhöhe. Antippen
+   vergrößert (js/main.js „Belege vergrößern“). Hinweis und Aufwand stehen direkt darunter. */
+.beleg { margin: 1.9em 0 0 8px; max-width: 30em; }
+.beleg__open {
+  position: relative;
+  display: block;
+  width: min(290px, 74vw);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: default;
+}
+.beleg__open.is-zoomable { cursor: zoom-in; }
+.beleg__open:focus-visible { outline: 2px solid var(--gold); outline-offset: 12px; border-radius: 8px; }
+.beleg__open img {
+  width: 100%;
+  height: auto;
+  max-height: 48vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.5);
+}
+/* Rahmen wie beim Foto im Hero: feine Linie, zwei goldene Ecken */
+.beleg__frame {
+  position: absolute;
+  inset: -8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.beleg__frame::before,
+.beleg__frame::after {
+  content: "";
+  position: absolute;
+  width: 42px;
+  height: 42px;
+}
+.beleg__frame::before {
+  top: -1px; left: -1px;
+  border-top: 2px solid var(--gold);
+  border-left: 2px solid var(--gold);
+  border-radius: 14px 0 0 0;
+}
+.beleg__frame::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 2px solid var(--gold);
+  border-right: 2px solid var(--gold);
+  border-radius: 0 0 14px 0;
+}
+.beleg__hint {
+  display: none;
+  position: absolute;
+  right: 8px;
+  top: 8px; /* oben rechts ist in beiden Mails nur weiße Fläche */
+  padding: 0.3em 0.8em;
+  border-radius: 999px;
+  background: rgba(22, 22, 22, 0.86);
+  color: var(--gold-soft);
+  font-family: var(--font-head);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.beleg__open.is-zoomable .beleg__hint { display: block; }
+.beleg figcaption {
+  margin-top: 1.5em;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--cream-dim);
+}
+/* Beleg in groß: dunkler Hintergrund, irgendwo antippen schließt */
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 1.2em;
+  border: 0;
+  background: transparent;
+}
+.lightbox[open] { display: flex; align-items: center; justify-content: center; }
+.lightbox::backdrop { background: rgba(8, 8, 8, 0.9); }
+.lightbox img {
+  max-width: min(100%, 640px);
+  max-height: 100%;
+  border-radius: 12px;
+  background: #fff;
+  cursor: zoom-out;
+}
+.lightbox__close {
+  position: absolute;
+  top: 0.6em;
+  right: 0.6em;
+  width: 2.4em;
+  height: 2.4em;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(22, 22, 22, 0.86);
+  color: var(--cream);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
 .story__photo { margin-top: 5em; }
 
 /* Splitter-Animation (js/main.js): Glassplitter fliegen beim Scrollen über die ganze
@@ -1580,7 +1690,7 @@ body.has-announce .nav { top: 42px; }
 .card h3 { font-size: 1.25rem; margin: 0.7em 0 0.5em; }
 .card p { font-size: 0.98rem; color: var(--cream-dim); }
 
-/* ============ Fließende Überschrift („Woher ich das weiß“) ============
+/* ============ Fließende Überschrift („Über ein Jahr …“, #gewartet) ============
    Die Zeilen verschiebt js/main.js beim Scrollen über --fx/--fo. Ohne JS oder mit
    „Bewegung reduzieren“ stehen sie einfach da. overflow: hidden verhindert, dass die
    von der Seite kommende Zeile die Seite verbreitert. */
@@ -1611,19 +1721,16 @@ body.has-announce .nav { top: 42px; }
   color: var(--cream);
 }
 
-/* Kasten „Was ist das SCB-System?“ */
-.learned__label {
-  margin-top: 3.2em;
-  font-family: var(--font-head);
-  font-size: 0.85rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gold);
+/* ============ Das Jahr davor (#gewartet, nach den Zahlen) ============ */
+.waited {
+  background: radial-gradient(900px 480px at 12% 0%, rgba(188, 150, 95, 0.1), transparent 70%), var(--bg);
+  border-top: 1px solid var(--line);
 }
-#gelernt .values__grid { margin-top: 1.4em; }
+.waited .section__lead + .section__lead { margin-top: 1em; }
+.waited .offer { margin-top: 2.4em; }
 
-/* ============ Leise Werbelinks (nach Geschichte und Zahlen) ============
-   Bewusst kein Button: ein Satz, ein unterstrichener Link, der Werbehinweis darunter. */
+/* ============ Leise Links (nur noch auf den Unterseiten) ============
+   Bewusst kein Button: ein Satz und ein unterstrichener Link. */
 .softlink {
   margin-top: 4em;
   max-width: 38em;
@@ -1680,9 +1787,27 @@ body.has-announce .nav { top: 42px; }
 .faq__item summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 4px; }
 .faq__item p { color: var(--cream-dim); padding: 0 0.2em 1.3em; max-width: 40em; }
 
-/* ============ Nächste Schritte im Abschluss ============ */
-/* Ablauf nach dem Klick im Abschluss, in einem Satz */
-.nextsteps__short { max-width: 32em; margin: 0 auto 1.6em; font-size: 0.95rem; color: var(--cream-dim); }
+/* ============ Werbelink-Kasten (#scb, nach den Zahlen, Abschluss) ============
+   Immer gleich aufgebaut, damit vor jedem Klick nach draußen dasselbe dasteht: wer im Video
+   spricht, was nach dem Klick kommt, der Knopf mit Sternchen, im Live-Event-Modus darunter
+   das Video als zweite Möglichkeit, und direkt darunter der Werbehinweis (js/main.js
+   paintOffers). */
+.offer { display: flex; flex-direction: column; align-items: flex-start; max-width: 36em; }
+.offer__who { margin-bottom: 0.7em; color: var(--cream); }
+.offer__steps { margin-bottom: 1.5em; font-size: 0.95rem; color: var(--cream-dim); }
+.offer__alt {
+  margin-top: 1.4em;
+  font-size: 0.95rem;
+  color: var(--cream-dim);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.offer__alt:hover { color: var(--gold-soft); border-color: var(--gold); }
+/* Werbehinweis: klein und ruhig, aber gut lesbar (muss erkennbar bleiben) */
+.offer__disclosure { margin-top: 0.9em; font-size: 0.75rem; color: var(--cream-dim); }
+.offer--center { align-items: center; margin: 0 auto; text-align: center; }
 
 /* ============ Was ist das SCB-System? (#scb, direkt unter dem Hero) ============ */
 .scb { background: var(--bg-deep); }
@@ -1765,7 +1890,6 @@ body.has-announce .nav { top: 42px; }
   transition-delay: calc(var(--k, 0) * 140ms + 350ms);
 }
 .scb__panel.is-inview .scb__check::after { transform: rotate(45deg) scale(1); }
-.scb__cta-line { margin-bottom: 1em; color: var(--cream-dim); }
 @media (max-width: 900px) {
   .scb__inner { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "panel" "cta"; gap: 2em; }
   .scb__panel { padding: 1.5em 1.3em 1.4em; }
@@ -1925,6 +2049,8 @@ body.has-announce .nav { top: 42px; }
   margin: -0.2em 0 1em;
 }
 
+/* Wer das Event hält, Dauer, Aufzeichnung (aus DEFAULTS, nur was gefüllt ist) */
+.webinar__facts { max-width: 32em; margin: -0.8em auto 1.8em; font-size: 0.95rem; color: var(--cream-dim); }
 .webinar__disclosure {
   margin: 0.9em auto 0;
   max-width: 32em;
@@ -1954,23 +2080,6 @@ body.has-announce .nav { top: 42px; }
   line-height: 1.05;
 }
 .cta .section__lead { margin-bottom: 1.8em; }
-.cta__alt {
-  margin-top: 1.4em;
-  font-size: 0.95rem;
-  color: var(--cream-dim);
-  text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 2px;
-  transition: color 0.3s, border-color 0.3s;
-}
-.cta__alt:hover { color: var(--gold-soft); border-color: var(--gold); }
-/* Werbehinweis: klein und ruhig, aber gut lesbar (muss erkennbar bleiben) */
-.cta__disclosure {
-  margin-top: 0.9em;
-  max-width: 34em;
-  font-size: 0.75rem;
-  color: var(--cream-dim);
-}
 .cta__follow { margin-top: 2em; font-size: 0.95rem; color: var(--cream-dim); }
 /* Instagram-Button mit Glyph (einfarbig, wie es Metas Markenrichtlinien erlauben) */
 .btn--insta {

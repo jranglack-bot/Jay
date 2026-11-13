@@ -21,14 +21,25 @@
     eventDate: "",
     // Nach Start + Dauer gilt das Event als vorbei, die Seite schaltet von selbst zurück.
     eventDurationMin: 120,
+    // Was vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt, leer lassen = weglassen.
+    // eventHosts: wer das Event hält ("Gehalten wird es von …").
+    eventHosts: "Jacky und Julez",
+    // eventLengthText: ganzer Satz zur Dauer, z. B. "Es dauert ungefähr zwei Stunden."
+    eventLengthText: "",
+    // eventReplay: ganzer Satz zur Aufzeichnung
+    eventReplay: "In der Regel gibt es danach eine Aufzeichnung.",
     links: [],
   };
   const FUNNEL_URL =
     "https://julians-way.de/videotraining/?utm_source=instagram&utm_medium=bio&utm_campaign=julians-way";
   // Eigener utm_content je Knopf: zeigt in der Auswertung des Funnels, welcher Knopf
-  // die Anmeldungen bringt (abschluss, abschluss-via-scb, abschluss-via-gelernt,
-  // abschluss-via-zahlen, abschluss-event).
+  // die Anmeldungen bringt. Zu den Fragen und zum Video: scb, geschichte, abschluss.
+  // Steht ein Live-Event an, ist das Video nur die zweite Möglichkeit unter dem Knopf:
+  // scb-event, geschichte-event, abschluss-event.
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
+  // Anmeldung zum Live-Event, ebenfalls mit eigenem utm_content je Knopf:
+  // event (im Event-Abschnitt), event-scb, event-geschichte, event-abschluss.
+  const eventUrl = (url, knopf) => url + (url.includes("?") ? "&" : "?") + "utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
   // CSS-Variable nur schreiben, wenn sich der Wert ändert: spart dem Browser bei jedem
@@ -41,17 +52,6 @@
     }
   };
 
-  /* ---------- Leise Links in der Mitte ----------
-     Sie springen zum Abschluss (#angebot), damit jeder vor dem Klick nach draußen die
-     drei Schritte sieht. Welcher leise Link benutzt wurde, landet trotzdem in der
-     Auswertung: als utm_content des Abschluss-Knopfs, z. B. "abschluss-via-zahlen". */
-  document.querySelectorAll("[data-jump]").forEach((a) => {
-    a.addEventListener("click", () => {
-      const cta = $("#ctaFunnel");
-      if (cta.href.startsWith(FUNNEL_URL)) cta.href = funnelUrl("abschluss-via-" + a.dataset.jump);
-    });
-  });
-
   /* ---------- Live-Event-Konfiguration anwenden ---------- */
   let cdTimer = null;
 
@@ -63,6 +63,35 @@
     return tag + ", " + zeit + " Uhr";
   }
 
+  /* Werbelinks (#scb, nach den Zahlen, Abschluss): Jeder Kasten [data-offer] hat einen
+     Hauptknopf, darunter eine leisere zweite Möglichkeit und den Werbehinweis. Normal führt
+     der Hauptknopf zu den Fragen und zum Video, davor steht der Ablauf nach dem Klick (aus
+     dem HTML). Steht ein Live-Event an, ist die Anmeldung zum Event der Hauptknopf (Julian,
+     12.11.2026: das Event verkauft stärker), davor steht der Termin, und das Video rückt als
+     zweite Möglichkeit darunter. */
+  function paintOffers(c, eventText, live) {
+    document.querySelectorAll("[data-offer]").forEach((box) => {
+      const name = box.dataset.offer;
+      const main = box.querySelector(".offer__main");
+      const alt = box.querySelector(".offer__alt");
+      const who = box.querySelector(".offer__who");
+      const steps = box.querySelector(".offer__steps");
+      if (box.funnelSteps === undefined) box.funnelSteps = steps.textContent;
+      if (c.eventActive) {
+        main.href = eventUrl(c.webinarUrl, "event-" + name);
+        main.innerHTML = (live ? "Jetzt live dazukommen*" : "Zum Live-Event anmelden*") + ' <span class="btn__arrow">→</span>';
+        steps.textContent = eventText;
+        alt.href = funnelUrl(name + "-event");
+      } else {
+        main.href = funnelUrl(name);
+        main.innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
+        steps.textContent = box.funnelSteps;
+      }
+      alt.hidden = !c.eventActive;
+      if (who) who.hidden = c.eventActive; // der Satz beschreibt das Video, nicht das Event
+    });
+  }
+
   function applyConfig(cfg) {
     const c = { ...DEFAULTS, ...cfg };
     const eventStart = c.eventActive && c.eventDate ? new Date(c.eventDate).getTime() : NaN;
@@ -70,7 +99,13 @@
     // Vorbei ist vorbei: kein Countdown und kein „WIR SIND LIVE“ nach dem Event
     if (!isNaN(eventStart) && Date.now() >= eventEnd) c.eventActive = false;
     const webinarBtn = $("#webinarBtn");
-    webinarBtn.href = c.webinarUrl;
+    webinarBtn.href = eventUrl(c.webinarUrl, "event");
+    // Wer es hält, wie lange es dauert, ob es eine Aufzeichnung gibt: nur was eingetragen ist
+    const eventFacts = [c.eventHosts && "Gehalten wird es von " + c.eventHosts + ".", c.eventLengthText, c.eventReplay]
+      .filter(Boolean)
+      .join(" ");
+    $("#eventFacts").textContent = eventFacts;
+    $("#eventFacts").hidden = !eventFacts;
 
     /* Hinweis-Banner */
     const bar = $("#announceBar");
@@ -98,38 +133,34 @@
     $("#announceLink").hidden = webinarSec.hidden;
 
     /* Der goldene Hero-Knopf springt normal zur Erklärung des SCB-Systems (#scb) direkt
-       unter dem Hero, im Live-Event-Modus zum Event, das dann dort steht. Werbelinks gibt es
-       nur im Abschluss und im Event, jeweils mit Sternchen und Erklärung direkt darunter.
-       Der Knopf in #scb und die leisen Links in der Mitte springen zum Abschluss. */
+       unter dem Hero, im Live-Event-Modus zum Event, das dann dort steht. Werbelinks stehen
+       in #scb, nach den Zahlen, im Abschluss und im Event, jeder mit Sternchen und dem
+       Werbehinweis direkt darunter (paintOffers). */
     const heroLink = $("#heroOffer");
     const pillText = $("#webinarPillText");
+    const ctaLead = $("#ctaLead");
+    if (ctaLead.normalText === undefined) ctaLead.normalText = ctaLead.textContent;
+    // Vor dem Klick zum Event: Termin, wer es hält, Dauer, Aufzeichnung
+    const offerEventText = (live) =>
+      (live ? "Das Live-Event läuft gerade." : "Das nächste Live-Event ist am " + formatEventDate(eventStart) + ".") +
+      (eventFacts ? " " + eventFacts : "") +
+      " Die Anmeldung ist kostenlos.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";
-      heroLink.innerHTML = 'Zum kostenlosen Live-Event <span class="btn__arrow btn__arrow--down">↓</span>';
-      // Finale CTA unten ebenfalls aufs Live-Event drehen
-      $("#ctaFunnel").href = c.webinarUrl;
-      $("#ctaFunnel").innerHTML = 'Zum kostenlosen Live-Event* <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Das nächste Live-Event steht an. Dort siehst du live, wie das System funktioniert, und kannst deine Fragen direkt stellen.";
-      // Die drei Schritte beschreiben den Funnel, nicht das Event
-      $("#ctaSteps").hidden = true;
-      const ctaAlt = $("#ctaAlt");
-      ctaAlt.href = funnelUrl("abschluss-event");
-      ctaAlt.hidden = false;
+      heroLink.innerHTML = 'Zum Live-Event <span class="btn__arrow btn__arrow--down">↓</span>';
+      ctaLead.textContent = "Das nächste Live-Event steht an. Dort siehst du live, wie das System funktioniert, und kannst deine Fragen direkt stellen.";
       // Event-Sektion direkt unter den Hero, vor die Erklärung des SCB-Systems
       $(".hero").after(webinarSec);
     } else {
       heroLink.href = "#scb";
       heroLink.innerHTML = 'Was ist das SCB-System? <span class="btn__arrow btn__arrow--down">↓</span>';
-      // Finale CTA unten zurück aufs Videotraining
-      $("#ctaFunnel").href = funnelUrl("abschluss");
-      $("#ctaFunnel").innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
-      $("#ctaLead").textContent = "Letztes Jahr hab ich mich noch oft gefragt, wie ich meine Familie über die Runden bringen soll. Heute ist dieser Druck weg. Wenn du sehen willst, wo ich das alles gelernt hab, zeigt dir das Videotraining das System, mit dem ich arbeite.";
-      $("#ctaSteps").hidden = false;
-      $("#ctaAlt").hidden = true;
+      ctaLead.textContent = ctaLead.normalText;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)
       $("#angebot").before(webinarSec);
     }
+    const liveNow = c.eventActive && Date.now() >= eventStart;
+    paintOffers(c, c.eventActive ? offerEventText(liveNow) : "", liveNow);
 
     /* Extra-Buttons („Mehr von mir") */
     const extras = $("#extras");
@@ -174,6 +205,7 @@
         const diff = target - now;
         if (diff <= 0) {
           // Das Event läuft gerade (weiter ticken, damit das Ende erkannt wird)
+          if (!cd.hidden) paintOffers(c, offerEventText(true), true); // einmal, beim Wechsel auf live
           cd.hidden = true;
           pillText.textContent = "WIR SIND LIVE";
           webinarBtn.innerHTML = 'Jetzt live dazukommen* <span class="btn__arrow">→</span>';
@@ -1275,5 +1307,24 @@
     addEventListener("scroll", onZoomScroll, { passive: true });
     addEventListener("resize", onZoomScroll);
     updateZoom();
+  }
+
+  /* ---------- Belege vergrößern ----------
+     Die Belege in „Mein Weg“ sind bewusst klein (Karte im Gold-Rahmen, am Handy höchstens
+     eine halbe Bildschirmhöhe). Antippen zeigt das Bild groß, noch mal antippen oder Esc
+     schließt es wieder. Ohne Skript bleibt es bei der kleinen Karte. */
+  const zoomBox = $("#lightbox");
+  if (zoomBox && zoomBox.showModal) {
+    const zoomImg = zoomBox.querySelector("img");
+    document.querySelectorAll("[data-zoom]").forEach((btn) => {
+      btn.classList.add("is-zoomable");
+      btn.addEventListener("click", () => {
+        const img = btn.querySelector("img");
+        zoomImg.src = img.currentSrc || img.src;
+        zoomImg.alt = img.alt;
+        zoomBox.showModal();
+      });
+    });
+    zoomBox.addEventListener("click", () => zoomBox.close());
   }
 })();

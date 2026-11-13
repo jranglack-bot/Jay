@@ -64,8 +64,19 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 ## Tonalität
 
 - Keine Versprechen, keine Einkommens- oder Erfolgsaussagen über andere, keine
-  Umsatz-Screenshots, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
+  Umsatz-Screenshots von anderen, kein künstlicher Zeitdruck. Julian erzählt ehrlich, wie es
   bei ihm läuft, und zeigt, wie das Ganze funktioniert.
+- **Julians eigene Umsatzbelege (seit 13.11.2026):** erlaubt sind nur seine eigenen, mit
+  sichtbarem Betrag, je Stelle genau ein Bild, direkt darunter „mein Ergebnis, kein
+  Versprechen“ und der Aufwand. Auf der Seite stehen zwei, beide in „Mein Weg“:
+  `assets/beleg-erster-verkauf.jpg` (Mail von secret-creators, Provision 1.722,38 €, Kapitel
+  05) und `assets/beleg-auszahlung.jpg` (Mail von ablefy vom 16. März 2026, 2.049,63 €,
+  Kapitel „Heute“). Am Handy als kleine Karte im Gold-Rahmen (höchstens eine halbe
+  Bildschirmhöhe), Antippen vergrößert (`#lightbox`, „Belege vergrößern“ in
+  `public/js/main.js`). Die Dateien sind ohne EXIF-Daten gespeichert (Handymodell,
+  Aufnahmezeit), neue Belege genauso behandeln. **Wird die Seite je mit bezahlter Werbung
+  beworben, kommen die Belege vorher raus**, weil Meta dann die Zielseite prüft.
+  Rückmeldungen von anderen gibt es nicht, `#stimmen` bleibt auskommentiert, nichts erfinden.
 - **Texte (neu geschrieben 25.09.2026 nach Recherche):** Verbindlich sind Julians
   Regeln im Vault `Claude Gehirn\00 Kontext\Schreibstil.md`, `Schmerzpunkte.md`,
   `ICP.md` und `Über Mich.md` (Fakten). Kurz: konkrete Szenen und Zahlen statt
@@ -76,66 +87,114 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Belege: `~/.agent-reach/recherche/webseite-text/notizen.md`.
 - **Story-Fakten** (Geldsorgen 2025, Satz seiner Frau, erster Verkauf nach einem Monat,
   Augenzucken weg, Schuhe ohne Blick aufs Konto) stehen im Vault `Über Mich.md`,
-  „Nachtrag 25.09.2026“. Das neue Auto bewusst nicht auf die Seite (Coach-Optik), nie
-  „Geld verdienen, ohne was zu tun“. Hinweise „kein Versprechen“ nur an zwei Stellen
-  (Kapitel „Heute“ und Zahlen), jeder weitere kühlt die Emotion ab. Direkt vor dem
-  Abschluss-Knopf steht das Echo „Letztes Jahr … Heute ist dieser Druck weg.“
-- **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Hero und Laufband nennen die
-  drei Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
-  Julian als Papa mit Job. Abschnitt `#gelernt` („Woher ich das weiß“) sagt klar, dass er
-  dieses Wissen im SCB-System gelernt hat; KI ist sein eigener Teil (er betreut im
-  Programm den Bereich KI). Oben im Abschnitt steht „Woher ich das weiß.“ groß und fließt
-  beim Scrollen von links herein, „Was mir das SCB-System beigebracht hat“ von rechts
-  (`data-flow`, `.flowhead`); darunter vier Kacheln in Ich-Form (Julian, 25.09.2026). Die
-  Erklärung „Was ist das SCB-System?“ steht seit 06.10.2026 oben in `#scb`. Der **Look bleibt** schwarz und gold, weil er so zum
-  SCB-Funnel passt (Julian, 25.09.2026).
+  „Nachtrag 25.09.2026“. **Zeitleiste (Julian, 13.11.2026):** über ein Jahr gezögert, 2025
+  Geldsorgen, Start im SCB-System im Januar 2026, erster Verkauf im Februar 2026, Auszahlung
+  am 16. März 2026 mit diesem Verkauf und dem, was danach dazukam. Die 6 Millionen Aufrufe in
+  `#ergebnisse` (18. Januar bis 16. Februar) sind genau dieser erste Monat. Das neue Auto
+  bewusst nicht auf die Seite (Coach-Optik), nie „Geld verdienen, ohne was zu tun“. Hinweise
+  „kein Versprechen“ stehen seit 13.11.2026 an fünf Stellen: unter beiden Belegen, im Text
+  von Kapitel „Heute“, bei den Zahlen und im Block `#gewartet`. Die unter den Belegen sind
+  Pflicht, weitere nicht dazusetzen, jeder kühlt die Emotion ab. Direkt vor dem
+  Abschluss-Knopf steht das Echo „2025 … Heute ist dieser Druck weg.“
+- **Keine Jahresangaben, die veralten:** nie „dieses Jahr“ oder „letztes Jahr“ schreiben,
+  immer die Jahreszahl (zum Jahreswechsel wären die Sätze falsch).
+- **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Das Laufband nennt die drei
+  Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
+  Julian als Papa mit Job. Dass er sein Wissen im SCB-System gelernt hat, steht in `#scb` im
+  Kasten „Das hab ich dort gelernt“ (vier Punkte in Ich-Form; KI ist sein eigener Teil, er
+  betreut im Programm den Bereich KI). Bis 13.11.2026 war das der eigene Abschnitt `#gelernt`
+  („Woher ich das weiß“), er ist in `#scb` aufgegangen. Der **Look bleibt** schwarz und gold,
+  weil er so zum SCB-Funnel passt (Julian, 25.09.2026).
+- **Hero (seit 13.11.2026):** Der Absatz nennt gleich den Grund zu bleiben. Er ist aus
+  Julians Einstieg in „Mein Weg“ gebaut (Job und Gehaltserhöhung), dazu der belegte Fakt:
+  Start im Januar 2026, erster Verkauf einen Monat später, „die Mail dazu zeig ich dir weiter
+  unten“. Goldener Knopf „Was ist das SCB-System? ↓“ (`#scb`), zweiter Knopf „Erst meine
+  Geschichte ↓“ (`#weg`). `meta description` und `og:description` sagen dasselbe, die
+  Vorschau in Instagram-DMs ist oft der erste Eindruck. **Überschriften und erste Sätze nie
+  neu erfinden**, nur aus Sätzen bauen, die schon von Julian sind.
 - **Julian zeigt sein Gesicht.** Er zeigt anderen, wie es auch ohne eigenes
   Gesicht geht. Nie „ohne mein Gesicht zu zeigen“ über Julian schreiben.
-- **Erst erklären, dann anbieten (Umbau 06.10.2026):** Direkt unter dem Hero steht „Was ist
-  das SCB-System?“ (`#scb`): ein Satz, was es ist, Julians Satz dazu (dort gelernt, betreut
-  den Bereich KI) und ein Kasten mit vier Punkten. Der goldene Hero-Knopf „Was ist das
-  SCB-System?“ springt dorthin, der Knopf „Zum Videotraining ↓“ in `#scb` springt zum
-  Abschluss (`#angebot`, `data-jump="scb"`). Der frühere Angebotskasten `#videotraining`
-  (05.10.2026, mit „So geht's nach dem Klick weiter“ und Anruf) ist raus, Julian: Das würde
-  ihn direkt nach dem Hero abschrecken. Den Ablauf nach dem Klick erst im Abschluss zeigen,
-  wenn die Leute wissen, wer Julian ist. Der zweite Hero-Knopf „Erst mal wissen, wer ich
-  bin“ führt zu `#gelernt`. Das Videotraining steht nicht in der Navigation, kein fixierter
+- **Erst erklären, dann anbieten:** Direkt unter dem Hero steht „Was ist das SCB-System?“
+  (`#scb`). Seit 13.11.2026 konkret statt „Schritt für Schritt“ (das schreibt jede
+  Konkurrenzseite): was es ist, was bei Julian den Unterschied gemacht hat (das Team sagt in
+  den Live-Calls, was er an seinen Reels ändern soll), für wen es nichts ist („keine Stunde
+  am Tag“ oder „was von allein läuft“) und der Kasten „Das hab ich dort gelernt“. Darunter
+  ein echter Werbelink mit Ablauf nach dem Klick. Der frühere Angebotskasten `#videotraining`
+  (05.10.2026) bleibt raus. Das Video steht nicht in der Navigation, kein fixierter
   Handy-Button, Button-Texte sagen ehrlich, wohin sie führen. Als leichtere Optionen gibt es
   Instagram (@julians.way) und die Anleitungen.
-- **Affiliate-Links kennzeichnen:** Julian bekommt über Videotraining, Live-Event und
-  die Tools eine Provision. Werbelinks gibt es nur im Abschluss, im Live-Event-Abschnitt und
-  auf `tools.html`. Jeder trägt ein Sternchen, und die Erklärung („*Werbung:
-  Wenn du über meinen Link später etwas kaufst, bekomme ich eine Provision.“) steht
-  direkt darunter, damit sie vor dem Klick sichtbar ist. Ausnahme `tools.html`, siehe unten.
-- **Zwei leise Links** (`.softlink`, kein Button) nach „Woher ich das weiß“ und nach
-  den Zahlen springen zum Abschluss (`#angebot`, `data-jump`), nicht nach draußen.
-  So sieht jeder vor dem Klick die drei Schritte, und „Werbung“ steht nur einmal da;
-  dreimal derselbe Werbelink wirkte wie eine Verkaufsseite (Julian, 25.09.2026).
-  Mehr leise Links nicht ohne Julian.
+- **Wer im Video spricht:** „Im Video erklären dir Jacky und Julez, die das System gebaut
+  haben, wie es aufgebaut ist.“ steht in `#scb` und im Abschluss vor dem Knopf. Nur nennen,
+  kein Foto (Julian, 12.11.2026: „nennen ja, zeigen nicht direkt“). Die Firma steht nur im
+  Werbehinweis des Live-Events.
+- **Affiliate-Links kennzeichnen:** Julian bekommt über Video, Live-Event und die Tools eine
+  Provision. Werbelinks gibt es seit 13.11.2026 an drei Stellen der Startseite (`#scb`, im
+  Block `#gewartet` nach den Zahlen, im Abschluss `#angebot`), dazu im Live-Event-Abschnitt
+  und auf `tools.html`. Jeder trägt ein Sternchen, `rel="sponsored"` und einen eigenen
+  `utm_content`, und die Erklärung („*Werbung: Wenn du über meinen Link später etwas kaufst,
+  bekomme ich eine Provision.“) steht direkt darunter, damit sie vor dem Klick sichtbar ist.
+  Ausnahme `tools.html`, siehe unten. Alle drei Stellen sind gleich gebaut (`.offer`,
+  `data-offer`, `paintOffers` in `public/js/main.js`): Ablauf nach dem Klick, Knopf,
+  im Live-Event-Modus darunter das Video als zweite Möglichkeit, Werbehinweis. Die Links
+  stehen auch ohne Skript im HTML. Julian fand am 25.09.2026 drei gleiche Werbelinks zu
+  werblich; die drei jetzt hat der Auftrag vom 12.11.2026 vorgesehen, weil am Handy der
+  einzige Link nach draußen erst bei Bildschirm 24,9 von 25,7 lag.
+- **Leise Links** (`.softlink`) gibt es auf der Startseite nicht mehr, nur noch auf den
+  Unterseiten (`anleitungen.html` führt zu `index.html#scb`). Aus dem leisen Link nach den
+  Zahlen wurde der Block `#gewartet`: „Über ein Jahr hab ich gebraucht, bis ich angefangen
+  hab.“ (Julians Satz aus Kapitel 04, fließt beim Scrollen herein, `data-flow`), darunter
+  sein eigener Kontrast statt künstlichem Druck: über ein Jahr gezögert, dann einen Monat
+  nach dem Start der erste Verkauf.
 - **Der Funnel ist ein Test, kein Video.** `FUNNEL_URL` führt auf einen Eignungstest
-  (ein paar Klickfragen, anderes Design, danach das Video, bei Eignung ein Anruf).
-  Das wird vor dem Klick angesagt (`#ctaSteps`, Linktext „Zu den Fragen und zum
-  Video*“). Nie einen Knopftext versprechen, der nur „Video“ sagt.
+  (Seitentitel dort „Kostenloser Eignungstest“, anderes Design). Am 12.11.2026 durchgeklickt:
+  sechs Klickfragen (Beruf, Zufriedenheit, Alter, Bereitschaft, Stunden pro Woche, gewünschter
+  Nebenverdienst), laut Funnel „weniger als 2 Minuten“, danach Vorname und E-Mail, erst dann
+  das Video (30 bis 40 Minuten, gehalten von Jacky und Julez), bei Eignung ruft laut Funnel
+  das Team innerhalb von 48 Stunden an. Genau das steht vor jedem Werbelink: „Nach dem Klick
+  kommen sechs kurze Fragen zum Anklicken, das dauert keine zwei Minuten. Danach trägst du
+  deinen Vornamen und deine E-Mail ein und bekommst das Video, das geht ungefähr 30 bis 40
+  Minuten. Wenn es für dich passt, kannst du dich danach für ein persönliches Gespräch
+  entscheiden.“ Linktext „Zu den Fragen und zum Video*“, nie nur „Video“ versprechen.
+  Überall „Video“ sagen, nicht mehr „Videotraining“. **Nicht übernehmen** von der
+  Funnel-Seite: Telegram-Bildschirmfotos und „31,5 Tage bis zum ersten Erfolg“
+  (Erfolgsaussagen über andere), „Nur 7 Zugänge verfügbar“ (Verknappung), „ohne dein Gesicht“
+  als Aussage über Julian, und „750+ Teilnehmer“, solange Julian die Zahl nicht bei Jacky und
+  Julez bestätigt hat.
 - **Fragen-Abschnitt (`#fragen`):** nur Hürden, die der Besucher bei sich selbst
-  sieht (Zeit, Gesicht, Vorwissen, Kosten, Anruf). Keine Antworten auf Vorwürfe
-  gegen Julian oder das Modell (Schneeball, Network Marketing, „ist das seriös“),
-  das hat Julian für allen öffentlichen Content ausgeschlossen. Preis: nie einen
-  Betrag nennen und nicht betonen („Das Programm kostet Geld“ fand Julian
-  schlecht). Das Gespräch ist eine Entscheidung des Besuchers: „Wenn es für dich
+  sieht (schon mal probiert, Kosten, Anruf, Gesicht, Zeit, Vorwissen). Keine Antworten auf
+  Vorwürfe gegen Julian oder das Modell (Schneeball, Network Marketing, „ist das seriös“),
+  das hat Julian für allen öffentlichen Content ausgeschlossen. Die Frage „Ich hab sowas
+  schon mal probiert.“ (13.11.2026) erzählt Julians eigenen ersten Versuch von 2021, sie
+  wehrt nichts ab. Die ersten zwei Antworten stehen offen da, am Handy klappt kaum jemand
+  auf. Preis: nie einen Betrag nennen und nicht betonen („Das Programm kostet Geld“ fand
+  Julian schlecht). „Kostet das was?“ sagt auch, dass für das Video Vorname und E-Mail
+  gebraucht werden. Das Gespräch ist eine Entscheidung des Besuchers: „Wenn es für dich
   passt, kannst du dich für ein persönliches Gespräch entscheiden. Dann ruft dich
   jemand vom Team an …“ (Julian, 25.09.2026). Nie „wir rufen dich an“, und eine
   Antwort nicht mit „Nur wenn du das möchtest“ beginnen lassen.
-- Messung ohne Cookies: jeder Werbelink zum Funnel hängt ein eigenes
-  `utm_content` an (`abschluss`, `abschluss-event`), über `funnelUrl()` in
-  `public/js/main.js`. Wer über den Knopf in `#scb` oder einen leisen Link zum Abschluss
-  gesprungen ist, klickt dort mit `abschluss-via-scb`, `abschluss-via-gelernt` bzw.
-  `abschluss-via-zahlen`.
-- **Reihenfolge (seit 06.10.2026):** Hero, „Was ist das SCB-System?“ (`#scb`),
-  „Woher ich das weiß“ (`#gelernt`), „So ist ein Reel aufgebaut“ (`#aufbau`), „Die Anleitung
-  dazu“ (`#anleitungen-start`), „Meine KI-Tools“ (`#ki-tools`), Geschichte (`#weg`), Zahlen,
-  „So läuft's bei mir konkret“, Fragen, Abschluss (`#angebot`, drei Schritte dort nur als
-  ein Satz). Im Live-Event-Modus steht der Event-Abschnitt direkt unter dem Hero, vor `#scb`. Anleitungen und Tools stehen bewusst früh und groß, Julian: „die gehen hier
-  komplett unter“ (05.10.2026).
+- Messung ohne Cookies: jeder Werbelink hängt ein eigenes `utm_content` an. Zu den Fragen
+  und zum Video (`funnelUrl()`): `scb`, `geschichte` (Block `#gewartet`), `abschluss`. Im
+  Live-Event-Modus ist das Video nur die zweite Möglichkeit unter dem Knopf: `scb-event`,
+  `geschichte-event`, `abschluss-event`. Anmeldung zum Live-Event (`eventUrl()`): `event`
+  (Event-Abschnitt), `event-scb`, `event-geschichte`, `event-abschluss`. Die früheren
+  `abschluss-via-…` gibt es nicht mehr, weil keine Sprunglinks zum Abschluss mehr da sind.
+  Julian holt die Zahlen je Messwert bei Jacky und Julez. Erst danach weiter umbauen, sonst
+  bleibt jede Änderung geraten. Vor dem ersten Event bei ihnen nachfragen, ob `utm_content`
+  am Event-Link bei ihnen ankommt.
+- **Reihenfolge (seit 13.11.2026):** Hero, „Was ist das SCB-System?“ (`#scb`, mit
+  Werbelink), Geschichte (`#weg`, mit beiden Belegen), Zahlen (`#ergebnisse`), „Über ein
+  Jahr hab ich gebraucht …“ (`#gewartet`, mit Werbelink), „So läuft's bei mir konkret“
+  (`#werte`), „So ist ein Reel aufgebaut“ (`#aufbau`), „Die Anleitung dazu“
+  (`#anleitungen-start`), „Meine KI-Tools“ (`#ki-tools`), Fragen, Abschluss (`#angebot`).
+  Im Live-Event-Modus steht der Event-Abschnitt direkt unter dem Hero, vor `#scb`. Das hebt
+  Julians Reihenfolge vom 05.10.2026 auf (Anleitungen und Tools früh): Skeptische Besucher
+  klicken über Sympathie und Beweis, und beides steht in der Geschichte. Vorher lagen
+  zwischen Interesse und Geschichte elf Handy-Bildschirme Anleitung und Tools. Die
+  Navigation folgt der Reihenfolge (Das SCB-System, Mein Weg, Fragen, Anleitungen, Meine
+  Tools).
+- **Abschluss (`#angebot`):** Überschrift „DAS KANN DOCH NICHT ALLES SEIN.“ (Julians Satz
+  aus Kapitel 01; „SCHAU DIR DAS IN RUHE AN.“ gab keinen Grund). Davor steht in ganzen
+  Sätzen: wer im Video spricht, dass Fragen und Video kostenlos sind, und der Ablauf.
 
 ## Bewegung (seit 05.10.2026)
 
@@ -177,6 +236,9 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   (`--hz-ui`). Code: „Hero-Foto zoomt am Handy“ in `public/js/main.js`.
 - **Goldschrift** (`.grad`): ein heller Glanzstreifen läuft gut sichtbar durch (Julian: der
   alte Farbwechsel fiel kaum auf).
+- **Fließende Überschrift** (`.flowhead`, `data-flow`): große Zeile kommt beim Scrollen von
+  links herein, die zweite von rechts. Seit 13.11.2026 im Block `#gewartet` („ÜBER EIN JAHR“
+  / „HAB ICH GEBRAUCHT, BIS ICH ANGEFANGEN HAB.“), vorher in „Woher ich das weiß“.
 - **Leistung am Handy:** Scroll-Szenen schreiben CSS-Variablen nur bei Änderung (`setVar`),
   am Handy laufen kein Glanz auf den Handy-Rahmen und keine Weichzeichner-Schatten.
 - Startseite außerdem: goldene Lesefortschritts-Linie oben (auch auf den Unterseiten),
@@ -224,12 +286,6 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
 
 ## Geplant (noch nicht auf die Seite)
 
-- **Abschnitt „Das Videotraining“ (wichtigste Lücke):** Besucher erfahren auf
-  der Seite nicht, was das Videotraining ist. Vor dem Abschluss (`#angebot`)
-  kurz erklären: Inhalt, Länge, ob kostenlos, was danach passiert (z. B. Quiz,
-  Gespräch, Programm). Fakten von der Funnel-Seite (`FUNNEL_URL`) bzw. aus
-  Julians Vault holen, nichts erfinden. Danach die Hero-Buttons prüfen:
-  „Erst mal meine Geschichte“ sagt Besuchern noch nicht, was sie davon haben.
 - **„So läuft's bei mir konkret“ ist seit 25.09.2026 der Abschnitt `#werte`:** vier
   Kacheln mit Antworten statt Versprechen, nur Julians eigene Fakten (Reels am Anfang
   gefloppt, Live-Calls vom Team, erster Umsatz nach einem Monat, circa eine Stunde am
@@ -238,13 +294,32 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   **Nicht zu viel erklären:** Julian: „Wenn man zu viel erklärt, macht man sich
   angreifbar.“ Darum ist die Frage „Was hast du davon?“ wieder raus.
 
-- **Live-Event:** Aktuell findet keins statt, der Abschnitt ist per
-  `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event
+- **Live-Event:** Aktuell findet keins statt, der Termin ist offen. Läuft eins, ist es
+  immer das erste Ziel (Julian, 12.11.2026: es verkauft stärker), sonst das Video. Der
+  Abschnitt ist per `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event
   `eventActive: true`, `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00`
-  Winterzeit) und `eventDurationMin` setzen. Dann zeigt die Seite Datum in Worten und
-  Countdown, während des Events „WIR SIND LIVE“, und nach Start + Dauer schaltet sie
-  von selbst zurück. Nur echte Termine, nie einen Timer, der neu startet oder immer
-  „morgen“ ist (irreführende Verknappung, UWG).
+  Winterzeit) und `eventDurationMin` setzen. Dann steht der Event-Abschnitt direkt unter dem
+  Hero mit Datum in Worten und Countdown, der goldene Hero-Knopf heißt „Zum Live-Event ↓“,
+  und in `#scb`, `#gewartet` und im Abschluss ist die Anmeldung der Hauptknopf („Zum
+  Live-Event anmelden*“), davor stehen Termin und Fakten, darunter leiser „Oder schau dir
+  zuerst das Video an*“. Während des Events „WIR SIND LIVE“ und „Jetzt live dazukommen*“,
+  nach Start + Dauer schaltet alles von selbst zurück. Weitere Felder, nur Gefülltes wird
+  gezeigt: `eventHosts` („Jacky und Julez“, sie halten es), `eventLengthText` (ganzer Satz
+  zur Dauer, noch leer) und `eventReplay` („In der Regel gibt es danach eine
+  Aufzeichnung.“). Nur echte Termine, nie einen Timer, der neu startet oder immer „morgen“
+  ist (irreführende Verknappung, UWG). Zum Testen `eventActive` und ein Testdatum nur im
+  gebauten `dist/js/main.js` setzen, nie in der Quelle.
+- **Später, erst nach Julians Wort (Auftrag 12.11.2026):** ein Feld „Sag mir Bescheid, wenn
+  das nächste Live-Event ansteht“ über ein Systeme.io-Formular (dann `datenschutz.html`
+  ergänzen); eine eigene, belegte Zahl als Ersatz für Rückmeldungen, zum Beispiel wie oft
+  das Reel-Drehbuch verschickt wurde (aus ChatPlace, nur wenn Julian sie nennt); ein kurzes
+  Video im Abschluss (60 bis 90 Sekunden hochkant, Julian in die Kamera, ohne Zahlen), lokal
+  eingebunden statt über YouTube, mit Vorschaubild und erst auf Antippen geladen.
+- **Fehlt noch von Julian:** Datum, Uhrzeit und Dauer des nächsten Live-Events; zwei bis
+  drei Punkte, was man im Video sieht (dann unter den Satz zu Jacky und Julez, nichts
+  erfinden); sein eigener erster Satz für „Mein Weg“ (der alte Einstieg steht jetzt im Hero,
+  als Übergang steht dort ein Satz aus seinen Worten); optional die Zahl 750 von Jacky und
+  Julez, sonst bleibt sie weg.
 - **Claude-Code-Kurs:** Julian erstellt gerade einen Kurs zu Claude Code, der
   später auf der Seite eingebunden werden soll. Erst einbauen, wenn Julian es sagt.
 - **Persönliche Webseiten:** Links zu Julians weiteren Seiten fehlen noch

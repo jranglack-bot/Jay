@@ -32,7 +32,9 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   1.2.2 gehoben (nur Sperrdatei). Die Meldung zu `esbuild` (GHSA-gv7w-rqvm-qjhr, „Withdrawn
   Advisory“) ist von GitHub zurückgezogen, sie betrifft nur das Deno-Modul von esbuild. Nicht
   per `overrides` auf esbuild 0.28 zwingen, Vite 6 braucht 0.25. Neue Meldungen immer mit
-  `npm audit` gegenprüfen.
+  `npm audit` gegenprüfen. Am 13.11.2026 meldete `npm audit` fünf neue Punkte gegen Vite bis
+  6.4.3 (wieder nur der Entwicklungsserver), behoben mit Vite 6.4.6 per `npm audit fix` (nur
+  Sperrdatei, gebaute Seite unverändert).
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
   `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften).
   Vor dem Pushen immer bauen und prüfen.

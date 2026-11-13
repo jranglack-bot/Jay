@@ -122,7 +122,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
 - **Hero (seit 13.11.2026):** Der Absatz nennt gleich den Grund zu bleiben. Er ist aus
   Julians Einstieg in „Mein Weg“ gebaut (Job und Gehaltserhöhung), dazu „2025 hat bei uns
   das Geld ohne Ende gefehlt“ (seine Worte) und der belegte Fakt: Start im Januar 2026,
-  erster Verkauf einen Monat später, „die Mail dazu zeig ich dir weiter unten“. Nicht länger
+  erster Verkauf einen Monat später. Er endet mit „und wie das geht, hab ich im SCB-System
+  gelernt“, damit der goldene Knopf direkt darunter und die Überschrift von `#scb` flüssig
+  anschließen (Julian, 13.11.2026: der Übergang zum SCB-System fehlte, im Hero kam es nicht
+  vor). **Nie auf Belege verweisen** („die Mail dazu zeig ich dir weiter unten“, „das siehst
+  du an meinen Zahlen“), Julian am 13.11.2026: „Das ist eine Rechtfertigung. Wenn du dich
+  rechtfertigst, hast du verloren.“ Die Belege stehen an ihrer Stelle in der Geschichte und
+  werden nirgends angekündigt. Nicht länger
   machen: Auf einem kleinen Handy (375 × 667) muss der goldene Knopf noch im ersten
   Bildschirm stehen, das sind höchstens zehn Zeilen. Goldener Knopf „Was ist das SCB-System? ↓“ (`#scb`), zweiter Knopf „Erst meine
   Geschichte ↓“ (`#weg`). `meta description` und `og:description` sagen dasselbe, die

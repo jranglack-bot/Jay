@@ -35,6 +35,19 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   `npm audit` gegenprüfen. Am 13.11.2026 meldete `npm audit` fünf neue Punkte gegen Vite bis
   6.4.3 (wieder nur der Entwicklungsserver), behoben mit Vite 6.4.6 per `npm audit fix` (nur
   Sperrdatei, gebaute Seite unverändert).
+- **Die esbuild-Meldung kommt nach jedem Deploy wieder (13.11.2026):** Hostinger schickte
+  sie erneut per Mail, als „hoch“ (CVSS 8,1) und „nicht automatisch behebbar“. Es ist weiter
+  nur der zurückgezogene Hinweis GHSA-gv7w-rqvm-qjhr, `npm audit` und das Build-Protokoll
+  zeigen 0. Abfragen lässt sich die Liste über den Hostinger-Connector
+  (`hosting_nodejs_list-vulnerabilities`). Weg geht sie erst mit esbuild ab 0.28.1, und das
+  gibt es nur mit Vite 7 (7.3.8 bringt esbuild 0.28.2) oder Vite 8 (kein esbuild mehr), beide
+  brauchen Node 20.19+. Am 13.11.2026 in einer Kopie getestet: Vite 7.3.8 baut unter Node 22
+  alle fünf Seiten, und mit `build.target: ['es2020', 'edge88', 'firefox78', 'chrome87',
+  'safari14']` in `vite.config.js` (der Vorgabe von Vite 6) ist die gebaute Seite Byte für
+  Byte gleich. Ohne diese Zeile fasst Vite 7 im CSS `top/right/bottom/left` zu `inset`
+  zusammen (erst ab Safari 14.1). Reihenfolge, falls Julian es will: zuerst die Node-Version
+  des Builds bei Hostinger auf 22 stellen, dann Vite 7 mit der Zeile auf den Branch, zeigen,
+  nach `main`. Nicht umgekehrt, mit Node 18 schlägt der Build von Vite 7 fehl.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
   `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften).
   Vor dem Pushen immer bauen und prüfen.

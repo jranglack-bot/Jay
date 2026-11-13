@@ -106,17 +106,34 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   am 16. März 2026 mit diesem Verkauf und dem, was danach dazukam. Die 6 Millionen Aufrufe in
   `#ergebnisse` (18. Januar bis 16. Februar) sind genau dieser erste Monat. Das neue Auto
   bewusst nicht auf die Seite (Coach-Optik), nie „Geld verdienen, ohne was zu tun“. Hinweise
-  „kein Versprechen“ stehen seit 13.11.2026 an fünf Stellen: unter beiden Belegen, im Text
-  von Kapitel „Heute“, bei den Zahlen und im Block `#gewartet`. Die unter den Belegen sind
-  Pflicht, weitere nicht dazusetzen, jeder kühlt die Emotion ab. Direkt vor dem
+  „kein Versprechen“ stehen seit 13.11.2026 an vier Stellen: unter beiden Belegen, bei den
+  Zahlen und im Block `#gewartet`. Die unter den Belegen sind Pflicht, weitere nicht
+  dazusetzen, jeder kühlt die Emotion ab. Direkt vor dem
   Abschluss-Knopf steht das Echo „2025 … Heute ist dieser Druck weg.“
+- **Nichts doppelt erzählen (Julian, 13.11.2026: „teilweise steht manches doppelt drin“):**
+  Jede Tatsache hat genau einen Platz, an dem sie ausführlich steht. Gefloppte Reels und
+  Live-Calls: `#scb`. Network Marketing, die verschlossene Tür, die Frage der Tochter, über
+  ein Jahr gezögert, keinem Screenshot geglaubt, der Satz seiner Frau, Erleichterung, Urlaub
+  und Schuhe: die Kapitel in `#weg`. „Reichweite allein bringt mir gar nichts“: `#ergebnisse`.
+  Der Kontrast Jahr gegen Monat und „Das Jahr hätt ich mir echt sparen können“: `#gewartet`.
+  Gewollte Wiederholungen sind nur: der erste Verkauf nach einem Monat (Hero, Kapitel 05,
+  Zahlen, `#gewartet`, jeweils mit anderer Aufgabe), das Echo „2025 … Heute ist dieser Druck
+  weg.“ vor dem Abschluss-Knopf, und der Ablauf nach dem Klick vor jedem Werbelink. Deshalb
+  ist der Abschnitt „So läuft's bei mir konkret“ (`#werte`) seit 13.11.2026 raus: Alle vier
+  Kacheln standen inzwischen im SCB-Abschnitt. Vor jedem neuen Satz prüfen, ob er schon
+  dasteht.
 - **Keine Jahresangaben, die veralten:** nie „dieses Jahr“ oder „letztes Jahr“ schreiben,
   immer die Jahreszahl (zum Jahreswechsel wären die Sätze falsch).
 - **Die Seite passt zu @julians.way (Julian, 25.09.2026):** Das Laufband nennt die drei
   Themen seiner Reels (auf Instagram wachsen, verkaufen ohne eigenes Produkt, KI), dann
   Julian als Papa mit Job. Dass er sein Wissen im SCB-System gelernt hat, steht in `#scb` im
-  Kasten „Das hab ich dort gelernt“ (vier Punkte in Ich-Form; KI ist sein eigener Teil, er
-  hält im Programm die Calls zu KI selbst). Bis 13.11.2026 war das der eigene Abschnitt `#gelernt`
+  Kasten „Das hab ich dort gelernt“ (vier Punkte in Ich-Form). Julian am 13.11.2026: Er hat
+  nicht selbst festgelegt, für wen er postet, ihm wurde im Programm geholfen, das
+  herauszufinden, und zwar so, dass es ihm Spaß macht und für ihn Sinn ergibt. Der Kasten
+  erzählt deshalb, wobei ihm geholfen wurde („Da bin ich nicht selbst drauf gekommen“, „Mir
+  hat erst jemand zeigen müssen“), nie „ich hab festgelegt“ oder „ich weiß jetzt“ als
+  Alleingang. Nur bei der KI ist es umgekehrt, da hilft er inzwischen selbst und hält im
+  Programm die Calls zu KI. Bis 13.11.2026 war das der eigene Abschnitt `#gelernt`
   („Woher ich das weiß“), er ist in `#scb` aufgegangen. Der **Look bleibt** schwarz und gold,
   weil er so zum SCB-Funnel passt (Julian, 25.09.2026).
 - **Hero (seit 13.11.2026):** Der Absatz nennt gleich den Grund zu bleiben. Er ist aus
@@ -207,8 +224,8 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   am Event-Link bei ihnen ankommt.
 - **Reihenfolge (seit 13.11.2026):** Hero, „Was ist das SCB-System?“ (`#scb`, mit
   Werbelink), Geschichte (`#weg`, mit beiden Belegen), Zahlen (`#ergebnisse`), „Über ein
-  Jahr hab ich gebraucht …“ (`#gewartet`, mit Werbelink), „So läuft's bei mir konkret“
-  (`#werte`), „So ist ein Reel aufgebaut“ (`#aufbau`), „Die Anleitung dazu“
+  Jahr hab ich gebraucht …“ (`#gewartet`, mit Werbelink), „So ist ein Reel aufgebaut“
+  (`#aufbau`), „Die Anleitung dazu“
   (`#anleitungen-start`), „Meine KI-Tools“ (`#ki-tools`), Fragen, Abschluss (`#angebot`).
   Im Live-Event-Modus steht der Event-Abschnitt direkt unter dem Hero, vor `#scb`. Das hebt
   Julians Reihenfolge vom 05.10.2026 auf (Anleitungen und Tools früh): Skeptische Besucher
@@ -310,10 +327,13 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
 
 ## Geplant (noch nicht auf die Seite)
 
-- **„So läuft's bei mir konkret“ ist seit 25.09.2026 der Abschnitt `#werte`:** vier
-  Kacheln mit Antworten statt Versprechen, nur Julians eigene Fakten (Reels am Anfang
+- **„So läuft's bei mir konkret“ war vom 25.09. bis 13.11.2026 der Abschnitt `#werte`:**
+  vier Kacheln mit Antworten statt Versprechen, nur Julians eigene Fakten (Reels am Anfang
   gefloppt, Live-Calls vom Team, erster Umsatz nach einem Monat, circa eine Stunde am
-  Tag, vieles per KI vom Handy, Kids sitzen manchmal daneben). Kacheln, die nur
+  Tag, vieles per KI vom Handy, Kids sitzen manchmal daneben). Seit dem Umbau stehen diese
+  Fakten in `#scb` und in der Geschichte, der Abschnitt ist raus (er steht noch im Verlauf,
+  Stand `7f64f24`). Mit ihm ging der Satz „Ich bin kein Coach auf der Yacht, sondern ein
+  Papa mit Job, der nebenbei Content macht.“ Kacheln, die nur
   ankündigen („ich sag dir, was klappt“), ohne es zu zeigen, hat Julian abgelehnt.
   **Nicht zu viel erklären:** Julian: „Wenn man zu viel erklärt, macht man sich
   angreifbar.“ Darum ist die Frage „Was hast du davon?“ wieder raus.

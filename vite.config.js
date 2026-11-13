@@ -17,6 +17,10 @@ export default defineConfig({
   base: '/',
   plugins: [skriptVersion()],
   build: {
+    // Zielbrowser wie bei Vite 6. Vite 7 nimmt sonst neuere an und fasst im CSS
+    // top/right/bottom/left zu „inset“ zusammen, das ältere iPhones (vor iOS 14.5) nicht
+    // kennen. Mit dieser Zeile ist die gebaute Seite gleich wie mit Vite 6 (13.11.2026).
+    target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {

@@ -23,31 +23,31 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   das Plugin in `vite.config.js` bei jedem Build `?v=<Zeitstempel>` an jedes `js/*.js`,
   sonst sehen wiederkehrende Besucher neues HTML mit altem Skript (25.09.2026). Nicht
   entfernen. Ändert sich ein Bild in `public/` (z. B. `og-bild.jpg`), den Dateinamen ändern.
-- **Vite 6, nicht neuer (05.10.2026):** Hostinger meldete fünf Schwachstellen, alle in Vite 5
-  und esbuild. Sie betreffen nur den Entwicklungsserver (`npm run dev`), nicht die fertige
-  Seite. Behoben mit Vite 6.4.3 (`npm audit`: 0). Vite 7 und 8 brauchen Node 20.19+, Hostinger
-  baut aber mit Node 18 (Build-Log). Erst nach Umstellung auf Node 22 im hPanel auf Vite 7/8
-  gehen. Den Entwicklungsserver nie mit `--host` ins Netz stellen.
+- **Vite 7 und Node 22 (seit 13.11.2026):** Die Seite wird mit Vite 7.3.8 gebaut, Hostinger
+  baut mit Node 22 (Build-Einstellung der Webseite, vorher 18). Vite 7 braucht Node 20.19
+  oder neuer, auch lokal für `npm run dev` und die Vorschau, mit Node 18 startet es nicht.
+  Die Node-Version bei Hostinger deshalb nie zurückstellen. In `vite.config.js` steht
+  `build.target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']` (die Vorgabe von
+  Vite 6). **Die Zeile bleibt drin:** Ohne sie fasst Vite 7 im CSS `top/right/bottom/left`
+  zu `inset` zusammen, das iPhones vor iOS 14.5 nicht kennen. Mit ihr war die gebaute Seite
+  beim Wechsel Datei für Datei gleich (29 Dateien verglichen). Vite 8 baut mit Rolldown statt
+  esbuild und Rollup, das wäre ein größerer Schritt und ist nicht nötig. Vorgeschichte: Am
+  05.10.2026 meldete Hostinger fünf Schwachstellen in Vite 5 und esbuild (nur der
+  Entwicklungsserver, `npm run dev`), behoben mit Vite 6.4.3. Den Entwicklungsserver nie mit
+  `--host` ins Netz stellen.
 - **Sicherheitsmeldungen von Hostinger (06.10.2026):** `source-map-js` mit `npm audit fix` auf
   1.2.2 gehoben (nur Sperrdatei). Die Meldung zu `esbuild` (GHSA-gv7w-rqvm-qjhr, „Withdrawn
-  Advisory“) ist von GitHub zurückgezogen, sie betrifft nur das Deno-Modul von esbuild. Nicht
-  per `overrides` auf esbuild 0.28 zwingen, Vite 6 braucht 0.25. Neue Meldungen immer mit
+  Advisory“) ist von GitHub zurückgezogen, sie betrifft nur das Deno-Modul von esbuild. Neue Meldungen immer mit
   `npm audit` gegenprüfen. Am 13.11.2026 meldete `npm audit` fünf neue Punkte gegen Vite bis
   6.4.3 (wieder nur der Entwicklungsserver), behoben mit Vite 6.4.6 per `npm audit fix` (nur
   Sperrdatei, gebaute Seite unverändert).
-- **Die esbuild-Meldung kommt nach jedem Deploy wieder (13.11.2026):** Hostinger schickte
-  sie erneut per Mail, als „hoch“ (CVSS 8,1) und „nicht automatisch behebbar“. Es ist weiter
-  nur der zurückgezogene Hinweis GHSA-gv7w-rqvm-qjhr, `npm audit` und das Build-Protokoll
-  zeigen 0. Abfragen lässt sich die Liste über den Hostinger-Connector
-  (`hosting_nodejs_list-vulnerabilities`). Weg geht sie erst mit esbuild ab 0.28.1, und das
-  gibt es nur mit Vite 7 (7.3.8 bringt esbuild 0.28.2) oder Vite 8 (kein esbuild mehr), beide
-  brauchen Node 20.19+. Am 13.11.2026 in einer Kopie getestet: Vite 7.3.8 baut unter Node 22
-  alle fünf Seiten, und mit `build.target: ['es2020', 'edge88', 'firefox78', 'chrome87',
-  'safari14']` in `vite.config.js` (der Vorgabe von Vite 6) ist die gebaute Seite Byte für
-  Byte gleich. Ohne diese Zeile fasst Vite 7 im CSS `top/right/bottom/left` zu `inset`
-  zusammen (erst ab Safari 14.1). Reihenfolge, falls Julian es will: zuerst die Node-Version
-  des Builds bei Hostinger auf 22 stellen, dann Vite 7 mit der Zeile auf den Branch, zeigen,
-  nach `main`. Nicht umgekehrt, mit Node 18 schlägt der Build von Vite 7 fehl.
+- **Die esbuild-Meldung (13.11.2026):** Hostinger schickte sie nach jedem Hochladen erneut
+  per Mail, zuletzt als „hoch“ (CVSS 8,1) und „nicht automatisch behebbar“. Es war immer nur
+  der zurückgezogene Hinweis GHSA-gv7w-rqvm-qjhr, `npm audit` und das Build-Protokoll zeigten
+  0. Hostinger verlangt esbuild ab 0.28.1, das gibt es erst mit Vite 7 (bringt 0.28.2).
+  Deshalb der Wechsel auf Vite 7 und Node 22, mit Julians Okay. Die Liste lässt sich über den
+  Hostinger-Connector abfragen (`hosting_nodejs_list-vulnerabilities`), sie stammt aus einer
+  Prüfung, die zeitversetzt läuft, und kann nach einem Hochladen noch den alten Stand zeigen.
 - `npm run build` muss ein vollständiges `dist/` erzeugen (alle 5 HTML-Seiten,
   `js/main.js`, `js/sub.js`, `js/sparks.js`, CSS, Bilder, Schriften).
   Vor dem Pushen immer bauen und prüfen.

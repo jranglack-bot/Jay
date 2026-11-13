@@ -1466,7 +1466,7 @@ body.has-announce .nav { top: 42px; }
   display: none;
   position: absolute;
   right: 8px;
-  top: 8px; /* oben rechts ist in beiden Mails nur weiße Fläche */
+  top: 23%; /* rechts neben Anrede und Absender ist in beiden Mails nur weiße Fläche */
   padding: 0.3em 0.8em;
   border-radius: 999px;
   background: rgba(22, 22, 22, 0.86);

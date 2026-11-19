@@ -198,7 +198,23 @@ h1, h2, h3 {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-body.has-announce .nav { top: 42px; }
+/* Am Computer steht der ganze Satz da, am Handy die kurze Fassung in zwei knappen Zeilen */
+.announce__short { display: none; }
+@media (max-width: 720px) {
+  .announce__long { display: none; }
+  .announce__short { display: inline; }
+  .announce__inner { padding: 0.45em 0.9em; gap: 0.15em 0.7em; font-size: 0.88rem; line-height: 1.3; }
+  .announce__pulse { width: 8px; height: 8px; }
+}
+/* Höhe des Streifens: setzt js/main.js (syncBar). Die ganze Seite rückt um diese Höhe nach
+   unten, sonst liegt die Navigation über der ersten Zeile des Heros. Sprungziele halten
+   denselben Abstand. */
+body.has-announce { padding-top: var(--announce-h, 42px); }
+body.has-announce .nav { top: var(--announce-h, 42px); }
+body.has-announce section[id] { scroll-margin-top: var(--announce-h, 42px); }
+/* Beim Runterscrollen weg, beim Hochscrollen wieder da (js/main.js) */
+body.announce-away .announce.is-visible { transform: translateY(-100%); }
+body.has-announce.announce-away .nav { top: 0; }
 
 /* ============ Navigation ============ */
 .nav {
@@ -2057,11 +2073,10 @@ body.has-announce .nav { top: 42px; }
   font-size: 0.75rem;
   color: var(--cream-dim);
 }
-.webinar__hint {
-  margin-top: 1.4em;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.webinar__steps {
+  margin: 1.3em auto 0;
+  max-width: 30em;
+  font-size: 0.9rem;
   color: var(--cream-dim);
 }
 
@@ -2185,7 +2200,7 @@ body.has-announce .nav { top: 42px; }
   }
   .softlink { margin-top: 3em; padding: 1.2em 1.2em; }
   /* Abschluss-Knopf auf dem Handy in einer Zeile halten */
-  .cta .btn--big { font-size: 0.98rem; padding: 1.05em 1.3em; letter-spacing: 0.04em; }
+  .cta .btn--big, .webinar .btn--big { font-size: 0.98rem; padding: 1.05em 1.3em; letter-spacing: 0.04em; }
   .portrait__frame { inset: -8px; }
   .hero__title { font-size: clamp(2.6rem, 12vw, 4rem); }
   .hero__stats { gap: 1.6em 2.2em; }

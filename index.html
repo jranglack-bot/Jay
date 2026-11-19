@@ -62,7 +62,7 @@
   <div class="announce" id="announceBar" hidden>
     <div class="announce__inner">
       <span class="announce__pulse"></span>
-      <span id="announceText">Das Live-Event findet heute früher statt!</span>
+      <span id="announceText"></span>
       <a id="announceLink" href="#webinar" class="announce__cta">Zum Live-Event →</a>
     </div>
   </div>
@@ -590,10 +590,10 @@
           <!-- Datum in Worten, füllt js/main.js aus eventDate -->
           <p class="webinar__when" id="eventWhen" hidden></p>
           <p class="webinar__note" id="webinarNote">
-            Beim kostenlosen Live-Event siehst du, wie das System funktioniert, und kannst deine Fragen direkt stellen.
+            Jacky und Julez zeigen dir live, wie das System funktioniert und wie dein Einstieg aussehen kann.
           </p>
-          <!-- Wer es hält, wie lange es dauert, ob es eine Aufzeichnung gibt: füllt js/main.js
-               aus eventHosts, eventLengthText und eventReplay, nur was dort eingetragen ist -->
+          <!-- Wie lange es dauert, was dabei ist, ob es eine Aufzeichnung gibt: füllt js/main.js
+               aus eventLengthText und eventReplay, nur was dort eingetragen ist -->
           <p class="webinar__facts" id="eventFacts" hidden></p>
           <div class="countdown" id="countdown" hidden>
             <div class="countdown__unit"><span class="countdown__num" id="cdDays">0</span><span class="countdown__label">Tage</span></div>
@@ -608,9 +608,10 @@
             <strong>📢 Aktueller Hinweis:</strong> <span id="webinarUpdateText"></span>
           </div>
           <a href="#" id="webinarBtn" class="btn btn--gold btn--big btn--magnetic" target="_blank" rel="noopener sponsored">
-            Zur Anmeldung* <span class="btn__arrow">→</span>
+            Kostenlos Platz sichern* <span class="btn__arrow">→</span>
           </a>
-          <p class="webinar__hint">Kostenlos und live</p>
+          <!-- Was nach dem Klick kommt (auf der Event-Seite gelesen am 19.11.2026) -->
+          <p class="webinar__steps">Du trägst nur deinen Vornamen und deine E-Mail ein, die Zugangsdaten kommen dann per Mail.</p>
           <p class="webinar__disclosure">
             *Werbung: Das Live-Event veranstaltet Secret Creators. Wenn du dich über meinen Link
             anmeldest und später etwas kaufst, bekomme ich eine Provision.

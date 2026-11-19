@@ -7,27 +7,30 @@
   /* ---------- Konfiguration ---------- */
   // Hier Webinar-Link, Hinweis-Banner, Live-Event und Extra-Links einstellen.
   const DEFAULTS = {
+    // Julians Werbelink zum Live-Event von Jacky und Julez (von ihm am 19.11.2026). Genau so
+    // lassen, wie er ihn bekommen hat: An utm_source hängt die Zuordnung zu ihm.
     webinarUrl:
-      "https://live.secretcreators.de/recsJErrJAYNx46PE?utm_source=recsJErrJAYNx46PE&utm_medium=affiliate&utm_campaign=webinar",
-    // Live-Event-Abschnitt anzeigen (aktuell findet keins statt).
-    // eventActive: true zeigt ihn automatisch mit an.
+      "https://secretbusiness.live/?utm_source=recsJErrJAYNx46PE&utm_medium=affiliate&utm_campaign=webinar-2026-11-21&utm_content=instagram-bio&utm_term=organic",
+    // Live-Event-Abschnitt auch ohne Termin anzeigen. eventActive: true zeigt ihn von selbst.
     webinarActive: false,
+    // Eigener Hinweis im goldenen Streifen oben (z. B. "Das Live-Event startet heute früher").
+    // Ohne eigenen Hinweis zeigt der Streifen bei einem Live-Event von selbst den Termin.
     note: "",
     noteActive: false,
-    eventActive: false,
+    // Live-Event am Samstag, 21.11.2026, 11:00 Uhr (Termin von der Event-Seite gelesen).
+    eventActive: true,
     // Startzeit IMMER mit Zeitzone eintragen, sonst rechnet jeder Besucher in seiner
     // eigenen: Sommerzeit "+02:00", Winterzeit "+01:00" (Umstellung am 25.10.2026).
-    // Beispiel: "2026-11-05T19:00:00+01:00"
-    eventDate: "",
-    // Nach Start + Dauer gilt das Event als vorbei, die Seite schaltet von selbst zurück.
-    eventDurationMin: 120,
-    // Was vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt, leer lassen = weglassen.
-    // eventHosts: wer das Event hält, in der Mehrzahl ("… halten es selbst.").
-    eventHosts: "Jacky und Julez",
-    // eventLengthText: ganzer Satz zur Dauer, z. B. "Es dauert ungefähr zwei Stunden."
-    eventLengthText: "",
-    // eventReplay: ganzer Satz zur Aufzeichnung
-    eventReplay: "In der Regel gibt es danach eine Aufzeichnung.",
+    eventDate: "2026-11-21T11:00:00+01:00",
+    // So viele Minuten nach dem Start bleibt die Anmeldung noch stehen ("Jetzt live
+    // dazukommen"), dann schaltet die Seite von selbst zurück und der Link ist weg.
+    // Julian, 19.11.2026: eine Stunde. Das Event selbst dauert ungefähr zwei Stunden.
+    eventDurationMin: 60,
+    // Was im Event-Abschnitt vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt.
+    // eventLengthText: ganzer Satz zur Dauer und was dabei ist
+    eventLengthText: "Es dauert ungefähr zwei Stunden, und ein PDF-Workbook zum Mitschreiben ist dabei.",
+    // eventReplay: ganzer Satz zur Aufzeichnung (bei diesem Event nur im bezahlten Ticket)
+    eventReplay: "Eine Aufzeichnung gibt es beim kostenlosen Ticket nicht, sei also live dabei.",
     links: [],
   };
   const FUNNEL_URL =
@@ -37,9 +40,12 @@
   // Steht ein Live-Event an, ist das Video nur die zweite Möglichkeit unter dem Knopf:
   // scb-event, geschichte-event, abschluss-event.
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
-  // Anmeldung zum Live-Event, ebenfalls mit eigenem utm_content je Knopf:
-  // event (im Event-Abschnitt), event-scb, event-geschichte, event-abschluss.
-  const eventUrl = (url, knopf) => url + (url.includes("?") ? "&" : "?") + "utm_content=" + knopf;
+  // Anmeldung zum Live-Event: Bringt der Link schon ein utm_content mit (der vom 19.11.2026
+  // hat "instagram-bio"), bleibt er unverändert, ein zweites utm_content könnte die
+  // Zuordnung bei Jacky und Julez stören. Nur ein Link ohne utm_content bekommt je Knopf
+  // einen eigenen Wert: event (Event-Abschnitt), event-scb, event-geschichte, event-abschluss.
+  const eventUrl = (url, knopf) =>
+    /[?&]utm_content=/.test(url) ? url : url + (url.includes("?") ? "&" : "?") + "utm_content=" + knopf;
 
   const $ = (sel) => document.querySelector(sel);
   // CSS-Variable nur schreiben, wenn sich der Wert ändert: spart dem Browser bei jedem
@@ -54,13 +60,41 @@
 
   /* ---------- Live-Event-Konfiguration anwenden ---------- */
   let cdTimer = null;
+  // Der goldene Streifen ist am Handy höher als am Computer (zwei Zeilen). Die Navigation
+  // rückt genau um seine Höhe nach unten (--announce-h in css/style.css).
+  const syncBar = () => {
+    const h = document.getElementById("announceBar").offsetHeight;
+    if (h) document.body.style.setProperty("--announce-h", h + "px");
+  };
+  addEventListener("resize", syncBar);
+  // Beim Runterscrollen gleitet der Streifen weg, damit er den Scroll-Szenen (Reel-Aufbau,
+  // KI-Tools) keinen Platz nimmt. Ganz oben und beim Hochscrollen ist er wieder da.
+  let barLastY = scrollY;
+  addEventListener(
+    "scroll",
+    () => {
+      const y = scrollY;
+      if (Math.abs(y - barLastY) < 8) return;
+      document.body.classList.toggle("announce-away", y > barLastY && y > 200);
+      barLastY = y;
+    },
+    { passive: true }
+  );
 
   // "Donnerstag, 5. November, 19:00 Uhr", immer in deutscher Zeit
-  function formatEventDate(ms) {
+  function formatEventDate(ms, trenner = ", ") {
     const tz = { timeZone: "Europe/Berlin" };
     const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "long", day: "numeric", month: "long" }).format(ms);
     const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "2-digit", minute: "2-digit" }).format(ms);
-    return tag + ", " + zeit + " Uhr";
+    return tag + trenner + zeit + " Uhr";
+  }
+  // "Sa., 21.11., 11 Uhr" für den schmalen Streifen am Handy
+  function formatEventShort(ms) {
+    const tz = { timeZone: "Europe/Berlin" };
+    const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "short" }).format(ms).replace(".", "");
+    const datum = new Intl.DateTimeFormat("de-DE", { ...tz, day: "numeric", month: "numeric" }).format(ms);
+    const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "numeric", minute: "2-digit" }).format(ms).replace(":00", "");
+    return tag + "., " + datum + ", " + zeit + " Uhr";
   }
 
   /* Werbelinks (#scb, nach den Zahlen, Abschluss): Jeder Kasten [data-offer] hat einen
@@ -79,7 +113,7 @@
       if (box.funnelSteps === undefined) box.funnelSteps = steps.textContent;
       if (c.eventActive) {
         main.href = eventUrl(c.webinarUrl, "event-" + name);
-        main.innerHTML = (live ? "Jetzt live dazukommen*" : "Zum Live-Event anmelden*") + ' <span class="btn__arrow">→</span>';
+        main.innerHTML = (live ? "Jetzt live dazukommen*" : "Kostenlos Platz sichern*") + ' <span class="btn__arrow">→</span>';
         steps.textContent = eventText;
         alt.href = funnelUrl(name + "-event");
       } else {
@@ -100,29 +134,47 @@
     if (!isNaN(eventStart) && Date.now() >= eventEnd) c.eventActive = false;
     const webinarBtn = $("#webinarBtn");
     webinarBtn.href = eventUrl(c.webinarUrl, "event");
-    // Wer es hält, wie lange es dauert, ob es eine Aufzeichnung gibt: nur was eingetragen ist
-    const eventFacts = [c.eventHosts && c.eventHosts + " halten es selbst.", c.eventLengthText, c.eventReplay]
-      .filter(Boolean)
-      .join(" ");
+    // Wie lange es dauert, was dabei ist, ob es eine Aufzeichnung gibt: nur was eingetragen ist
+    const eventFacts = [c.eventLengthText, c.eventReplay].filter(Boolean).join(" ");
     $("#eventFacts").textContent = eventFacts;
     $("#eventFacts").hidden = !eventFacts;
 
-    /* Hinweis-Banner */
+    /* Goldener Streifen ganz oben. Steht ein Live-Event an, zeigt er von selbst den Termin
+       und springt zum Event-Abschnitt (Julian, 19.11.2026: Das Live-Event soll auf der Seite
+       sofort zu sehen sein). Kein Werbelink im Streifen, der steht mit Sternchen und
+       Werbehinweis im Abschnitt. Ein eigener Hinweis (note) hat Vorrang. */
     const bar = $("#announceBar");
     const update = $("#webinarUpdate");
-    if (c.noteActive && c.note) {
+    const eigenerHinweis = c.noteActive && c.note;
+    const eventBar = (live) => {
+      if (eigenerHinweis) return;
+      $("#announceText").innerHTML = live
+        ? '<span class="announce__long">Das Live-Event von Jacky und Julez läuft gerade</span>' +
+          '<span class="announce__short">Das Live-Event läuft gerade</span>'
+        : '<span class="announce__long">Live-Event von Jacky und Julez am ' + formatEventDate(eventStart) + "</span>" +
+          '<span class="announce__short">Live-Event am ' + formatEventShort(eventStart) + "</span>";
+      $("#announceLink").textContent = live ? "Jetzt dazukommen →" : "Kostenlos Platz sichern →";
+    };
+    if (eigenerHinweis) {
       $("#announceText").textContent = c.note;
       $("#webinarUpdateText").textContent = c.note;
+      $("#announceLink").textContent = "Zum Live-Event →";
+    }
+    update.hidden = !eigenerHinweis;
+    if (eigenerHinweis || c.eventActive) {
+      eventBar(c.eventActive && Date.now() >= eventStart);
       bar.hidden = false;
-      update.hidden = false;
+      // Platz sofort freihalten (sonst springt die Seite kurz nach dem Laden), der Streifen
+      // selbst gleitet danach herein
+      document.body.classList.add("has-announce");
+      syncBar();
       setTimeout(() => {
         bar.classList.add("is-visible");
-        document.body.classList.add("has-announce");
+        syncBar();
       }, 50);
     } else {
       bar.classList.remove("is-visible");
       document.body.classList.remove("has-announce");
-      update.hidden = true;
       setTimeout(() => (bar.hidden = true), 600);
     }
 
@@ -138,24 +190,23 @@
        Werbehinweis direkt darunter (paintOffers). */
     const heroLink = $("#heroOffer");
     const pillText = $("#webinarPillText");
-    const ctaLead = $("#ctaLead");
-    if (ctaLead.normalText === undefined) ctaLead.normalText = ctaLead.textContent;
-    // Vor dem Klick zum Event: Termin, wer es hält, Dauer, Aufzeichnung
+    // Vor dem Klick zum Event: Termin, wer es hält, und was nach dem Klick kommt (auf der
+    // Event-Seite: Vorname und E-Mail). Dauer und Aufzeichnung stehen nur im Event-Abschnitt,
+    // sonst stünde dasselbe viermal auf der Seite.
     const offerEventText = (live) =>
-      (live ? "Das Live-Event läuft gerade." : "Das nächste Live-Event ist am " + formatEventDate(eventStart) + ".") +
-      (eventFacts ? " " + eventFacts : "") +
-      " Anmelden kostet dich nichts.";
+      (live
+        ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
+        : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert.") +
+      " Die Anmeldung kostet dich nichts, du trägst nur deinen Vornamen und deine E-Mail ein.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";
       heroLink.innerHTML = 'Zum Live-Event <span class="btn__arrow btn__arrow--down">↓</span>';
-      ctaLead.textContent = "Das nächste Live-Event steht an. Dort siehst du live, wie das System funktioniert, und kannst deine Fragen direkt stellen.";
       // Event-Sektion direkt unter den Hero, vor die Erklärung des SCB-Systems
       $(".hero").after(webinarSec);
     } else {
       heroLink.href = "#scb";
       heroLink.innerHTML = 'Was ist das SCB-System? <span class="btn__arrow btn__arrow--down">↓</span>';
-      ctaLead.textContent = ctaLead.normalText;
       // Event-Sektion zurück an ihren Platz (vor die finale CTA)
       $("#angebot").before(webinarSec);
     }
@@ -205,7 +256,11 @@
         const diff = target - now;
         if (diff <= 0) {
           // Das Event läuft gerade (weiter ticken, damit das Ende erkannt wird)
-          if (!cd.hidden) paintOffers(c, offerEventText(true), true); // einmal, beim Wechsel auf live
+          if (!cd.hidden) {
+            // einmal, beim Wechsel auf live
+            paintOffers(c, offerEventText(true), true);
+            eventBar(true);
+          }
           cd.hidden = true;
           pillText.textContent = "WIR SIND LIVE";
           webinarBtn.innerHTML = 'Jetzt live dazukommen* <span class="btn__arrow">→</span>';
@@ -223,7 +278,7 @@
     } else {
       cd.hidden = true;
       pillText.textContent = "LIVE-EVENT";
-      webinarBtn.innerHTML = 'Zur Anmeldung* <span class="btn__arrow">→</span>';
+      webinarBtn.innerHTML = 'Kostenlos Platz sichern* <span class="btn__arrow">→</span>';
     }
     return c;
   }

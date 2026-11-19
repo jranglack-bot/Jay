@@ -230,11 +230,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   und zum Video (`funnelUrl()`): `scb`, `geschichte` (Block `#gewartet`), `abschluss`. Im
   Live-Event-Modus ist das Video nur die zweite Möglichkeit unter dem Knopf: `scb-event`,
   `geschichte-event`, `abschluss-event`. Anmeldung zum Live-Event (`eventUrl()`): `event`
-  (Event-Abschnitt), `event-scb`, `event-geschichte`, `event-abschluss`. Die früheren
+  (Event-Abschnitt), `event-scb`, `event-geschichte`, `event-abschluss`, aber nur bei einem
+  Link ohne eigenes `utm_content`. Der Link fürs Event am 21.11.2026 bringt `instagram-bio`
+  mit und bleibt unverändert, dort gibt es also keine Messung je Knopf. Die früheren
   `abschluss-via-…` gibt es nicht mehr, weil keine Sprunglinks zum Abschluss mehr da sind.
   Julian holt die Zahlen je Messwert bei Jacky und Julez. Erst danach weiter umbauen, sonst
-  bleibt jede Änderung geraten. Vor dem ersten Event bei ihnen nachfragen, ob `utm_content`
-  am Event-Link bei ihnen ankommt.
+  bleibt jede Änderung geraten. Bei ihnen nachfragen, ob `utm_content` am Event-Link frei
+  wählbar ist, dann lässt sich auch beim Event je Knopf messen.
 - **Reihenfolge (seit 13.11.2026):** Hero, „Was ist das SCB-System?“ (`#scb`, mit
   Werbelink), Geschichte (`#weg`, mit beiden Belegen), Zahlen (`#ergebnisse`), „Über ein
   Jahr hab ich gebraucht …“ (`#gewartet`, mit Werbelink), „So ist ein Reel aufgebaut“
@@ -351,28 +353,52 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   **Nicht zu viel erklären:** Julian: „Wenn man zu viel erklärt, macht man sich
   angreifbar.“ Darum ist die Frage „Was hast du davon?“ wieder raus.
 
-- **Live-Event:** Aktuell findet keins statt, der Termin ist offen. Läuft eins, ist es
-  immer das erste Ziel (Julian, 12.11.2026: es verkauft stärker), sonst das Video. Der
-  Abschnitt ist per `webinarActive: false` in `DEFAULTS` ausgeblendet. Beim nächsten Event
-  `eventActive: true`, `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00`
-  Winterzeit) und `eventDurationMin` setzen. Dann steht der Event-Abschnitt direkt unter dem
-  Hero mit Datum in Worten und Countdown, der goldene Hero-Knopf heißt „Zum Live-Event ↓“,
-  und in `#scb`, `#gewartet` und im Abschluss ist die Anmeldung der Hauptknopf („Zum
-  Live-Event anmelden*“), davor stehen Termin und Fakten, darunter leiser „Oder schau dir
-  zuerst das Video an*“. Während des Events „WIR SIND LIVE“ und „Jetzt live dazukommen*“,
-  nach Start + Dauer schaltet alles von selbst zurück. Weitere Felder, nur Gefülltes wird
-  gezeigt: `eventHosts` („Jacky und Julez“, daraus wird „… halten es selbst.“), `eventLengthText` (ganzer Satz
-  zur Dauer, noch leer) und `eventReplay` („In der Regel gibt es danach eine
-  Aufzeichnung.“). Nur echte Termine, nie einen Timer, der neu startet oder immer „morgen“
-  ist (irreführende Verknappung, UWG). Zum Testen `eventActive` und ein Testdatum nur im
-  gebauten `dist/js/main.js` setzen, nie in der Quelle.
+- **Live-Event (Stand 19.11.2026):** Eingetragen ist das Live-Event von Jacky und Julez am
+  Samstag, 21.11.2026, 11:00 Uhr (so nennt Julian es, nie „das erste“). Läuft eins, ist es
+  immer das erste Ziel (Julian, 12.11.2026: es verkauft stärker), sonst das Video. Termin und
+  Fakten stammen von der Event-Seite `secretbusiness.live` (dort „Kostenloser Live Workshop
+  mit Jacky & Julez“): ungefähr zwei Stunden, kostenloses Ticket mit PDF-Workbook, Anmeldung
+  mit Vorname und E-Mail, Zugangsdaten per Mail. **Die Aufzeichnung gibt es dort nur im
+  bezahlten Ticket**, deshalb nie „es gibt eine Aufzeichnung“ schreiben und den Preis nicht
+  nennen. Julians Werbelink steht als `webinarUrl` in `DEFAULTS` und bleibt **unverändert**:
+  Er bringt `utm_content=instagram-bio` mit, `eventUrl()` hängt dann nichts an (ein zweites
+  `utm_content` könnte die Zuordnung zu Julian stören). Einstellungen: `eventActive: true`,
+  `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00` Winterzeit),
+  `eventDurationMin: 60` (so viele Minuten nach dem Start bleibt die Anmeldung stehen;
+  Julian: der Link soll eine Stunde nach dem Start verschwinden), `eventLengthText` und
+  `eventReplay` (ganze Sätze, nur Gefülltes wird gezeigt). Was die Seite dann macht:
+  - Goldener Streifen ganz oben (Julian: das Live-Event soll sofort zu sehen sein), am Handy
+    „Live-Event am Sa., 21.11., 11 Uhr · Kostenlos Platz sichern →“, am Computer mit Jacky
+    und Julez im Satz. Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink
+    (dort oben hätte der Werbehinweis keinen Platz). Beim Runterscrollen gleitet er weg, ganz
+    oben und beim Hochscrollen ist er wieder da: Die Scroll-Szenen brauchen den Platz, und
+    ein dauerhaft fester Handy-Knopf war ausgeschlossen. Die Seite rückt um seine Höhe nach
+    unten (`--announce-h`, `syncBar` in `public/js/main.js`). Ein eigener Hinweis (`note`,
+    `noteActive`) hat im Streifen Vorrang.
+  - Der Event-Abschnitt steht direkt unter dem Hero mit Datum in Worten, Countdown und
+    „Kostenlos Platz sichern*“, der goldene Hero-Knopf heißt „Zum Live-Event ↓“.
+  - In `#scb`, `#gewartet` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf,
+    davor stehen Termin und was nach dem Klick kommt, darunter leiser „Oder schau dir zuerst
+    das Video an*“. Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
+    doppelt). Der Absatz im Abschluss bleibt Julians Echo, er wird nicht mehr ausgetauscht.
+  - Ab dem Start „WIR SIND LIVE“ und „Jetzt live dazukommen*“. Eine Stunde danach schaltet
+    alles von selbst zurück, auch bei offener Seite, und kein Event-Link ist mehr zu sehen.
+  Nach dem Event muss nichts aufgeräumt werden. Fürs nächste: `webinarUrl`, `eventDate` und
+  die zwei Sätze anpassen und die Event-Seite neu lesen (sie ist aus der Cloud-Umgebung
+  gesperrt, lesen geht über den Apify-Connector, `apify--web-fetch` mit `wait`). **Nicht
+  übernehmen** von der Event-Seite: „3771 Menschen zu erfolgreichen Secret Creatorn
+  gemacht“, die Erfahrungsberichte, „ohne dein Gesicht“ als Aussage über Julian, „Wir
+  übernehmen 90 %“, und dass man dort Fragen stellen kann (steht nirgends). Nur echte
+  Termine, nie einen Timer, der neu startet oder immer „morgen“ ist (irreführende
+  Verknappung, UWG). Zum Testen das Datum nur im gebauten `dist/js/main.js` ändern, nie in
+  der Quelle.
 - **Später, erst nach Julians Wort (Auftrag 12.11.2026):** ein Feld „Sag mir Bescheid, wenn
   das nächste Live-Event ansteht“ über ein Systeme.io-Formular (dann `datenschutz.html`
   ergänzen); eine eigene, belegte Zahl als Ersatz für Rückmeldungen, zum Beispiel wie oft
   das Reel-Drehbuch verschickt wurde (aus ChatPlace, nur wenn Julian sie nennt); ein kurzes
   Video im Abschluss (60 bis 90 Sekunden hochkant, Julian in die Kamera, ohne Zahlen), lokal
   eingebunden statt über YouTube, mit Vorschaubild und erst auf Antippen geladen.
-- **Fehlt noch von Julian:** Datum, Uhrzeit und Dauer des nächsten Live-Events; zwei bis
+- **Fehlt noch von Julian:** zwei bis
   drei Punkte, was man im Video sieht (dann unter den Satz zu Jacky und Julez, nichts
   erfinden); sein eigener erster Satz für „Mein Weg“ (der alte Einstieg steht jetzt im Hero,
   als Einstieg steht dort die Frage seiner Tochter, sein eigenes Beispiel aus

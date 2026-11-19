@@ -1827,8 +1827,8 @@ body.has-announce .toolscene.is-live .toolscene__sticky {
 /* ============ Werbelink-Kasten (#scb, nach den Zahlen, Abschluss) ============
    Immer gleich aufgebaut, damit vor jedem Klick nach draußen dasselbe dasteht: wer im Video
    spricht, was nach dem Klick kommt, der Knopf mit Sternchen, im Live-Event-Modus darunter
-   das Video als zweite Möglichkeit, und direkt darunter der Werbehinweis (js/main.js
-   paintOffers). */
+   das Video als zweite Möglichkeit (js/main.js paintOffers). Der Werbehinweis zu den
+   Sternchen steht ganz unten im Footer (.footer__note). */
 .offer { display: flex; flex-direction: column; align-items: flex-start; max-width: 36em; }
 .offer__who { margin-bottom: 0.7em; color: var(--cream); }
 .offer__steps { margin-bottom: 1.5em; font-size: 0.95rem; color: var(--cream-dim); }
@@ -1842,8 +1842,6 @@ body.has-announce .toolscene.is-live .toolscene__sticky {
   transition: color 0.3s, border-color 0.3s;
 }
 .offer__alt:hover { color: var(--gold-soft); border-color: var(--gold); }
-/* Werbehinweis: klein und ruhig, aber gut lesbar (muss erkennbar bleiben) */
-.offer__disclosure { margin-top: 0.9em; font-size: 0.75rem; color: var(--cream-dim); }
 .offer--center { align-items: center; margin: 0 auto; text-align: center; }
 
 /* ============ Was ist das SCB-System? (#scb, direkt unter dem Hero) ============ */
@@ -2088,12 +2086,6 @@ body.has-announce .toolscene.is-live .toolscene__sticky {
 
 /* Wer das Event hält, Dauer, Aufzeichnung (aus DEFAULTS, nur was gefüllt ist) */
 .webinar__facts { max-width: 32em; margin: -0.8em auto 1.8em; font-size: 0.95rem; color: var(--cream-dim); }
-.webinar__disclosure {
-  margin: 0.9em auto 0;
-  max-width: 32em;
-  font-size: 0.75rem;
-  color: var(--cream-dim);
-}
 .webinar__steps {
   margin: 1.3em auto 0;
   max-width: 30em;
@@ -2168,6 +2160,14 @@ body.has-announce .toolscene.is-live .toolscene__sticky {
   transition: color 0.3s;
 }
 .footer__links a:hover { color: var(--gold); }
+/* Werbehinweis zu den Links mit Sternchen: eigene Zeile unter allem anderen */
+.footer__note {
+  flex-basis: 100%;
+  max-width: 46em;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--cream-dim);
+}
 
 /* ============ Scroll-Reveals ============ */
 .reveal {

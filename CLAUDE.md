@@ -179,16 +179,21 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   Julez im Video, die beiden haben es gebaut.“ steht in `#scb`, im Abschluss fast gleich,
   jeweils vor dem Knopf. Nur nennen,
   kein Foto (Julian, 12.11.2026: „nennen ja, zeigen nicht direkt“). Die Firma steht nur im
-  Werbehinweis des Live-Events.
+  Werbehinweis ganz unten, solange ein Live-Event eingetragen ist.
 - **Affiliate-Links kennzeichnen:** Julian bekommt über Video, Live-Event und die Tools eine
   Provision. Werbelinks gibt es seit 13.11.2026 an drei Stellen der Startseite (`#scb`, im
   Block `#gewartet` nach den Zahlen, im Abschluss `#angebot`), dazu im Live-Event-Abschnitt
   und auf `tools.html`. Jeder trägt ein Sternchen, `rel="sponsored"` und einen eigenen
-  `utm_content`, und die Erklärung („*Werbung: Wenn du über meinen Link später etwas kaufst,
-  bekomme ich eine Provision.“) steht direkt darunter, damit sie vor dem Klick sichtbar ist.
-  Ausnahme `tools.html`, siehe unten. Alle drei Stellen sind gleich gebaut (`.offer`,
-  `data-offer`, `paintOffers` in `public/js/main.js`): Ablauf nach dem Klick, Knopf,
-  im Live-Event-Modus darunter das Video als zweite Möglichkeit, Werbehinweis. Die Links
+  `utm_content`. **Der Werbehinweis steht seit 19.11.2026 ganz unten im Footer**
+  (`.footer__note`: „*Werbung: Die Links mit Sternchen sind Werbelinks. Wenn du darüber
+  später etwas kaufst, bekomme ich eine Provision.“), nicht mehr direkt unter jedem Knopf.
+  Julian wollte das so („du kannst gerne ein Sternchen dran machen, aber diesen Satz bitte
+  ganz nach unten“), wie schon auf `tools.html`. Das Sternchen im Knopftext ist damit an
+  jedem Werbelink Pflicht, es ist die einzige Markierung vor dem Klick. Rechtlich ist das
+  schwächer als der Satz direkt am Knopf, Julian weiß das. Solange ein Live-Event dasteht,
+  hängt am Hinweis „Das Live-Event veranstaltet Secret Creators.“ Alle drei Stellen sind
+  gleich gebaut (`.offer`, `data-offer`, `paintOffers` in `public/js/main.js`): Ablauf nach
+  dem Klick, Knopf, im Live-Event-Modus darunter das Video als zweite Möglichkeit. Die Links
   stehen auch ohne Skript im HTML. Julian fand am 25.09.2026 drei gleiche Werbelinks zu
   werblich; die drei jetzt hat der Auftrag vom 12.11.2026 vorgesehen, weil am Handy der
   einzige Link nach draußen erst bei Bildschirm 24,9 von 25,7 lag.
@@ -372,8 +377,9 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
     glitt beim Scrollen weg). Am Handy links „Kostenloses Live-Event“ und darunter „startet
     in 1 Tag 21:45:12“ (läuft im Sekundentakt mit), rechts der Knopf „Platz sichern →“. Am
     Computer eine Zeile mit Jacky und Julez, Datum, Countdown und „Kostenlos Platz sichern →“.
-    Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink (dort hätte der
-    Werbehinweis keinen Platz). Die Seite bekommt unten so viel Platz, wie er hoch ist
+    Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink (Stand 19.11.2026;
+    seit der Werbehinweis ganz unten steht, wäre ein direkter Link mit Sternchen möglich,
+    Julian hat das noch nicht entschieden). Die Seite bekommt unten so viel Platz, wie er hoch ist
     (`--announce-h`, `syncBar` in `public/js/main.js`), und die beiden Scroll-Szenen rücken
     ihren unteren Rand um diese Höhe nach oben (`body.has-announce …` in `css/style.css`),
     sonst verdeckt er die letzte Zeile ihrer Legenden. Das hebt für die Dauer eines Events

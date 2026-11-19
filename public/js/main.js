@@ -78,7 +78,8 @@
   }
 
   /* Werbelinks (#scb, nach den Zahlen, Abschluss): Jeder Kasten [data-offer] hat einen
-     Hauptknopf, darunter eine leisere zweite Möglichkeit und den Werbehinweis. Normal führt
+     Hauptknopf mit Sternchen und darunter eine leisere zweite Möglichkeit. Der Werbehinweis
+     zu den Sternchen steht ganz unten im Footer (Julian, 19.11.2026). Normal führt
      der Hauptknopf zu den Fragen und zum Video, davor steht der Ablauf nach dem Klick (aus
      dem HTML). Steht ein Live-Event an, ist die Anmeldung zum Event der Hauptknopf (Julian,
      12.11.2026: das Event verkauft stärker), davor steht der Termin, und das Video rückt als
@@ -122,8 +123,8 @@
     /* Goldener Streifen, fest unten am Bildschirm (Julian, 19.11.2026: sticky, ganz unten,
        mit Timer, damit man überall sieht, wie lang noch Zeit ist). Steht ein Live-Event an,
        zeigt er von selbst den Termin und den laufenden Countdown und springt zum
-       Event-Abschnitt. Kein Werbelink im Streifen, der steht mit Sternchen und Werbehinweis
-       im Abschnitt. Ein eigener Hinweis (note) hat Vorrang. */
+       Event-Abschnitt. Kein Werbelink im Streifen, der steht mit Sternchen im Abschnitt.
+       Ein eigener Hinweis (note) hat Vorrang. */
     const bar = $("#announceBar");
     const update = $("#webinarUpdate");
     const eigenerHinweis = c.noteActive && c.note;
@@ -167,11 +168,13 @@
     webinarSec.hidden = !(c.webinarActive || c.eventActive);
     // Link im Hinweis-Banner zeigt sonst ins Leere
     $("#announceLink").hidden = webinarSec.hidden;
+    // Werbehinweis ganz unten: wer das Live-Event veranstaltet, nur solange eins dasteht
+    $("#werbehinweisEvent").hidden = webinarSec.hidden;
 
     /* Der goldene Hero-Knopf springt normal zur Erklärung des SCB-Systems (#scb) direkt
        unter dem Hero, im Live-Event-Modus zum Event, das dann dort steht. Werbelinks stehen
-       in #scb, nach den Zahlen, im Abschluss und im Event, jeder mit Sternchen und dem
-       Werbehinweis direkt darunter (paintOffers). */
+       in #scb, nach den Zahlen, im Abschluss und im Event, jeder mit Sternchen
+       (paintOffers), der Werbehinweis dazu steht ganz unten im Footer. */
     const heroLink = $("#heroOffer");
     const pillText = $("#webinarPillText");
     // Vor dem Klick zum Event: Termin, wer es hält, und was nach dem Klick kommt (auf der

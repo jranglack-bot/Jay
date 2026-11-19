@@ -153,31 +153,35 @@ h1, h2, h3 {
 .btn:hover .btn__arrow { transform: translateX(5px); }
 .btn:hover .btn__arrow--down { transform: translateY(3px); }
 
-/* ============ Ankündigungs-Banner ============ */
+/* ============ Goldener Streifen unten (Live-Event, Hinweis) ============
+   Klebt unten am Bildschirm (Julian, 19.11.2026). Am Handy links zwei kurze Zeilen
+   (Termin, Countdown), rechts der Knopf. Am Computer alles in einer Zeile. */
 .announce {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  left: 0; right: 0; bottom: 0;
   z-index: 60;
   background: linear-gradient(90deg, var(--gold), var(--gold-bright), var(--gold));
   background-size: 200% auto;
   animation: shimmer 6s linear infinite;
   color: #1a1508;
-  transform: translateY(-100%);
+  box-shadow: 0 -8px 26px rgba(0, 0, 0, 0.45);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform: translateY(100%);
   transition: transform 0.6s var(--ease-out);
 }
 .announce.is-visible { transform: translateY(0); }
 .announce__inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0.6em 1.2em;
+  padding: 0.65em 1.2em;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8em;
+  gap: 0.5em 1em;
   flex-wrap: wrap;
   font-weight: 700;
   font-size: 0.95rem;
-  text-align: center;
+  line-height: 1.3;
 }
 .announce__pulse {
   width: 10px; height: 10px;
@@ -190,31 +194,48 @@ h1, h2, h3 {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.5); opacity: 0.5; }
 }
+.announce__text { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.7em; }
+.announce__timer { font-weight: 600; }
+/* gleich breite Ziffern, sonst zittert die Zeile beim Ticken */
+.announce__timer b { font-variant-numeric: tabular-nums; font-weight: 700; }
 .announce__cta {
-  color: #1a1508;
+  flex-shrink: 0;
+  background: #1a1508;
+  color: var(--gold-bright);
   font-family: var(--font-head);
   text-transform: uppercase;
-  font-weight: 700;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  padding: 0.45em 1.1em;
+  border-radius: 999px;
+  white-space: nowrap;
 }
-/* Am Computer steht der ganze Satz da, am Handy die kurze Fassung in zwei knappen Zeilen */
 .announce__short { display: none; }
 @media (max-width: 720px) {
   .announce__long { display: none; }
   .announce__short { display: inline; }
-  .announce__inner { padding: 0.45em 0.9em; gap: 0.15em 0.7em; font-size: 0.88rem; line-height: 1.3; }
-  .announce__pulse { width: 8px; height: 8px; }
+  .announce__inner { padding: 0.55em 0.85em; gap: 0.4em 0.7em; font-size: 0.82rem; justify-content: space-between; flex-wrap: nowrap; }
+  .announce__pulse { display: none; }
+  .announce__text { flex-direction: column; align-items: flex-start; gap: 0; min-width: 0; }
+  .announce__cta { font-size: 0.86rem; padding: 0.55em 0.95em; }
 }
-/* Höhe des Streifens: setzt js/main.js (syncBar). Die ganze Seite rückt um diese Höhe nach
-   unten, sonst liegt die Navigation über der ersten Zeile des Heros. Sprungziele halten
-   denselben Abstand. */
-body.has-announce { padding-top: var(--announce-h, 42px); }
-body.has-announce .nav { top: var(--announce-h, 42px); }
-body.has-announce section[id] { scroll-margin-top: var(--announce-h, 42px); }
-/* Beim Runterscrollen weg, beim Hochscrollen wieder da (js/main.js) */
-body.announce-away .announce.is-visible { transform: translateY(-100%); }
-body.has-announce.announce-away .nav { top: 0; }
+/* Höhe des Streifens: setzt js/main.js (syncBar). Unten bleibt so viel Platz frei, damit er
+   am Seitenende den Footer nicht verdeckt. */
+body.has-announce { padding-bottom: var(--announce-h, 52px); }
+/* Die beiden Scroll-Szenen füllen den ganzen Bildschirm, ihre Legende steht ganz unten.
+   Mit dem Streifen rückt ihr unterer Rand um dessen Höhe nach oben, sonst verdeckt er die
+   letzte Zeile der Legende. */
+body.has-announce .explode.is-live .explode__sticky,
+body.has-announce .toolscene.is-live .toolscene__sticky {
+  padding-bottom: calc(1.2em + var(--announce-h, 52px));
+}
+@media (max-width: 900px) {
+  /* am Handy ist der längste Legendentext der KI-Tools-Szene fünf Zeilen hoch */
+  body.has-announce .toolscene.is-live .toolscene__sticky {
+    padding-bottom: calc(1.2em + var(--announce-h, 52px) + 32px);
+  }
+}
 
 /* ============ Navigation ============ */
 .nav {

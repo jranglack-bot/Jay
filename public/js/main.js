@@ -60,26 +60,14 @@
 
   /* ---------- Live-Event-Konfiguration anwenden ---------- */
   let cdTimer = null;
-  // Der goldene Streifen ist am Handy höher als am Computer (zwei Zeilen). Die Navigation
-  // rückt genau um seine Höhe nach unten (--announce-h in css/style.css).
+  // Der goldene Streifen klebt unten am Bildschirm. Die Seite bekommt unten genau so viel
+  // Platz, wie er hoch ist, damit er am Seitenende nichts verdeckt (--announce-h in
+  // css/style.css).
   const syncBar = () => {
     const h = document.getElementById("announceBar").offsetHeight;
     if (h) document.body.style.setProperty("--announce-h", h + "px");
   };
   addEventListener("resize", syncBar);
-  // Beim Runterscrollen gleitet der Streifen weg, damit er den Scroll-Szenen (Reel-Aufbau,
-  // KI-Tools) keinen Platz nimmt. Ganz oben und beim Hochscrollen ist er wieder da.
-  let barLastY = scrollY;
-  addEventListener(
-    "scroll",
-    () => {
-      const y = scrollY;
-      if (Math.abs(y - barLastY) < 8) return;
-      document.body.classList.toggle("announce-away", y > barLastY && y > 200);
-      barLastY = y;
-    },
-    { passive: true }
-  );
 
   // "Donnerstag, 5. November, 19:00 Uhr", immer in deutscher Zeit
   function formatEventDate(ms, trenner = ", ") {
@@ -87,14 +75,6 @@
     const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "long", day: "numeric", month: "long" }).format(ms);
     const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "2-digit", minute: "2-digit" }).format(ms);
     return tag + trenner + zeit + " Uhr";
-  }
-  // "Sa., 21.11., 11 Uhr" für den schmalen Streifen am Handy
-  function formatEventShort(ms) {
-    const tz = { timeZone: "Europe/Berlin" };
-    const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "short" }).format(ms).replace(".", "");
-    const datum = new Intl.DateTimeFormat("de-DE", { ...tz, day: "numeric", month: "numeric" }).format(ms);
-    const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "numeric", minute: "2-digit" }).format(ms).replace(":00", "");
-    return tag + "., " + datum + ", " + zeit + " Uhr";
   }
 
   /* Werbelinks (#scb, nach den Zahlen, Abschluss): Jeder Kasten [data-offer] hat einen
@@ -139,21 +119,27 @@
     $("#eventFacts").textContent = eventFacts;
     $("#eventFacts").hidden = !eventFacts;
 
-    /* Goldener Streifen ganz oben. Steht ein Live-Event an, zeigt er von selbst den Termin
-       und springt zum Event-Abschnitt (Julian, 19.11.2026: Das Live-Event soll auf der Seite
-       sofort zu sehen sein). Kein Werbelink im Streifen, der steht mit Sternchen und
-       Werbehinweis im Abschnitt. Ein eigener Hinweis (note) hat Vorrang. */
+    /* Goldener Streifen, fest unten am Bildschirm (Julian, 19.11.2026: sticky, ganz unten,
+       mit Timer, damit man überall sieht, wie lang noch Zeit ist). Steht ein Live-Event an,
+       zeigt er von selbst den Termin und den laufenden Countdown und springt zum
+       Event-Abschnitt. Kein Werbelink im Streifen, der steht mit Sternchen und Werbehinweis
+       im Abschnitt. Ein eigener Hinweis (note) hat Vorrang. */
     const bar = $("#announceBar");
     const update = $("#webinarUpdate");
     const eigenerHinweis = c.noteActive && c.note;
     const eventBar = (live) => {
       if (eigenerHinweis) return;
       $("#announceText").innerHTML = live
-        ? '<span class="announce__long">Das Live-Event von Jacky und Julez läuft gerade</span>' +
-          '<span class="announce__short">Das Live-Event läuft gerade</span>'
-        : '<span class="announce__long">Live-Event von Jacky und Julez am ' + formatEventDate(eventStart) + "</span>" +
-          '<span class="announce__short">Live-Event am ' + formatEventShort(eventStart) + "</span>";
-      $("#announceLink").textContent = live ? "Jetzt dazukommen →" : "Kostenlos Platz sichern →";
+        ? '<span class="announce__title"><span class="announce__long">Das Live-Event von Jacky und Julez läuft gerade</span>' +
+          '<span class="announce__short">Das Live-Event läuft gerade</span></span>' +
+          '<span class="announce__timer">Du kannst noch dazukommen</span>'
+        : '<span class="announce__title"><span class="announce__long">Kostenloses Live-Event von Jacky und Julez am ' +
+          formatEventDate(eventStart, " um ") +
+          '</span><span class="announce__short">Kostenloses Live-Event</span></span>' +
+          '<span class="announce__timer">startet in <b id="announceTimer"></b></span>';
+      $("#announceLink").innerHTML = live
+        ? "Jetzt dazukommen →"
+        : '<span class="announce__long">Kostenlos Platz sichern →</span><span class="announce__short">Platz sichern →</span>';
     };
     if (eigenerHinweis) {
       $("#announceText").textContent = c.note;
@@ -164,8 +150,6 @@
     if (eigenerHinweis || c.eventActive) {
       eventBar(c.eventActive && Date.now() >= eventStart);
       bar.hidden = false;
-      // Platz sofort freihalten (sonst springt die Seite kurz nach dem Laden), der Streifen
-      // selbst gleitet danach herein
       document.body.classList.add("has-announce");
       syncBar();
       setTimeout(() => {
@@ -196,7 +180,7 @@
     const offerEventText = (live) =>
       (live
         ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
-        : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert.") +
+        : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert, und du kannst deine Fragen direkt stellen.") +
       " Die Anmeldung kostet dich nichts, du trägst nur deinen Vornamen und deine E-Mail ein.";
 
     if (c.eventActive) {
@@ -268,10 +252,18 @@
         }
         cd.hidden = false;
         pillText.textContent = "LIVE-EVENT";
-        $("#cdDays").textContent = Math.floor(diff / 864e5);
-        $("#cdHours").textContent = pad(Math.floor(diff / 36e5) % 24);
-        $("#cdMins").textContent = pad(Math.floor(diff / 6e4) % 60);
-        $("#cdSecs").textContent = pad(Math.floor(diff / 1e3) % 60);
+        const tage = Math.floor(diff / 864e5);
+        const std = pad(Math.floor(diff / 36e5) % 24);
+        const min = pad(Math.floor(diff / 6e4) % 60);
+        const sek = pad(Math.floor(diff / 1e3) % 60);
+        $("#cdDays").textContent = tage;
+        $("#cdHours").textContent = std;
+        $("#cdMins").textContent = min;
+        $("#cdSecs").textContent = sek;
+        // derselbe Countdown im Streifen unten: "startet in 1 Tag 21:45:12" (2 Tagen …)
+        const barTimer = document.getElementById("announceTimer");
+        if (barTimer)
+          barTimer.textContent = (tage ? tage + (tage === 1 ? " Tag " : " Tagen ") : "") + std + ":" + min + ":" + sek;
       };
       tick();
       cdTimer = setInterval(tick, 1000);

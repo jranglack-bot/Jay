@@ -367,14 +367,18 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   `eventDurationMin: 60` (so viele Minuten nach dem Start bleibt die Anmeldung stehen;
   Julian: der Link soll eine Stunde nach dem Start verschwinden), `eventLengthText` und
   `eventReplay` (ganze Sätze, nur Gefülltes wird gezeigt). Was die Seite dann macht:
-  - Goldener Streifen ganz oben (Julian: das Live-Event soll sofort zu sehen sein), am Handy
-    „Live-Event am Sa., 21.11., 11 Uhr · Kostenlos Platz sichern →“, am Computer mit Jacky
-    und Julez im Satz. Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink
-    (dort oben hätte der Werbehinweis keinen Platz). Beim Runterscrollen gleitet er weg, ganz
-    oben und beim Hochscrollen ist er wieder da: Die Scroll-Szenen brauchen den Platz, und
-    ein dauerhaft fester Handy-Knopf war ausgeschlossen. Die Seite rückt um seine Höhe nach
-    unten (`--announce-h`, `syncBar` in `public/js/main.js`). Ein eigener Hinweis (`note`,
-    `noteActive`) hat im Streifen Vorrang.
+  - Goldener Streifen, **fest unten am Bildschirm** (Julian, 19.11.2026: sticky, ganz unten,
+    mit Timer, „damit man sieht, wie lang noch Zeit ist“; der erste Entwurf saß oben und
+    glitt beim Scrollen weg). Am Handy links „Kostenloses Live-Event“ und darunter „startet
+    in 1 Tag 21:45:12“ (läuft im Sekundentakt mit), rechts der Knopf „Platz sichern →“. Am
+    Computer eine Zeile mit Jacky und Julez, Datum, Countdown und „Kostenlos Platz sichern →“.
+    Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink (dort hätte der
+    Werbehinweis keinen Platz). Die Seite bekommt unten so viel Platz, wie er hoch ist
+    (`--announce-h`, `syncBar` in `public/js/main.js`), und die beiden Scroll-Szenen rücken
+    ihren unteren Rand um diese Höhe nach oben (`body.has-announce …` in `css/style.css`),
+    sonst verdeckt er die letzte Zeile ihrer Legenden. Das hebt für die Dauer eines Events
+    die alte Regel „kein fester Handy-Knopf“ auf, auf Julians Wunsch. Ein eigener Hinweis
+    (`note`, `noteActive`) hat im Streifen Vorrang.
   - Der Event-Abschnitt steht direkt unter dem Hero mit Datum in Worten, Countdown und
     „Kostenlos Platz sichern*“, der goldene Hero-Knopf heißt „Zum Live-Event ↓“.
   - In `#scb`, `#gewartet` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf,
@@ -388,7 +392,9 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   gesperrt, lesen geht über den Apify-Connector, `apify--web-fetch` mit `wait`). **Nicht
   übernehmen** von der Event-Seite: „3771 Menschen zu erfolgreichen Secret Creatorn
   gemacht“, die Erfahrungsberichte, „ohne dein Gesicht“ als Aussage über Julian, „Wir
-  übernehmen 90 %“, und dass man dort Fragen stellen kann (steht nirgends). Nur echte
+  übernehmen 90 %“. Dass man im Live-Event Fragen stellen kann und sie beantwortet werden,
+  steht nicht auf der Event-Seite, Julian hat es am 19.11.2026 bestätigt, es darf auf die
+  Seite. Nur echte
   Termine, nie einen Timer, der neu startet oder immer „morgen“ ist (irreführende
   Verknappung, UWG). Zum Testen das Datum nur im gebauten `dist/js/main.js` ändern, nie in
   der Quelle.

@@ -58,11 +58,12 @@
 </head>
 <body>
 
-  <!-- Ankündigungs-Banner (in js/main.js einstellbar) -->
+  <!-- Goldener Streifen fest unten am Bildschirm (in js/main.js einstellbar): bei einem
+       Live-Event Termin und Countdown, sonst ein eigener Hinweis -->
   <div class="announce" id="announceBar" hidden>
     <div class="announce__inner">
       <span class="announce__pulse"></span>
-      <span id="announceText"></span>
+      <span class="announce__text" id="announceText"></span>
       <a id="announceLink" href="#webinar" class="announce__cta">Zum Live-Event →</a>
     </div>
   </div>
@@ -590,7 +591,8 @@
           <!-- Datum in Worten, füllt js/main.js aus eventDate -->
           <p class="webinar__when" id="eventWhen" hidden></p>
           <p class="webinar__note" id="webinarNote">
-            Jacky und Julez zeigen dir live, wie das System funktioniert und wie dein Einstieg aussehen kann.
+            Jacky und Julez zeigen dir live, wie das System funktioniert und wie dein Einstieg
+            aussehen kann. Du kannst dabei live deine Fragen stellen, und die werden auch beantwortet.
           </p>
           <!-- Wie lange es dauert, was dabei ist, ob es eine Aufzeichnung gibt: füllt js/main.js
                aus eventLengthText und eventReplay, nur was dort eingetragen ist -->

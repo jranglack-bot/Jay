@@ -7,13 +7,14 @@
   /* ---------- Konfiguration ---------- */
   // Hier Webinar-Link, Hinweis-Banner, Live-Event und Extra-Links einstellen.
   const DEFAULTS = {
-    // Julians Werbelink zum Live-Event von Jacky und Julez (von ihm am 19.11.2026). Genau so
-    // lassen, wie er ihn bekommen hat: An utm_source hängt die Zuordnung zu ihm.
+    // Julians Werbelink zum Live-Event von Jacky und Julez (von ihm am 19.11.2026). An
+    // utm_source hängt die Zuordnung zu ihm, das bleibt immer gleich. Nur utm_content tauscht
+    // eventUrl() je Knopf aus (Briefing 19.11.2026), damit man sieht, welcher Knopf klickt.
     webinarUrl:
       "https://secretbusiness.live/?utm_source=recsJErrJAYNx46PE&utm_medium=affiliate&utm_campaign=webinar-2026-11-21&utm_content=instagram-bio&utm_term=organic",
     // Live-Event-Abschnitt auch ohne Termin anzeigen. eventActive: true zeigt ihn von selbst.
     webinarActive: false,
-    // Eigener Hinweis im goldenen Streifen oben (z. B. "Das Live-Event startet heute früher").
+    // Eigener Hinweis im goldenen Streifen unten (z. B. "Das Live-Event startet heute früher").
     // Ohne eigenen Hinweis zeigt der Streifen bei einem Live-Event von selbst den Termin.
     note: "",
     noteActive: false,
@@ -28,9 +29,11 @@
     eventDurationMin: 60,
     // Was im Event-Abschnitt vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt.
     // eventLengthText: ganzer Satz zur Dauer und was dabei ist
-    eventLengthText: "Es dauert ungefähr zwei Stunden, und ein PDF-Workbook zum Mitschreiben ist dabei.",
-    // eventReplay: ganzer Satz zur Aufzeichnung (bei diesem Event nur im bezahlten Ticket)
-    eventReplay: "Eine Aufzeichnung gibt es beim kostenlosen Ticket nicht, sei also live dabei.",
+    eventLengthText:
+      "Plan dir ungefähr zwei Stunden ein, denn das Ganze ist live und kein aufgezeichnetes Video, und ein PDF-Workbook zum Mitschreiben kriegst du dazu.",
+    // eventReplay: ganzer Satz zur Aufzeichnung. Bei diesem Event leer: Die Aufzeichnung gibt
+    // es nur im bezahlten Ticket, und das kommt auf der Seite nicht vor (Briefing 19.11.2026).
+    eventReplay: "",
     links: [],
   };
   const FUNNEL_URL =
@@ -40,12 +43,19 @@
   // Steht ein Live-Event an, ist das Video nur die zweite Möglichkeit unter dem Knopf:
   // scb-event, geschichte-event, abschluss-event.
   const funnelUrl = (knopf) => FUNNEL_URL + "&utm_content=" + knopf;
-  // Anmeldung zum Live-Event: Bringt der Link schon ein utm_content mit (der vom 19.11.2026
-  // hat "instagram-bio"), bleibt er unverändert, ein zweites utm_content könnte die
-  // Zuordnung bei Jacky und Julez stören. Nur ein Link ohne utm_content bekommt je Knopf
-  // einen eigenen Wert: event (Event-Abschnitt), event-scb, event-geschichte, event-abschluss.
-  const eventUrl = (url, knopf) =>
-    /[?&]utm_content=/.test(url) ? url : url + (url.includes("?") ? "&" : "?") + "utm_content=" + knopf;
+  // Anmeldung zum Live-Event, mit eigenem utm_content je Knopf: event (Event-Abschnitt),
+  // event-scb, event-geschichte, event-abschluss, event-leiste (Streifen unten). Steht im
+  // Link schon ein utm_content (Julians Link bringt "instagram-bio" mit), wird nur dieser
+  // eine Wert ersetzt, alles andere bleibt genau so (Briefing 19.11.2026).
+  const eventUrl = (url, knopf) => {
+    try {
+      const u = new URL(url);
+      u.searchParams.set("utm_content", knopf);
+      return u.toString();
+    } catch (e) {
+      return url;
+    }
+  };
 
   const $ = (sel) => document.querySelector(sel);
   // CSS-Variable nur schreiben, wenn sich der Wert ändert: spart dem Browser bei jedem
@@ -70,6 +80,22 @@
   addEventListener("resize", syncBar);
 
   // "Donnerstag, 5. November, 19:00 Uhr", immer in deutscher Zeit
+  // "heute, 11 Uhr", "morgen, 11 Uhr" oder "Sa., 11 Uhr" für den schmalen Streifen am Handy
+  function formatEventShort(ms) {
+    const tz = { timeZone: "Europe/Berlin" };
+    const tagVon = (t) => new Intl.DateTimeFormat("en-CA", { ...tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(t);
+    const ziel = tagVon(ms);
+    const tag =
+      ziel === tagVon(Date.now())
+        ? "heute"
+        : ziel === tagVon(Date.now() + 864e5)
+          ? "morgen"
+          : // "Sa." mit Punkt, manche Browser liefern "Sa"
+            new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "short" }).format(ms).replace(/\.$/, "") + ".";
+    const zeit = new Intl.DateTimeFormat("de-DE", { ...tz, hour: "numeric", minute: "2-digit" }).format(ms).replace(":00", "");
+    return tag + ", " + zeit + " Uhr";
+  }
+
   function formatEventDate(ms, trenner = ", ") {
     const tz = { timeZone: "Europe/Berlin" };
     const tag = new Intl.DateTimeFormat("de-DE", { ...tz, weekday: "long", day: "numeric", month: "long" }).format(ms);
@@ -122,9 +148,10 @@
 
     /* Goldener Streifen, fest unten am Bildschirm (Julian, 19.11.2026: sticky, ganz unten,
        mit Timer, damit man überall sieht, wie lang noch Zeit ist). Steht ein Live-Event an,
-       zeigt er von selbst den Termin und den laufenden Countdown und springt zum
-       Event-Abschnitt. Kein Werbelink im Streifen, der steht mit Sternchen im Abschnitt.
-       Ein eigener Hinweis (note) hat Vorrang. */
+       zeigt er von selbst den Termin und den laufenden Countdown, und sein Knopf führt mit
+       Sternchen direkt zur Anmeldung (Briefing 19.11.2026: „Knopf zur Anmeldung“; der
+       Werbehinweis steht ganz unten im Footer). Ein eigener Hinweis (note) hat Vorrang, dann
+       springt der Knopf nur zum Event-Abschnitt. */
     const bar = $("#announceBar");
     const update = $("#webinarUpdate");
     const eigenerHinweis = c.noteActive && c.note;
@@ -137,15 +164,25 @@
         : '<span class="announce__title"><span class="announce__long">Kostenloses Live-Event von Jacky und Julez am ' +
           formatEventDate(eventStart, " um ") +
           '</span><span class="announce__short">Kostenloses Live-Event</span></span>' +
-          '<span class="announce__timer">startet in <b id="announceTimer"></b></span>';
-      $("#announceLink").innerHTML = live
-        ? "Jetzt dazukommen →"
-        : '<span class="announce__long">Kostenlos Platz sichern →</span><span class="announce__short">Platz sichern →</span>';
+          '<span class="announce__timer"><span class="announce__long">startet in </span>' +
+          '<span class="announce__short">' + formatEventShort(eventStart) + " · noch </span>" +
+          '<b id="announceTimer"></b></span>';
+      const link = $("#announceLink");
+      link.href = eventUrl(c.webinarUrl, "event-leiste");
+      link.target = "_blank";
+      link.rel = "noopener sponsored";
+      link.innerHTML = live
+        ? "Jetzt dazukommen* →"
+        : '<span class="announce__long">Kostenlos Platz sichern* →</span><span class="announce__short">Platz sichern* →</span>';
     };
     if (eigenerHinweis) {
       $("#announceText").textContent = c.note;
       $("#webinarUpdateText").textContent = c.note;
-      $("#announceLink").textContent = "Zum Live-Event →";
+      const link = $("#announceLink");
+      link.href = "#webinar";
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.textContent = "Zum Live-Event →";
     }
     update.hidden = !eigenerHinweis;
     if (eigenerHinweis || c.eventActive) {
@@ -185,7 +222,7 @@
       (live
         ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
         : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert, und du kannst deine Fragen direkt stellen.") +
-      " Anmelden kannst du dich kostenfrei.";
+      " Anmelden kannst du dich kostenfrei, auf der Seite drückst du dafür auf „Kostenloses Ticket sichern“.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";

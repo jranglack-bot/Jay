@@ -220,6 +220,11 @@ h1, h2, h3 {
   .announce__text { flex-direction: column; align-items: flex-start; gap: 0; min-width: 0; }
   .announce__cta { font-size: 0.86rem; padding: 0.55em 0.95em; }
 }
+/* schmale Android-Handys (360 px): Datum und Countdown sollen in eine Zeile passen */
+@media (max-width: 380px) {
+  .announce__inner { font-size: 0.78rem; padding-left: 0.75em; padding-right: 0.75em; }
+  .announce__cta { font-size: 0.82rem; padding: 0.55em 0.8em; }
+}
 /* Höhe des Streifens: setzt js/main.js (syncBar). Unten bleibt so viel Platz frei, damit er
    am Seitenende den Footer nicht verdeckt. */
 body.has-announce { padding-bottom: var(--announce-h, 52px); }

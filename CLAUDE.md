@@ -235,13 +235,13 @@ Repo-Wurzel, baut es als **Vite**-App und veröffentlicht, was auf `main` liegt.
   und zum Video (`funnelUrl()`): `scb`, `geschichte` (Block `#gewartet`), `abschluss`. Im
   Live-Event-Modus ist das Video nur die zweite Möglichkeit unter dem Knopf: `scb-event`,
   `geschichte-event`, `abschluss-event`. Anmeldung zum Live-Event (`eventUrl()`): `event`
-  (Event-Abschnitt), `event-scb`, `event-geschichte`, `event-abschluss`, aber nur bei einem
-  Link ohne eigenes `utm_content`. Der Link fürs Event am 21.11.2026 bringt `instagram-bio`
-  mit und bleibt unverändert, dort gibt es also keine Messung je Knopf. Die früheren
+  (Event-Abschnitt), `event-scb`, `event-geschichte`, `event-abschluss`, `event-leiste`
+  (Streifen unten). Bringt der Event-Link schon ein `utm_content` mit, wird nur dieser Wert
+  ersetzt, `utm_source` und der Rest bleiben genau so. Die früheren
   `abschluss-via-…` gibt es nicht mehr, weil keine Sprunglinks zum Abschluss mehr da sind.
   Julian holt die Zahlen je Messwert bei Jacky und Julez. Erst danach weiter umbauen, sonst
-  bleibt jede Änderung geraten. Bei ihnen nachfragen, ob `utm_content` am Event-Link frei
-  wählbar ist, dann lässt sich auch beim Event je Knopf messen.
+  bleibt jede Änderung geraten. Bei ihnen nachfragen, ob sie `utm_content` am Event-Link
+  auswerten können.
 - **Reihenfolge (seit 13.11.2026):** Hero, „Was ist das SCB-System?“ (`#scb`, mit
   Werbelink), Geschichte (`#weg`, mit beiden Belegen), Zahlen (`#ergebnisse`), „Über ein
   Jahr hab ich gebraucht …“ (`#gewartet`, mit Werbelink), „So ist ein Reel aufgebaut“
@@ -364,22 +364,28 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   Fakten stammen von der Event-Seite `secretbusiness.live` (dort „Kostenloser Live Workshop
   mit Jacky & Julez“): ungefähr zwei Stunden, kostenloses Ticket mit PDF-Workbook, Anmeldung
   mit Vorname und E-Mail, Zugangsdaten per Mail. **Die Aufzeichnung gibt es dort nur im
-  bezahlten Ticket**, deshalb nie „es gibt eine Aufzeichnung“ schreiben und den Preis nicht
-  nennen. Julians Werbelink steht als `webinarUrl` in `DEFAULTS` und bleibt **unverändert**:
-  Er bringt `utm_content=instagram-bio` mit, `eventUrl()` hängt dann nichts an (ein zweites
-  `utm_content` könnte die Zuordnung zu Julian stören). Einstellungen: `eventActive: true`,
+  bezahlten Ticket**, deshalb die Aufzeichnung gar nicht erwähnen (`eventReplay` bleibt
+  leer), das bezahlte Ticket nicht nennen und keinen Preis. Stattdessen: „Plan dir ungefähr
+  zwei Stunden ein, denn das Ganze ist live …“ (`eventLengthText`). Julians Werbelink steht
+  als `webinarUrl` in `DEFAULTS`. An `utm_source` hängt die Zuordnung zu Julian, das bleibt
+  immer gleich. `eventUrl()` ersetzt nur `utm_content` je Knopf (Briefing aus Julians
+  anderem Chat, 19.11.2026): `event` (Event-Abschnitt), `event-scb`, `event-geschichte`,
+  `event-abschluss`, `event-leiste` (Streifen unten). Der Hero-Knopf springt nur zum
+  Abschnitt und hat keinen eigenen Wert. Einstellungen: `eventActive: true`,
   `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00` Winterzeit),
   `eventDurationMin: 60` (so viele Minuten nach dem Start bleibt die Anmeldung stehen;
   Julian: der Link soll eine Stunde nach dem Start verschwinden), `eventLengthText` und
   `eventReplay` (ganze Sätze, nur Gefülltes wird gezeigt). Was die Seite dann macht:
   - Goldener Streifen, **fest unten am Bildschirm** (Julian, 19.11.2026: sticky, ganz unten,
     mit Timer, „damit man sieht, wie lang noch Zeit ist“; der erste Entwurf saß oben und
-    glitt beim Scrollen weg). Am Handy links „Kostenloses Live-Event“ und darunter „startet
-    in 1 Tag 21:45:12“ (läuft im Sekundentakt mit), rechts der Knopf „Platz sichern →“. Am
-    Computer eine Zeile mit Jacky und Julez, Datum, Countdown und „Kostenlos Platz sichern →“.
-    Er springt zum Event-Abschnitt und trägt selbst keinen Werbelink (Stand 19.11.2026;
-    seit der Werbehinweis ganz unten steht, wäre ein direkter Link mit Sternchen möglich,
-    Julian hat das noch nicht entschieden). Die Seite bekommt unten so viel Platz, wie er hoch ist
+    glitt beim Scrollen weg). Am Handy links „Kostenloses Live-Event“ und darunter
+    „Sa., 11 Uhr · noch 1 Tag 21:45:12“ (am Vortag „morgen“, am Tag selbst „heute“, der
+    Countdown läuft im Sekundentakt mit), rechts der Knopf „Platz sichern* →“. Am Computer
+    eine Zeile mit Jacky und Julez, Datum, Countdown und „Kostenlos Platz sichern* →“. Bis
+    380 px Breite sind Schrift und Knopf etwas kleiner, damit die zweite Zeile auch auf
+    360-px-Androids nicht umbricht (bei 320 px bricht sie um, das ist in Ordnung). Der Knopf
+    führt mit Sternchen direkt zur Anmeldung (`event-leiste`, Briefing 19.11.2026: „Knopf zur
+    Anmeldung“), der Werbehinweis dazu steht ganz unten im Footer. Die Seite bekommt unten so viel Platz, wie er hoch ist
     (`--announce-h`, `syncBar` in `public/js/main.js`), und die beiden Scroll-Szenen rücken
     ihren unteren Rand um diese Höhe nach oben (`body.has-announce …` in `css/style.css`),
     sonst verdeckt er die letzte Zeile ihrer Legenden. Das hebt für die Dauer eines Events
@@ -393,10 +399,20 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
     und E-Mail eintragen muss** (Julian, 19.11.2026), nur dass die Anmeldung kostenfrei ist;
     unter dem Knopf im Event-Abschnitt steht „Du kannst dich kostenfrei anmelden.“ Die Texte
     zum Video nennen Vorname und E-Mail weiter (dort kommt die Abfrage erst nach den sechs
-    Fragen und wäre sonst eine Überraschung), bis Julian es anders sagt. Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
+    Fragen und wäre sonst eine Überraschung), bis Julian es anders sagt. Dazu steht, wie der
+    Knopf auf der Event-Seite heißt: „auf der Seite drückst du dafür auf „Kostenloses Ticket
+    sichern““ (Briefing: vor dem Klick sagen, was passiert; dort gibt es auch ein bezahltes
+    Ticket, so landet niemand aus Versehen dort). Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
     doppelt). Der Absatz im Abschluss bleibt Julians Echo, er wird nicht mehr ausgetauscht.
   - Ab dem Start „WIR SIND LIVE“ und „Jetzt live dazukommen*“. Eine Stunde danach schaltet
     alles von selbst zurück, auch bei offener Seite, und kein Event-Link ist mehr zu sehen.
+  **Abweichungen vom Briefing vom 19.11.2026** (aus Julians anderem Chat, es sagt „wo sich
+  beide widersprechen, gilt dieses Briefing“): Es will 120 Minuten Dauer und Abschalten um
+  13:00 Uhr sowie „Vorname und E-Mail“ vor dem Klick. Julian hat in diesem Chat direkt
+  anders entschieden (Link eine Stunde nach dem Start weg, Vorname und E-Mail raus), das
+  gilt, bis er es ändert. Ebenfalls aus dem Briefing, als Beobachtung für Julian: Die
+  Event-Seite spricht durchgehend Frauen an, Julians Zielgruppe sind vor allem
+  Familienväter; ob er das auf seiner Seite auffängt, entscheidet er.
   Nach dem Event muss nichts aufgeräumt werden. Fürs nächste: `webinarUrl`, `eventDate` und
   die zwei Sätze anpassen und die Event-Seite neu lesen (sie ist aus der Cloud-Umgebung
   gesperrt, lesen geht über den Apify-Connector, `apify--web-fetch` mit `wait`). **Nicht

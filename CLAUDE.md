@@ -388,8 +388,12 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   - Der Event-Abschnitt steht direkt unter dem Hero mit Datum in Worten, Countdown und
     „Kostenlos Platz sichern*“, der goldene Hero-Knopf heißt „Zum Live-Event ↓“.
   - In `#scb`, `#gewartet` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf,
-    davor stehen Termin und was nach dem Klick kommt, darunter leiser „Oder schau dir zuerst
-    das Video an*“. Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
+    davor stehen der Termin und „Anmelden kannst du dich kostenfrei.“, darunter leiser „Oder
+    schau dir zuerst das Video an*“. **In den Event-Texten nie schreiben, dass man Vorname
+    und E-Mail eintragen muss** (Julian, 19.11.2026), nur dass die Anmeldung kostenfrei ist;
+    unter dem Knopf im Event-Abschnitt steht „Du kannst dich kostenfrei anmelden.“ Die Texte
+    zum Video nennen Vorname und E-Mail weiter (dort kommt die Abfrage erst nach den sechs
+    Fragen und wäre sonst eine Überraschung), bis Julian es anders sagt. Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
     doppelt). Der Absatz im Abschluss bleibt Julians Echo, er wird nicht mehr ausgetauscht.
   - Ab dem Start „WIR SIND LIVE“ und „Jetzt live dazukommen*“. Eine Stunde danach schaltet
     alles von selbst zurück, auch bei offener Seite, und kein Event-Link ist mehr zu sehen.

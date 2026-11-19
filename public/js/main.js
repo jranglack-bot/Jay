@@ -177,14 +177,15 @@
        (paintOffers), der Werbehinweis dazu steht ganz unten im Footer. */
     const heroLink = $("#heroOffer");
     const pillText = $("#webinarPillText");
-    // Vor dem Klick zum Event: Termin, wer es hält, und was nach dem Klick kommt (auf der
-    // Event-Seite: Vorname und E-Mail). Dauer und Aufzeichnung stehen nur im Event-Abschnitt,
-    // sonst stünde dasselbe viermal auf der Seite.
+    // Vor dem Klick zum Event: Termin, wer es hält, und dass die Anmeldung kostenfrei ist
+    // (Julian, 19.11.2026: nicht erwähnen, dass man Vorname und E-Mail eintragen muss).
+    // Dauer und Aufzeichnung stehen nur im Event-Abschnitt, sonst stünde dasselbe viermal
+    // auf der Seite.
     const offerEventText = (live) =>
       (live
         ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
         : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert, und du kannst deine Fragen direkt stellen.") +
-      " Die Anmeldung kostet dich nichts, du trägst nur deinen Vornamen und deine E-Mail ein.";
+      " Anmelden kannst du dich kostenfrei.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";

@@ -393,9 +393,27 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
     (`note`, `noteActive`) hat im Streifen Vorrang.
   - Der Event-Abschnitt steht direkt unter dem Hero mit Datum in Worten, Countdown und
     „Kostenlos Platz sichern*“, der goldene Hero-Knopf heißt „Zum Live-Event ↓“.
-  - In `#scb`, `#gewartet` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf,
-    davor stehen der Termin und „Eintragen kannst du dich ganz einfach und kostenfrei.“,
-    darunter leiser „Oder schau dir zuerst das Video an*“. **In den Event-Texten nie
+  - In `#scb` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf, davor steht
+    nur eine kurze Faktenzeile in Gold („Live-Event mit Jacky und Julez · Samstag,
+    21. November, 11:00 Uhr · kostenlos“, `offerEventText`, `.offer__steps--facts`),
+    darunter leiser „Oder schau dir zuerst das Video an*“. Vorher stand dort dreimal
+    derselbe Absatz (Auftrag „Live-Event-Modus verkaufsstärker“, 19.11.2026). **In
+    `#gewartet` bleibt das Video vorne** (`data-event="zweite"`, Julian 19.11.2026: der
+    Absatz darüber verspricht das Video): „Zu den Fragen und zum Video*“ mit den
+    Video-Schritten aus dem HTML (Messwert `geschichte-event`), darunter leiser „Zum
+    Live-Event anmelden* →“ (`event-geschichte`).
+  - Im Event-Abschnitt steht der volle Text: wer Jacky und Julez sind, was man dort sieht
+    (aus Julians Satz in `#scb` in der Du-Form: „wie du auf Instagram Leute erreichst und wie
+    daraus Umsatz wird, und zwar mit Produkten, die es schon gibt“), Fragen live, zwei
+    Stunden, Workbook, kostenfrei eintragen. Der Countdown zeigt „1 Tag“ statt „1 Tage“, bei
+    0 Tagen verschwindet das Tage-Feld.
+  - In `#fragen` steht im Event-Modus als erste, offene Frage „Was, wenn ich am Samstag
+    keine Zeit hab?“ mit dem Verweis aufs Video (`#faqEvent`), danach verschwindet sie von
+    selbst. Keine Aufzeichnung erwähnen. Der Wochentag steht fest im Text, beim nächsten
+    Event anpassen.
+  - Nach dem Event muss die Seite genau so aussehen wie ohne Event. Am 19.11.2026 geprüft:
+    sichtbarer Text, Links und Höhe der Startseite nach dem Event Zeichen für Zeichen gleich
+    wie vorher (Handy und Computer). **In den Event-Texten nie
     schreiben, dass man Vorname und E-Mail eintragen muss** (Julian, 19.11.2026, zweimal
     bestätigt), nur dass man sich ganz einfach und kostenfrei eintragen kann; unter dem
     Knopf im Event-Abschnitt steht „Du kannst dich ganz einfach und kostenfrei eintragen.“
@@ -409,7 +427,9 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
     und kein Event-Link ist mehr zu sehen.
   **Briefing vom 19.11.2026** (aus Julians anderem Chat): umgesetzt bis auf „Vorname und
   E-Mail“ vor dem Klick, das hat Julian ausdrücklich abgelehnt. Die 120 Minuten Dauer hat er
-  übernommen. Ebenfalls aus dem Briefing, als Beobachtung für Julian: Die
+  übernommen. Zwei Texte im Event-Modus sind Entwürfe aus Julians Sätzen, die er noch
+  abnimmt: der erste Satz im Event-Abschnitt und die Antwort auf „Was, wenn ich am Samstag
+  keine Zeit hab?“. Ebenfalls aus dem Briefing, als Beobachtung für Julian: Die
   Event-Seite spricht durchgehend Frauen an, Julians Zielgruppe sind vor allem
   Familienväter; ob er das auf seiner Seite auffängt, entscheidet er.
   Nach dem Event muss nichts aufgeräumt werden. Fürs nächste: `webinarUrl`, `eventDate` und

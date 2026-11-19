@@ -1837,6 +1837,8 @@ body.has-announce .toolscene.is-live .toolscene__sticky {
 .offer { display: flex; flex-direction: column; align-items: flex-start; max-width: 36em; }
 .offer__who { margin-bottom: 0.7em; color: var(--cream); }
 .offer__steps { margin-bottom: 1.5em; font-size: 0.95rem; color: var(--cream-dim); }
+/* Faktenzeile vor dem Event-Knopf (Termin, kostenlos): kurz und gut zu überfliegen */
+.offer__steps--facts { color: var(--gold-soft); font-weight: 600; letter-spacing: 0.01em; }
 .offer__alt {
   margin-top: 1.4em;
   font-size: 0.95rem;

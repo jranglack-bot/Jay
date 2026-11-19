@@ -119,16 +119,32 @@
       const who = box.querySelector(".offer__who");
       const steps = box.querySelector(".offer__steps");
       if (box.funnelSteps === undefined) box.funnelSteps = steps.textContent;
-      if (c.eventActive) {
+      if (box.funnelAlt === undefined) box.funnelAlt = alt.innerHTML;
+      // data-event="zweite" (#gewartet): Der Absatz darüber verspricht das Video, deshalb
+      // bleibt es dort auch im Event-Modus vorne, und das Event steht leiser darunter.
+      const eventVorne = c.eventActive && box.dataset.event !== "zweite";
+      const eventDarunter = c.eventActive && box.dataset.event === "zweite";
+      if (eventVorne) {
         main.href = eventUrl(c.webinarUrl, "event-" + name);
         main.innerHTML = (live ? "Jetzt live dazukommen*" : "Kostenlos Platz sichern*") + ' <span class="btn__arrow">→</span>';
         steps.textContent = eventText;
         alt.href = funnelUrl(name + "-event");
+        alt.innerHTML = box.funnelAlt;
       } else {
-        main.href = funnelUrl(name);
+        // Video vorne; im Event-Modus mit eigenem Messwert (geschichte-event)
+        main.href = funnelUrl(eventDarunter ? name + "-event" : name);
         main.innerHTML = 'Zu den Fragen und zum Video* <span class="btn__arrow">→</span>';
         steps.textContent = box.funnelSteps;
+        if (eventDarunter) {
+          alt.href = eventUrl(c.webinarUrl, "event-" + name);
+          alt.textContent = live ? "Jetzt live dazukommen* →" : "Zum Live-Event anmelden* →";
+        } else {
+          alt.href = funnelUrl(name + "-event");
+          alt.innerHTML = box.funnelAlt;
+        }
       }
+      // Im Event-Modus ist der Text vor dem Event-Knopf eine kurze Faktenzeile
+      steps.classList.toggle("offer__steps--facts", eventVorne);
       alt.hidden = !c.eventActive;
       if (who) who.hidden = c.eventActive; // der Satz beschreibt das Video, nicht das Event
     });
@@ -206,6 +222,8 @@
     webinarSec.hidden = !(c.webinarActive || c.eventActive);
     // Link im Hinweis-Banner zeigt sonst ins Leere
     $("#announceLink").hidden = webinarSec.hidden;
+    // Frage „Was, wenn ich am Samstag keine Zeit hab?“ nur, solange ein Event dasteht
+    $("#faqEvent").hidden = !c.eventActive;
     // Werbehinweis ganz unten: wer das Live-Event veranstaltet, nur solange eins dasteht
     $("#werbehinweisEvent").hidden = webinarSec.hidden;
 
@@ -215,15 +233,13 @@
        (paintOffers), der Werbehinweis dazu steht ganz unten im Footer. */
     const heroLink = $("#heroOffer");
     const pillText = $("#webinarPillText");
-    // Vor dem Klick zum Event: Termin, wer es hält, und dass die Anmeldung kostenfrei ist
-    // (Julian, 19.11.2026: nicht erwähnen, dass man Vorname und E-Mail eintragen muss).
-    // Dauer und Aufzeichnung stehen nur im Event-Abschnitt, sonst stünde dasselbe viermal
-    // auf der Seite.
+    // Vor dem Event-Knopf in #scb und im Abschluss nur eine kurze Faktenzeile (Auftrag
+    // 19.11.2026: vorher stand dreimal derselbe Absatz da). Den vollen Text gibt es nur im
+    // Event-Abschnitt. Nie Vorname und E-Mail erwähnen (Julian, 19.11.2026).
     const offerEventText = (live) =>
-      (live
-        ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
-        : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert, und du kannst deine Fragen direkt stellen.") +
-      " Eintragen kannst du dich ganz einfach und kostenfrei.";
+      live
+        ? "Live-Event mit Jacky und Julez · läuft gerade · kostenlos dazukommen"
+        : "Live-Event mit Jacky und Julez · " + formatEventDate(eventStart) + " · kostenlos";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";
@@ -299,6 +315,9 @@
         const min = pad(Math.floor(diff / 6e4) % 60);
         const sek = pad(Math.floor(diff / 1e3) % 60);
         $("#cdDays").textContent = tage;
+        $("#cdDaysLabel").textContent = tage === 1 ? "Tag" : "Tage";
+        $("#cdDaysUnit").hidden = tage === 0;
+        $("#cdDaysSep").hidden = tage === 0;
         $("#cdHours").textContent = std;
         $("#cdMins").textContent = min;
         $("#cdSecs").textContent = sek;

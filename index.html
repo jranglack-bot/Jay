@@ -349,7 +349,10 @@
           ich dir nicht versprechen, aber du brauchst kein Jahr, um das rauszufinden, denn das
           Video geht 30 bis 40 Minuten, und danach weißt du, ob das was für dich ist.
         </p>
-        <div class="offer reveal" data-offer="geschichte">
+        <!-- data-event="zweite": Im Live-Event-Modus bleibt hier das Video der Hauptknopf, weil
+             der Absatz darüber das Video verspricht; das Event steht leiser darunter (Julian,
+             19.11.2026). In #scb und im Abschluss ist das Event vorne. -->
+        <div class="offer reveal" data-offer="geschichte" data-event="zweite">
           <p class="offer__steps">Vorher kommen sechs Fragen zum Anklicken, für die brauchst du nicht mal zwei Minuten, und danach trägst du noch deinen Vornamen und deine E-Mail ein. Wenn es nach dem Video für dich passt, kannst du dich für ein persönliches Gespräch entscheiden.</p>
           <a href="https://julians-way.de/videotraining/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=julians-way&amp;utm_content=geschichte" class="btn btn--gold btn--magnetic offer__main" target="_blank" rel="noopener sponsored">
             Zu den Fragen und zum Video* <span class="btn__arrow">→</span>
@@ -519,6 +522,13 @@
         <p class="section__eyebrow reveal"><span class="eyebrow-line"></span>BEVOR DU KLICKST</p>
         <h2 class="section__title reveal" data-delay="100">WAS DU DICH<br><span class="grad">WAHRSCHEINLICH FRAGST.</span></h2>
         <div class="faq__list">
+          <!-- Nur im Live-Event-Modus sichtbar (js/main.js), danach von selbst weg. Antwort ist
+               ein Entwurf aus Julians Sätzen („Oder schau dir zuerst das Video an“, „das Video
+               geht 30 bis 40 Minuten“), er stimmt den Wortlaut ab. Keine Aufzeichnung erwähnen. -->
+          <details class="faq__item reveal" id="faqEvent" open hidden>
+            <summary>Was, wenn ich am Samstag keine Zeit hab?</summary>
+            <p>Dann schau dir zuerst das Video an, das gibt's jederzeit, und es geht ungefähr 30 bis 40 Minuten.</p>
+          </details>
           <details class="faq__item reveal" open>
             <summary>Ich hab sowas schon mal probiert.</summary>
             <p>Ich auch. 2021 war das bei mir Network Marketing, und dafür war ich ständig unterwegs, auf Terminen und am Promostand. Heute muss ich dafür nicht mehr aus dem Haus, ich mach das meiste vom Handy aus, und manchmal sitzen meine Kids dabei direkt neben mir.</p>
@@ -588,16 +598,21 @@
           <h2 class="webinar__title">SEI BEIM NÄCHSTEN <span class="grad">LIVE-EVENT</span> DABEI.</h2>
           <!-- Datum in Worten, füllt js/main.js aus eventDate -->
           <p class="webinar__when" id="eventWhen" hidden></p>
+          <!-- Entwurf 19.11.2026, Julian stimmt den Wortlaut ab: gebaut aus seinem Satz in #scb
+               („wie ich auf Instagram Leute erreiche und wie daraus Umsatz wird, und zwar mit
+               Produkten, die es schon gibt“) in der Du-Form und aus seinem Satz zu Jacky und
+               Julez („die beiden haben es gebaut“, 12.11.2026) -->
           <p class="webinar__note" id="webinarNote">
-            Jacky und Julez zeigen dir live, wie das System funktioniert und wie dein Einstieg
-            aussehen kann. Du kannst dabei live deine Fragen stellen, und die werden auch beantwortet.
+            Jacky und Julez, die das System gebaut haben, zeigen dir live, wie du auf Instagram
+            Leute erreichst und wie daraus Umsatz wird, und zwar mit Produkten, die es schon gibt.
+            Du kannst dabei live deine Fragen stellen, und die werden auch beantwortet.
           </p>
           <!-- Wie lange es dauert, was dabei ist, ob es eine Aufzeichnung gibt: füllt js/main.js
                aus eventLengthText und eventReplay, nur was dort eingetragen ist -->
           <p class="webinar__facts" id="eventFacts" hidden></p>
           <div class="countdown" id="countdown" hidden>
-            <div class="countdown__unit"><span class="countdown__num" id="cdDays">0</span><span class="countdown__label">Tage</span></div>
-            <div class="countdown__sep">:</div>
+            <div class="countdown__unit" id="cdDaysUnit"><span class="countdown__num" id="cdDays">0</span><span class="countdown__label" id="cdDaysLabel">Tage</span></div>
+            <div class="countdown__sep" id="cdDaysSep">:</div>
             <div class="countdown__unit"><span class="countdown__num" id="cdHours">00</span><span class="countdown__label">Std</span></div>
             <div class="countdown__sep">:</div>
             <div class="countdown__unit"><span class="countdown__num" id="cdMins">00</span><span class="countdown__label">Min</span></div>

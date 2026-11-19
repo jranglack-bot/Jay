@@ -373,8 +373,8 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   `event-abschluss`, `event-leiste` (Streifen unten). Der Hero-Knopf springt nur zum
   Abschnitt und hat keinen eigenen Wert. Einstellungen: `eventActive: true`,
   `eventDate` **mit Zeitzone** (`+02:00` Sommerzeit, `+01:00` Winterzeit),
-  `eventDurationMin: 60` (so viele Minuten nach dem Start bleibt die Anmeldung stehen;
-  Julian: der Link soll eine Stunde nach dem Start verschwinden), `eventLengthText` und
+  `eventDurationMin: 120` (so viele Minuten nach dem Start bleibt die Anmeldung stehen;
+  Julian am 19.11.2026: so lange, wie das Event dauert, vorher war es eine Stunde), `eventLengthText` und
   `eventReplay` (ganze Sätze, nur Gefülltes wird gezeigt). Was die Seite dann macht:
   - Goldener Streifen, **fest unten am Bildschirm** (Julian, 19.11.2026: sticky, ganz unten,
     mit Timer, „damit man sieht, wie lang noch Zeit ist“; der erste Entwurf saß oben und
@@ -394,23 +394,22 @@ Julian wollte die Seite durchgängig in Bewegung, im Stand und beim Hoch- und Ru
   - Der Event-Abschnitt steht direkt unter dem Hero mit Datum in Worten, Countdown und
     „Kostenlos Platz sichern*“, der goldene Hero-Knopf heißt „Zum Live-Event ↓“.
   - In `#scb`, `#gewartet` und im Abschluss ist „Kostenlos Platz sichern*“ der Hauptknopf,
-    davor stehen der Termin und „Anmelden kannst du dich kostenfrei.“, darunter leiser „Oder
-    schau dir zuerst das Video an*“. **In den Event-Texten nie schreiben, dass man Vorname
-    und E-Mail eintragen muss** (Julian, 19.11.2026), nur dass die Anmeldung kostenfrei ist;
-    unter dem Knopf im Event-Abschnitt steht „Du kannst dich kostenfrei anmelden.“ Die Texte
+    davor stehen der Termin und „Eintragen kannst du dich ganz einfach und kostenfrei.“,
+    darunter leiser „Oder schau dir zuerst das Video an*“. **In den Event-Texten nie
+    schreiben, dass man Vorname und E-Mail eintragen muss** (Julian, 19.11.2026, zweimal
+    bestätigt), nur dass man sich ganz einfach und kostenfrei eintragen kann; unter dem
+    Knopf im Event-Abschnitt steht „Du kannst dich ganz einfach und kostenfrei eintragen.“
+    Auch den Namen des Knopfs auf der Event-Seite („Kostenloses Ticket sichern“) nicht
+    dazuschreiben, Julian will es so knapp. Die Texte
     zum Video nennen Vorname und E-Mail weiter (dort kommt die Abfrage erst nach den sechs
-    Fragen und wäre sonst eine Überraschung), bis Julian es anders sagt. Dazu steht, wie der
-    Knopf auf der Event-Seite heißt: „auf der Seite drückst du dafür auf „Kostenloses Ticket
-    sichern““ (Briefing: vor dem Klick sagen, was passiert; dort gibt es auch ein bezahltes
-    Ticket, so landet niemand aus Versehen dort). Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
+    Fragen und wäre sonst eine Überraschung), bis Julian es anders sagt. Dauer, Workbook und Aufzeichnung stehen nur im Event-Abschnitt (nichts
     doppelt). Der Absatz im Abschluss bleibt Julians Echo, er wird nicht mehr ausgetauscht.
-  - Ab dem Start „WIR SIND LIVE“ und „Jetzt live dazukommen*“. Eine Stunde danach schaltet
-    alles von selbst zurück, auch bei offener Seite, und kein Event-Link ist mehr zu sehen.
-  **Abweichungen vom Briefing vom 19.11.2026** (aus Julians anderem Chat, es sagt „wo sich
-  beide widersprechen, gilt dieses Briefing“): Es will 120 Minuten Dauer und Abschalten um
-  13:00 Uhr sowie „Vorname und E-Mail“ vor dem Klick. Julian hat in diesem Chat direkt
-  anders entschieden (Link eine Stunde nach dem Start weg, Vorname und E-Mail raus), das
-  gilt, bis er es ändert. Ebenfalls aus dem Briefing, als Beobachtung für Julian: Die
+  - Ab dem Start „WIR SIND LIVE“ und „Jetzt live dazukommen*“. Zwei Stunden nach dem Start
+    (am 21.11.2026 um 13:00 Uhr) schaltet alles von selbst zurück, auch bei offener Seite,
+    und kein Event-Link ist mehr zu sehen.
+  **Briefing vom 19.11.2026** (aus Julians anderem Chat): umgesetzt bis auf „Vorname und
+  E-Mail“ vor dem Klick, das hat Julian ausdrücklich abgelehnt. Die 120 Minuten Dauer hat er
+  übernommen. Ebenfalls aus dem Briefing, als Beobachtung für Julian: Die
   Event-Seite spricht durchgehend Frauen an, Julians Zielgruppe sind vor allem
   Familienväter; ob er das auf seiner Seite auffängt, entscheidet er.
   Nach dem Event muss nichts aufgeräumt werden. Fürs nächste: `webinarUrl`, `eventDate` und

@@ -25,8 +25,9 @@
     eventDate: "2026-11-21T11:00:00+01:00",
     // So viele Minuten nach dem Start bleibt die Anmeldung noch stehen ("Jetzt live
     // dazukommen"), dann schaltet die Seite von selbst zurück und der Link ist weg.
-    // Julian, 19.11.2026: eine Stunde. Das Event selbst dauert ungefähr zwei Stunden.
-    eventDurationMin: 60,
+    // Julian, 19.11.2026: so lange, wie das Event dauert, also ungefähr zwei Stunden
+    // (vorher eine Stunde).
+    eventDurationMin: 120,
     // Was im Event-Abschnitt vor der Anmeldung dasteht. Nur Gefülltes wird gezeigt.
     // eventLengthText: ganzer Satz zur Dauer und was dabei ist
     eventLengthText:
@@ -222,7 +223,7 @@
       (live
         ? "Das Live-Event von Jacky und Julez läuft gerade, und du kannst noch dazukommen."
         : "Am " + formatEventDate(eventStart, " um ") + " zeigen dir Jacky und Julez live, wie das System funktioniert, und du kannst deine Fragen direkt stellen.") +
-      " Anmelden kannst du dich kostenfrei, auf der Seite drückst du dafür auf „Kostenloses Ticket sichern“.";
+      " Eintragen kannst du dich ganz einfach und kostenfrei.";
 
     if (c.eventActive) {
       heroLink.href = "#webinar";
